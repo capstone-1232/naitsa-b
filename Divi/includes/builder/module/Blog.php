@@ -967,14 +967,18 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 										echo '<div class="et_pb_image_container">';
 									}
 									?>
-										<a href="<?php esc_url( the_permalink() ); ?>" class="entry-featured-image-url">
+										<?php if ( get_permalink() ) { ?>
+											<a href="<?php the_permalink(); ?>" class="entry-featured-image-url">
+										<?php } ?>
 											<?php print_thumbnail( $thumb, $thumbnail['use_timthumb'], $titletext, $width, $height ); ?>
 											<?php
 											if ( 'on' === $args['use_overlay'] ) {
 												echo et_core_esc_previously( $overlay_output );
 											}
 											?>
-										</a>
+										<?php if ( get_permalink() ) { ?>
+											</a>
+										<?php } ?>
 									<?php
 									if ( 'on' !== $args['fullwidth'] ) {
 										echo '</div>';
@@ -985,7 +989,15 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 
 						<?php if ( 'off' === $args['fullwidth'] || ! in_array( $post_format, array( 'link', 'audio', 'quote' ) ) ) { ?>
 							<?php if ( ! in_array( $post_format, array( 'link', 'audio' ) ) ) { ?>
-								<<?php echo et_core_esc_previously( $processed_header_level ); ?> class="entry-title"><a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a></<?php echo et_core_esc_previously( $processed_header_level ); ?>>
+								<<?php echo et_core_esc_previously( $processed_header_level ); ?> class="entry-title">
+									<?php if ( get_permalink() ) { ?>
+										<a href="<?php the_permalink(); ?>">
+											<?php the_title(); ?>
+										</a>
+									<?php } else { ?>
+										<?php the_title(); ?>
+									<?php } ?>
+								</<?php echo et_core_esc_previously( $processed_header_level ); ?>>
 							<?php } ?>
 
 							<?php
@@ -1601,13 +1613,10 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 				<?php if ( 'off' === $fullwidth || ! in_array( $post_format, array( 'link', 'audio', 'quote' ) ) || post_password_required( $post ) ) { ?>
 					<?php if ( ! in_array( $post_format, array( 'link', 'audio' ) ) || post_password_required( $post ) ) { ?>
 					<<?php echo et_core_intentionally_unescaped( $processed_header_level, 'fixed_string' ); ?> class="entry-title">
-						<?php
-						// Check whether $link_url exists.
-						// This fixes: ltrim(): Passing null to parameter #1 ($str) of function ltrim() is deprecated.
-						$link_url = get_permalink();
-						if ( $link_url ) {
-							?>
-							<a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a>
+						<?php if ( get_permalink() ) { ?>
+							<a href="<?php the_permalink(); ?>">
+								<?php the_title(); ?>
+							</a>
 						<?php } else { ?>
 							<?php the_title(); ?>
 						<?php } ?>

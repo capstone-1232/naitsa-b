@@ -1654,7 +1654,7 @@ class ET_Core_SupportCenter {
 						'- %1$s%2$s %3$s',
 						esc_html( $message_minimum ),
 						sprintf(
-							esc_html__( 'performance' === $scan['environment'] ? 'Enable for optimial performance.' : 'We recommend %1$s for the best experience.', 'et-core' ),
+							esc_html__( 'performance' === $scan['environment'] ? 'Enable for optimal performance.' : 'We recommend %1$s for the best experience.', 'et-core' ),
 							esc_html( is_bool( $scan['recommended'] ) ? $this->boolean_label[ $scan['recommended'] ] : $scan['recommended'] )
 						),
 						et_core_intentionally_unescaped( $learn_more_link, 'html' )

@@ -2828,6 +2828,7 @@ function et_fb_get_static_backend_helpers( $post_type ) {
 			),
 			'title'          => esc_html__( 'Title', 'et_builder' ),
 			'excerpt'        => esc_html__( 'Excerpt', 'et_builder' ),
+			'image'          => esc_html__( 'Featured Image', 'et_builder' ),
 		),
 	);
 	// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned

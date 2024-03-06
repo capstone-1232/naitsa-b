@@ -3,7 +3,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import $ from 'jquery';
 import App from 'cerebral';
-import Devtools from 'cerebral/devtools';
+// import Devtools from 'cerebral/devtools';
 import { Container } from '@cerebral/react';
 
 
@@ -32,13 +32,13 @@ const unMountCommonLibraryApp = () => {
 $(window).on(`et_theme-options_container_ready`, (event, preferences) => {
   let devtools = null;
 
-  if (process.env.NODE_ENV === 'development') {
+  /*if (process.env.NODE_ENV === 'development') {
     devtools = Devtools({
       host:                 '127.0.0.1:22722',
       reconnect:            false,
       bigComponentsWarning: 15,
     });
-  }
+  }*/
 
   const modalType = preferences?.modalType || '';
 

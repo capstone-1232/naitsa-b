@@ -39,7 +39,10 @@ if ( ! function_exists( 'et_pb_maybe_old_single_utf_divi_icon' ) ) {
 	 * @return bool
 	 */
 	function et_pb_maybe_old_single_utf_divi_icon( $icon_value ) {
-		return 1 === strlen( mb_convert_encoding( $icon_value, 'ISO-8859-1', 'UTF-8' ) ) && in_array( $icon_value, et_pb_get_decoded_divi_icons(), true );
+		// Attempt to convert the icon value to ISO-8859-1.
+		$icon_maybe_convert = function_exists( 'mb_convert_encoding' ) ? mb_convert_encoding( $icon_value, 'ISO-8859-1', 'UTF-8' ) : $icon_value;
+
+		return 1 === strlen( $icon_maybe_convert ) && in_array( $icon_value, et_pb_get_decoded_divi_icons(), true );
 	}
 }
 
