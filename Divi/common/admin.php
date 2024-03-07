@@ -85,10 +85,12 @@ function et_common_global_js_vars() {
 				'et_code_snippet'  => ET_CODE_SNIPPET_POST_TYPE,
 				'et_theme_options' => is_admin() ? ET_THEME_OPTIONS_POST_TYPE : '',
 			],
+			'images_uri'          => ET_COMMON_URL . 'images/',
 		],
 		'i18n'   => [
 			'library' => require ET_COMMON_DIR . 'i18n/library.php',
 			'ai'      => require ET_COMMON_DIR . 'i18n/ai.php',
+			'common'  => require ET_COMMON_DIR . 'i18n/common.php',
 		],
 	];
 

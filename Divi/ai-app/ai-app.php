@@ -204,6 +204,7 @@ class ET_AI_App {
 				'userPrompt'    => require ET_AI_PLUGIN_DIR . '/i18n/user-prompt.php',
 				'authorization' => require ET_AI_PLUGIN_DIR . '/i18n/authorization.php',
 				'aiCode'        => require ET_AI_PLUGIN_DIR . '/i18n/ai-code.php',
+				'aiImageEditor' => require ET_AI_PLUGIN_DIR . '/i18n/ai-image-editor.php',
 			],
 			'ajaxurl' => is_ssl() ? admin_url( 'admin-ajax.php' ) : admin_url( 'admin-ajax.php', 'http' ),
 			'nonces'  => [
@@ -216,6 +217,7 @@ class ET_AI_App {
 			'available_languages' => self::get_available_languages(),
 			'images_uri'          => ET_AI_PLUGIN_URI . '/app/images',
 			'ai_server_url'       => ET_AI_SERVER_URL,
+			'product_version'     => ET_BUILDER_PRODUCT_VERSION,
 		);
 
 		if ( get_post_type() === 'page' ) {

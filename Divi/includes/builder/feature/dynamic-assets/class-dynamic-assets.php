@@ -2489,6 +2489,12 @@ class ET_Dynamic_Assets {
 
 			$this->_enqueue_comments = $this->check_for_dependency( $comments_deps, $current_shortcodes );
 
+			// We need to set _enqueue_comments to true if Dynamic CSS is disabled, otherwise
+			// comment-reply would never be enqueued and you will not be able to reply to a comment.
+			if ( ! et_use_dynamic_css() ) {
+				$this->_enqueue_comments = true;
+			}
+
 			if ( $this->_enqueue_comments && comments_open() || et_disable_js_on_demand() ) {
 				wp_enqueue_script( 'comment-reply' );
 			}
