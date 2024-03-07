@@ -2,6 +2,7 @@
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
+	<meta name="description" content="Your favourites, right on campus.- Nest Eatery">
 <?php
 	elegant_description();
 	elegant_keywords();
