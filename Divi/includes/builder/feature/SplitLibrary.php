@@ -205,7 +205,8 @@ class ET_Builder_Split_Library {
 
 		if ( ! empty( $cloud_content['images'] ) ) {
 			foreach ( $cloud_content['images'] as $url => $img ) {
-				if ( str_contains( $content, $url ) ) {
+				// Use strpos because str_contains() is not present in PHP version 7.4 or earlier.
+				if ( strpos( $content, $url ) !== false ) {
 					$images[ $url ] = $img;
 				}
 			}
@@ -213,7 +214,8 @@ class ET_Builder_Split_Library {
 
 		if ( ! empty( $cloud_content['presets'] ) ) {
 			foreach ( $cloud_content['presets'] as $module => $preset ) {
-				if ( str_contains( $content, $module ) ) {
+				// Use strpos because str_contains() is not present in PHP version 7.4 or earlier.
+				if ( strpos( $content, $module ) !== false ) {
 					$presets[ $module ] = $preset;
 				}
 			}
@@ -221,7 +223,8 @@ class ET_Builder_Split_Library {
 
 		if ( ! empty( $cloud_content['global_colors'] ) ) {
 			foreach ( $cloud_content['global_colors'] as $key => $global_color ) {
-				if ( str_contains( $content, $global_color[0] ) ) {
+				// Use strpos because str_contains() is not present in PHP version 7.4 or earlier.
+				if ( strpos( $content, $global_color[0] ) !== false ) {
 					$global_colors[ $key ] = $global_color;
 				}
 			}

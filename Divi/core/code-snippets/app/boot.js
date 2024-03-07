@@ -3,7 +3,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import $ from 'jquery';
 import App from 'cerebral';
-import Devtools from 'cerebral/devtools';
+// import Devtools from 'cerebral/devtools';
 import { Container } from '@cerebral/react';
 import {
   assign,
@@ -31,13 +31,13 @@ const initialState = {
 $(window).on('et_code_snippets_container_ready', (event, preferences, container = document) => {
   let devtools = null;
 
-  if (process.env.NODE_ENV === 'development') {
+  /*if (process.env.NODE_ENV === 'development') {
     devtools = Devtools({
       host:                 '127.0.0.1:4045',
       reconnect:            false,
       bigComponentsWarning: 15,
     });
-  }
+  }*/
 
   const context   = preferences.context;
   const state     = assign(clone(initialState), {});

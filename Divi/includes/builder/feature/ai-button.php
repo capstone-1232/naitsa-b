@@ -30,10 +30,6 @@ function et_builder_get_ai_text_field_empty_options( $is_image = false ) {
 			'slug'  => 'generate_with_ai',
 		];
 		$options_list[] = [
-			'label' => esc_html__( 'Improve with AI', 'et_builder' ),
-			'slug'  => 'improve_with_ai',
-		];
-		$options_list[] = [
 			'label' => esc_html__( 'Generate & Replace', 'et_builder' ),
 			'slug'  => 'generate_and_replace',
 		];
@@ -158,12 +154,17 @@ function et_builder_get_ai_code_options() {
  */
 function et_builder_get_ai_image_options() {
 	return [
-		'improve_with_ai'        => esc_html__( 'Improve With AI', 'et_builder' ),
 		'generate_with_ai'       => esc_html__( 'Generate With AI', 'et_builder' ),
 		'generate_automatically' => esc_html__( 'Generate Automatically', 'et_builder' ),
 		'generate_and_replace'   => esc_html__( 'Generate & Replace', 'et_builder' ),
 		'reimagine'              => esc_html__( 'Reimagine', 'et_builder' ),
 		'change_style'           => esc_html__( 'Change Style', 'et_builder' ),
+		'modify'                 => esc_html__( 'Modify', 'et_builder' ),
+		'extend'                 => esc_html__( 'Extend', 'et_builder' ),
+		'upscale'                => esc_html__( 'Upscale', 'et_builder' ),
+		'enhance'                => esc_html__( 'Enhance', 'et_builder' ),
+		'expand_and_fill'        => esc_html__( 'Expand And Fill', 'et_builder' ),
+		'edit_image_with_ai'     => esc_html__( 'Edit Image With AI', 'et_builder' ),
 	];
 }
 
