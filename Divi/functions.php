@@ -7681,6 +7681,15 @@ add_filter( 'the_content', 'et_delete_post_gallery' );
 // Include GB galleries in `get_post_gallery`
 add_filter( 'et_gb_gallery_include_in_get_post_gallery', '__return_true' );
 
+// Menu Item Taxonomy as checkboxes instead of text field
+function change_taxonomy_edit_style($args, $taxonomy) {
+    if ($taxonomy == 'menu-categories') {
+        $args['meta_box_cb'] = 'post_categories_meta_box';
+    }
+    return $args;
+}
+add_filter('cptui_taxonomy_args', 'change_taxonomy_edit_style', 10, 2);
+
 function et_divi_post_admin_scripts_styles( $hook ) {
 	global $typenow;
 
