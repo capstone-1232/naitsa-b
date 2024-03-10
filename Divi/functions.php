@@ -534,7 +534,7 @@ function et_add_mobile_navigation(){
 add_action( 'et_header_top', 'et_add_mobile_navigation' );
 
 function et_add_viewport_meta(){
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />';
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0" />';
 }
 add_action( 'wp_head', 'et_add_viewport_meta' );
 
