@@ -1,4 +1,5 @@
 <?php
+// Enqueue styles
 function dt_enqueue_styles() {
     $parenthandle = 'divi-style'; 
     $theme = wp_get_theme();
@@ -12,3 +13,9 @@ function dt_enqueue_styles() {
     );
 }
 add_action( 'wp_enqueue_scripts', 'dt_enqueue_styles' );
+
+// Removing Gutenberg from menu custom post type
+function remove_gutenberg_support() {
+    remove_post_type_support( 'menu-item', 'editor' );
+}
+add_action( 'init', 'remove_gutenberg_support' );
