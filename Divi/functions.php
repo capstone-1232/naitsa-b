@@ -534,7 +534,7 @@ function et_add_mobile_navigation(){
 add_action( 'et_header_top', 'et_add_mobile_navigation' );
 
 function et_add_viewport_meta(){
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />';
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0" />';
 }
 add_action( 'wp_head', 'et_add_viewport_meta' );
 
@@ -7680,6 +7680,15 @@ function et_delete_post_gallery( $content ) {
 add_filter( 'the_content', 'et_delete_post_gallery' );
 // Include GB galleries in `get_post_gallery`
 add_filter( 'et_gb_gallery_include_in_get_post_gallery', '__return_true' );
+
+// Menu Item Taxonomy as checkboxes instead of text field
+function change_taxonomy_edit_style($args, $taxonomy) {
+    if ($taxonomy == 'menu-categories') {
+        $args['meta_box_cb'] = 'post_categories_meta_box';
+    }
+    return $args;
+}
+add_filter('cptui_taxonomy_args', 'change_taxonomy_edit_style', 10, 2);
 
 function et_divi_post_admin_scripts_styles( $hook ) {
 	global $typenow;
