@@ -40,18 +40,23 @@ function display_menu_items() {
             $query->the_post();
 
             // Display post title and content
-            echo '<div class="menu-flex-container"';
+            echo '<div class="menu-item-container">';
+            echo '<div class="menu-flex-container">';
             echo '<h2>' . get_the_title() . '</h2>';
             $menu_item_price = get_field('menu_item_price'); // Replace 'your_custom_field_name' with the actual field name
-            echo '<p>' . $menu_item_price . '</p>';
-            echo '</div';
+            echo '<p>$' . $menu_item_price . '</p>';
+            echo '</div>'; // menu-flex-container closing
+
             echo '<div>' . get_the_content() . '</div>';
+
             $menu_item_description = get_field('menu_item_description'); // Replace 'your_custom_field_name' with the actual field name
             echo '<p>' . $menu_item_description . '</p>';
+
+            echo '</div>'; // menu-item-container closing
            
 
 
-            // You can customize how you want to display other post data
+            
         }
 
         // Restore original post data

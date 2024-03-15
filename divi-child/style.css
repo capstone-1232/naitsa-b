@@ -10,3 +10,8 @@
  
 /* =Theme customization starts here
 ------------------------------------------------------- */
+
+.menu-flex-container {
+    display: flex;
+    justify-content: space-between;
+}
