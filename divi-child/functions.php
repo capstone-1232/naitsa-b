@@ -4,7 +4,7 @@ function dt_enqueue_styles() {
     $parenthandle = 'divi-style'; 
     $theme = wp_get_theme();
     wp_enqueue_style( $parenthandle, get_template_directory_uri() . '/style.css', 
-        array(), // if the parent theme code has a dependency, copy it to here
+        array(), 
         $theme->parent()->get('Version')
     );
     wp_enqueue_style( 'child-style', get_stylesheet_uri(),
@@ -21,56 +21,83 @@ function remove_gutenberg_support() {
 add_action( 'init', 'remove_gutenberg_support' );
 
 
-// Create a function to display menu items
+// function to display menu items
 function display_menu_items() {
-    // Query parameters
-    $args = array(
-        'post_type' => 'menu-item', // Your custom post type
-        'posts_per_page' => -1, // Retrieve all posts of this type
-        // Add any additional parameters you need
-    );
+    $menu_categories = get_terms(array(
+        'taxonomy' => 'menu-categories', // our menu category taxonomy slug
+        'hide_empty' => false, 
+    ));
 
-    // Query the posts
-    $query = new WP_Query($args);
+    echo '<div class="category-links">';
+    echo '<ul class="cat-list">';
+    echo '<li><a class="cat-list-item active" href="#!" data-slug="">All</a></li>';
 
-    // Check if there are posts
-    if ($query->have_posts()) {
-        // Start the loop
-        while ($query->have_posts()) {
-            $query->the_post();
+    foreach ($menu_categories as $menu_category) {
 
-            // Display post title and content
-            echo '<div class="menu-item-container">';
-            echo '<div class="menu-flex-container">';
-            echo '<h2>' . get_the_title() . '</h2>';
-            $menu_item_price = get_field('menu_item_price'); // Replace 'your_custom_field_name' with the actual field name
-            echo '<p>$' . $menu_item_price . '</p>';
-            echo '</div>'; // menu-flex-container closing
+        echo '<li>';
+        echo '<a class="cat-list-item" href="#!" data-slug="' . $menu_category->slug . '">' . $menu_category->name . '</a>';
+        echo '</li>';
+    }
 
-            echo '<div>' . get_the_content() . '</div>';
+    echo '</ul>';
+    echo '</div>';
 
-            $menu_item_description = get_field('menu_item_description'); // Replace 'your_custom_field_name' with the actual field name
-            echo '<p>' . $menu_item_description . '</p>';
+    foreach ($menu_categories as $menu_category) {
+        $args = array(
+            'post_type' => 'menu-item', // our custom post type slug
+            'posts_per_page' => -1, // -1 gets all the posts of this post type
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'menu-categories', // our menu category taxonomy slug
+                    'field' => 'slug',
+                    'terms' => $menu_category->slug, // the current category slug
+                ),
+            ),
+        );
 
-            echo '</div>'; // menu-item-container closing
-           
+        // query the posts
+        $query = new WP_Query($args);
 
+        // checking if there are posts
+        if ($query->have_posts()) {
+            echo '<div class="menu-category-' . $menu_category->slug . '">'; 
+            echo '<h2>' . $menu_category->name . '</h2>'; 
 
-            
+            // loop
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                // display post title and content
+                echo '<div class="menu-item-container">';
+                echo '<div class="menu-flex-container">';
+                echo '<h3>' . get_the_title() . '</h3>'; // title
+                $menu_item_price = get_field('menu_item_price');
+                echo '<p>$' . $menu_item_price . '</p>'; // price
+                echo '</div>'; // menu-flex-container closing
+
+                echo '<div>' . get_the_content() . '</div>'; 
+
+                $menu_item_description = get_field('menu_item_description'); 
+                echo '<p>' . $menu_item_description . '</p>'; // description
+
+                echo '</div>'; // menu-item-container closing
+            }
+
+            echo '</div>'; // category container closing
+
+            // restore original post data
+            wp_reset_postdata();
+        } else {
+            // else no posts found for this category
+            echo '<p>No menu items found for ' . $menu_category->name . '.</p>';
         }
-
-        // Restore original post data
-        wp_reset_postdata();
-    } else {
-        // If no posts found
-        echo 'No menu items found.';
     }
 }
 
-// Add a shortcode to display menu items on a specific page
+// display menu items shortcode
 function menu_items_shortcode() {
-    ob_start(); // Start output buffering
-    display_menu_items(); // Call the function to display menu items
-    return ob_get_clean(); // Return buffered content
+    ob_start(); 
+    display_menu_items(); 
+    return ob_get_clean(); 
 }
 add_shortcode('display_menu_items', 'menu_items_shortcode');
