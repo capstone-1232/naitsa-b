@@ -102,48 +102,58 @@ function menu_items_shortcode() {
 }
 add_shortcode('display_menu_items', 'menu_items_shortcode');
 
-
-function filter_menu() {
-    $category_slug = $_POST['category'];
-  
-    $args = array(
-        'post_type' => 'menu-item',
-        'posts_per_page' => -1,
-        'tax_query' => array(
-            array(
-                'taxonomy' => 'menu-categories',
-                'field' => 'slug',
-                'terms' => $category_slug,
-            ),
-        ),
-        'orderby' => 'menu_order',
-        'order' => 'desc',
-    );
-
-    $ajaxposts = new WP_Query($args);
-    $response = '';
-
-    if($ajaxposts->have_posts()) {
-        while($ajaxposts->have_posts()) : $ajaxposts->the_post();
-            // Output HTML directly here
-            $response .= '<div class="menu-item-container">';
-            $response .= '<div class="menu-flex-container">';
-            $response .= '<h3>' . get_the_title() . '</h3>'; // title
-            $menu_item_price = get_field('menu_item_price');
-            $response .= '<p>$' . $menu_item_price . '</p>'; // price
-            $response .= '</div>'; // menu-flex-container closing
-            $response .= '<div>' . get_the_content() . '</div>'; 
-            $menu_item_description = get_field('menu_item_description'); 
-            $response .= '<p>' . $menu_item_description . '</p>'; // description
-            $response .= '</div>'; // menu-item-container closing
-        endwhile;
-    } else {
-        $response = 'empty';
-    }
-
-    echo $response;
-    exit;
+function enqueue_menu_filter_script() {
+    wp_enqueue_script('menu-filter', get_template_directory_uri() . '/menu-filter.js', array('jquery'), '1.0', true);
 }
+add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
-add_action('wp_ajax_filter_menu', 'filter_menu');
-add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
+function enqueue_menu_filter_script() {
+    wp_enqueue_script('menu-filter', get_template_directory_uri() . '/menu-filter.js', array('jquery'), '1.0', true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
+
+
+// function filter_menu() {
+//     $category_slug = $_POST['category'];
+  
+//     $args = array(
+//         'post_type' => 'menu-item',
+//         'posts_per_page' => -1,
+//         'tax_query' => array(
+//             array(
+//                 'taxonomy' => 'menu-categories',
+//                 'field' => 'slug',
+//                 'terms' => $category_slug,
+//             ),
+//         ),
+//         'orderby' => 'menu_order',
+//         'order' => 'desc',
+//     );
+
+//     $ajaxposts = new WP_Query($args);
+//     $response = '';
+
+//     if($ajaxposts->have_posts()) {
+//         while($ajaxposts->have_posts()) : $ajaxposts->the_post();
+//             // Output HTML directly here
+//             $response .= '<div class="menu-item-container">';
+//             $response .= '<div class="menu-flex-container">';
+//             $response .= '<h3>' . get_the_title() . '</h3>'; // title
+//             $menu_item_price = get_field('menu_item_price');
+//             $response .= '<p>$' . $menu_item_price . '</p>'; // price
+//             $response .= '</div>'; // menu-flex-container closing
+//             $response .= '<div>' . get_the_content() . '</div>'; 
+//             $menu_item_description = get_field('menu_item_description'); 
+//             $response .= '<p>' . $menu_item_description . '</p>'; // description
+//             $response .= '</div>'; // menu-item-container closing
+//         endwhile;
+//     } else {
+//         $response = 'empty';
+//     }
+
+//     echo $response;
+//     exit;
+// }
+
+// add_action('wp_ajax_filter_menu', 'filter_menu');
+// add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
