@@ -147,3 +147,53 @@ function filter_menu() {
 
 add_action('wp_ajax_filter_menu', 'filter_menu');
 add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
+
+
+
+
+// function to dispay events - Gurpreet singh
+
+
+// Create a function to display events
+function display_events() {
+    // Query events
+    $events_query = new WP_Query(array(
+        'post_type' => 'events', // Your custom post type name
+        'posts_per_page' => -1, // Display all events
+        'order' => 'ASC', // Order events by ascending order
+    ));
+
+    // Check if there are any events
+    if ($events_query->have_posts()) {
+        // Start the loop
+        while ($events_query->have_posts()) {
+            $events_query->the_post();
+            ?>
+<div class="event">
+    <h2><?php the_field('event_heading'); ?></h2>
+    <div class="event-image">
+        <?php $event_image = get_field('event_image'); ?>
+        <?php if ($event_image) : ?>
+        <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
+        <?php endif; ?>
+    </div>
+    <div class="event-description">
+        <?php the_field('event_description'); ?>
+    </div>
+    <div class="event-date-time">
+        <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
+    </div>
+    <div class="event-link">
+        <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
+    </div>
+</div>
+<?php
+        }
+        // Reset Post Data
+        wp_reset_postdata();
+    } else {
+        // If no events are found
+        echo '<p>No events found.</p>';
+    }
+}
+?>
