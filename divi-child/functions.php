@@ -30,7 +30,7 @@ function display_menu_items() {
 
     echo '<div class="category-links">';
     echo '<ul class="cat-list">';
-    echo '<li><a class="cat-list-item active" href="#" data-slug="">All</a></li>';
+    echo '<li><a class="cat-list-item active" href="#!" data-slug="">All</a></li>';
 
     foreach ($menu_categories as $menu_category) {
 
@@ -102,54 +102,98 @@ function menu_items_shortcode() {
 }
 add_shortcode('display_menu_items', 'menu_items_shortcode');
 
-function enqueue_menu_filter_script() {
-    wp_enqueue_script('menu-filter', get_stylesheet_directory_uri() . '/menu-filter.js', array('jquery'), '1.0', true);
-}
-add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
-
-
-// function filter_menu() {
-//     $category_slug = $_POST['category'];
+function filter_menu() {
+    $category_slug = $_POST['category'];
   
-//     $args = array(
-//         'post_type' => 'menu-item',
-//         'posts_per_page' => -1,
-//         'tax_query' => array(
-//             array(
-//                 'taxonomy' => 'menu-categories',
-//                 'field' => 'slug',
-//                 'terms' => $category_slug,
-//             ),
-//         ),
-//         'orderby' => 'menu_order',
-//         'order' => 'desc',
-//     );
+    $args = array(
+        'post_type' => 'menu-item',
+        'posts_per_page' => -1,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'menu-categories',
+                'field' => 'slug',
+                'terms' => $category_slug,
+            ),
+        ),
+        'orderby' => 'menu_order',
+        'order' => 'desc',
+    );
 
-//     $ajaxposts = new WP_Query($args);
-//     $response = '';
+    $ajaxposts = new WP_Query($args);
+    $response = '';
 
-//     if($ajaxposts->have_posts()) {
-//         while($ajaxposts->have_posts()) : $ajaxposts->the_post();
-//             // Output HTML directly here
-//             $response .= '<div class="menu-item-container">';
-//             $response .= '<div class="menu-flex-container">';
-//             $response .= '<h3>' . get_the_title() . '</h3>'; // title
-//             $menu_item_price = get_field('menu_item_price');
-//             $response .= '<p>$' . $menu_item_price . '</p>'; // price
-//             $response .= '</div>'; // menu-flex-container closing
-//             $response .= '<div>' . get_the_content() . '</div>'; 
-//             $menu_item_description = get_field('menu_item_description'); 
-//             $response .= '<p>' . $menu_item_description . '</p>'; // description
-//             $response .= '</div>'; // menu-item-container closing
-//         endwhile;
-//     } else {
-//         $response = 'empty';
-//     }
+    if($ajaxposts->have_posts()) {
+        while($ajaxposts->have_posts()) : $ajaxposts->the_post();
+            // Output HTML directly here
+            $response .= '<div class="menu-item-container">';
+            $response .= '<div class="menu-flex-container">';
+            $response .= '<h3>' . get_the_title() . '</h3>'; // title
+            $menu_item_price = get_field('menu_item_price');
+            $response .= '<p>$' . $menu_item_price . '</p>'; // price
+            $response .= '</div>'; // menu-flex-container closing
+            $response .= '<div>' . get_the_content() . '</div>'; 
+            $menu_item_description = get_field('menu_item_description'); 
+            $response .= '<p>' . $menu_item_description . '</p>'; // description
+            $response .= '</div>'; // menu-item-container closing
+        endwhile;
+    } else {
+        $response = 'empty';
+    }
 
-//     echo $response;
-//     exit;
-// }
+    echo $response;
+    exit;
+}
 
-// add_action('wp_ajax_filter_menu', 'filter_menu');
-// add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
+add_action('wp_ajax_filter_menu', 'filter_menu');
+add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
+
+
+
+
+// function to dispay events - Gurpreet singh
+
+
+// Create a function to display events
+function display_events() {
+    // Query events
+    $events_query = new WP_Query(array(
+        'post_type' => 'events', // Your custom post type name
+        'posts_per_page' => -1, // Display all events
+        'order' => 'ASC', // Order events by ascending order
+    ));
+
+    // Check if there are any events
+    if ($events_query->have_posts()) {
+        // Start the loop
+        while ($events_query->have_posts()) {
+            $events_query->the_post();
+            ?>
+<div class="event">
+    <h2><?php the_field('event_heading'); ?></h2>
+    <div class="event-image">
+        <?php $event_image = get_field('event_image'); ?>
+        <?php if ($event_image) : ?>
+        <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
+        <?php endif; ?>
+    </div>
+    <div class="event-description">
+        <?php the_field('event_description'); ?>
+    </div>
+    <div class="event-date-time">
+        <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
+    </div>
+    <div class="event-link">
+        <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
+    </div>
+</div>
+<?php
+        }
+        // Reset Post Data
+        wp_reset_postdata();
+    } else {
+        // If no events are found
+        echo '<p>No events found.</p>';
+    }
+}
+?>
