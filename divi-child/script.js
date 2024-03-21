@@ -4,7 +4,7 @@ $('.cat-list-item').on('click', function() {
   
     $.ajax({
       type: 'POST',
-      url: '/wp-admin/admin-ajax.php',
+      url: '<?php echo admin_url('admin-ajax.php'); ?>',
       dataType: 'html',
       data: {
         action: 'filter_menu',
