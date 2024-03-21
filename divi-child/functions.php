@@ -37,6 +37,7 @@ function display_menu_items() {
         echo '<li>';
         echo '<a class="cat-list-item" href="#" data-slug="' . $menu_category->slug . '">' . $menu_category->name . '</a>';
         echo '</li>';
+        
     }
 
     echo '</ul>';
