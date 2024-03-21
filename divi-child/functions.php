@@ -107,10 +107,6 @@ function enqueue_menu_filter_script() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
-function enqueue_menu_filter_script() {
-    wp_enqueue_script('menu-filter', get_template_directory_uri() . '/menu-filter.js', array('jquery'), '1.0', true);
-}
-add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
 
 // function filter_menu() {
