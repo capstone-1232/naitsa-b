@@ -103,7 +103,7 @@ function menu_items_shortcode() {
 add_shortcode('display_menu_items', 'menu_items_shortcode');
 
 function enqueue_menu_filter_script() {
-    wp_enqueue_script('menu-filter', get_template_directory_uri() . '/menu-filter.js', array('jquery'), '1.0', true);
+    wp_enqueue_script('menu-filter', get_stylesheet_directory_uri() . '/menu-filter.js', array('jquery'), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
