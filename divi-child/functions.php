@@ -30,7 +30,7 @@ function display_menu_items() {
 
     echo '<div class="category-links">';
     echo '<ul class="cat-list">';
-    echo '<li><a class="cat-list-item active" href="#!" data-slug="">All</a></li>';
+    echo '<li><a class="cat-list-item active" href="#" data-slug="">All</a></li>';
 
     foreach ($menu_categories as $menu_category) {
 
