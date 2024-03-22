@@ -153,15 +153,46 @@ add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
 
 // function to dispay events - Gurpreet singh
 
-
-// Create a function to display events
-function display_events() {
-    // Query events
-    $events_query = new WP_Query(array(
-        'post_type' => 'events_page', // Your custom post type name
+// Create a function to display events with filtering
+function display_events($search_query = '', $date = '', $month = '') {
+    // Prepare arguments for WP_Query
+    $args = array(
+        'post_type'      => 'events_page', // Your custom post type name
         'posts_per_page' => -1, // Display all events
-        'order' => 'ASC', // Order events by ascending order
-    ));
+        'order'          => 'ASC', // Order events by ascending order
+    );
+
+    // Add filter by date
+    if (!empty($date)) {
+        $args['meta_query'] = array(
+            array(
+                'key'     => 'event_date_time',
+                'value'   => $date,
+                'compare' => '=',
+                'type'    => 'DATE',
+            ),
+        );
+    }
+
+    // Add filter by month
+    if (!empty($month)) {
+        $args['meta_query'] = array(
+            array(
+                'key'     => 'event_date_time',
+                'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
+                'compare' => 'BETWEEN',
+                'type'    => 'DATE',
+            ),
+        );
+    }
+
+    // Add search query
+    if (!empty($search_query)) {
+        $args['s'] = $search_query;
+    }
+
+    // Query events
+    $events_query = new WP_Query($args);
 
     // Check if there are any events
     if ($events_query->have_posts()) {
@@ -197,10 +228,22 @@ function display_events() {
     }
 }
 
-function events_shortcode() {
+// Shortcode function for displaying events
+function events_shortcode($atts) {
+    // Shortcode attributes
+    $atts = shortcode_atts(array(
+        'search_query' => '', // Search query
+        'date'         => '', // Date to filter events (YYYY-MM-DD)
+        'month'        => '', // Month to filter events (YYYY-MM)
+    ), $atts);
+
+    // Start output buffering
     ob_start(); 
-    display_events(); 
+
+    // Display events with provided filters
+    display_events($atts['search_query'], $atts['date'], $atts['month']); 
+
+    // Return the buffered content
     return ob_get_clean(); 
 }
 add_shortcode('display_events', 'events_shortcode');
-?>
