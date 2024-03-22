@@ -158,7 +158,7 @@ add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
 function display_events() {
     // Query events
     $events_query = new WP_Query(array(
-        'post_type' => 'events', // Your custom post type name
+        'post_type' => 'events_page', // Your custom post type name
         'posts_per_page' => -1, // Display all events
         'order' => 'ASC', // Order events by ascending order
     ));
@@ -196,4 +196,11 @@ function display_events() {
         echo '<p>No events found.</p>';
     }
 }
+
+function events_shortcode() {
+    ob_start(); 
+    display_events(); 
+    return ob_get_clean(); 
+}
+add_shortcode('display_events', 'events_shortcode');
 ?>
