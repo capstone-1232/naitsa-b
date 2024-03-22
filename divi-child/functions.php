@@ -212,11 +212,3 @@ function events_shortcode() {
     return ob_get_clean(); 
 }
 add_shortcode('display_events', 'events_shortcode');
-
-function events_shortcode() {
-    ob_start(); 
-    display_events(); 
-    return ob_get_clean(); 
-}
-add_shortcode('display_events', 'events_shortcode');
-?>
