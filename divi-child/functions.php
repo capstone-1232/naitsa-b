@@ -69,12 +69,16 @@ function display_menu_items() {
             while ($query->have_posts()) {
                 $query->the_post();
 
+                $menu_item_price = get_field('menu_item_price');
+                $menu_item_addons = get_field('add_ons');
+
                 // display post title and content
                 echo '<div class="menu-item-container">';
                 echo '<div class="menu-flex-container">';
                 echo '<h3>' . get_the_title() . '</h3>'; // title
-                $menu_item_price = get_field('menu_item_price');
                 echo '<p>$' . $menu_item_price . '</p>'; // price
+                echo '<p>$' . $menu_item_addons . '</p>'; // price
+
                 echo '</div>'; // menu-flex-container closing
 
                 echo '<div>' . get_the_content() . '</div>'; 
@@ -128,11 +132,13 @@ function filter_menu() {
     if($ajaxposts->have_posts()) {
         while($ajaxposts->have_posts()) : $ajaxposts->the_post();
             // Output HTML directly here
+            $menu_item_addons = get_field('add_ons');
             $response .= '<div class="menu-item-container">';
             $response .= '<div class="menu-flex-container">';
             $response .= '<h3>' . get_the_title() . '</h3>'; // title
             $menu_item_price = get_field('menu_item_price');
             $response .= '<p>$' . $menu_item_price . '</p>'; // price
+            $response .= '<p>$' . $menu_item_addons . '</p>'; // addons
             $response .= '</div>'; // menu-flex-container closing
             $response .= '<div>' . get_the_content() . '</div>'; 
             $menu_item_description = get_field('menu_item_description'); 
