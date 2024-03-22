@@ -1,4 +1,5 @@
 <?php
+
 // Enqueue styles
 function dt_enqueue_styles() {
     $parenthandle = 'divi-style'; 
@@ -212,3 +213,37 @@ function events_shortcode() {
     return ob_get_clean(); 
 }
 add_shortcode('display_events', 'events_shortcode');
+
+function filter_events() {
+
+    $args = array(
+        'post_type' => 'events_page',
+        'posts_per_page' => -1,
+        'orderby' => 'menu_order',
+        'order' => 'desc',
+    );
+
+    $ajaxposts = new WP_Query($args);
+    $response = '';
+
+    if($ajaxposts->have_posts()) {
+        while($ajaxposts->have_posts()) : $ajaxposts->the_post();
+            // Output HTML directly here
+            $response .= '<div class="event">';
+            $response .= '<h2>' . get_field('event_heading') . '</h2>'; // title
+            $event_image = get_field('event_image');
+            $response .= '<div class="event-image">';
+            $response .= '<img src="' . $event_image['url'] . '" alt="' . $event_image['alt'] . '">';
+            $response .= '</div>'; // event-image closing
+            $response .= '<div class="event-description">' . get_field('event_description') . '</div>'; 
+            $response .= '<div class="event-date-time">' . date('F j, Y', strtotime(get_field('event_date_time'))) . '</div>'; 
+            $response .= '<div class="event-link"><a href="' . get_field('event_link') . '" target="_blank">Event Link</a></div>'; 
+            $response .= '</div>'; // event closing
+        endwhile;
+    } else {
+        $response = 'empty';
+    }
+
+    echo $response;
+    exit;
+}
