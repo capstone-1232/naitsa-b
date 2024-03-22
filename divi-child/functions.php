@@ -31,7 +31,6 @@ function display_menu_items() {
     echo '<div class="category-links">';
     echo '<ul class="cat-list">';
     echo '<li><a class="cat-list-item" href="#" data-slug="">All</a></li>';
-    echo '<li><a class="cat-list-item" href="#" data-slug="">All</a></li>';
 
     foreach ($menu_categories as $menu_category) {
 
@@ -61,7 +60,6 @@ function display_menu_items() {
 
         // checking if there are posts
         if ($query->have_posts()) {
-            echo '<div class="menu-category menu-category-' . $menu_category->slug . '">'; 
             echo '<div class="menu-category menu-category-' . $menu_category->slug . '">'; 
             echo '<h2>' . $menu_category->name . '</h2>'; 
 
@@ -157,7 +155,7 @@ function enqueue_menu_filter_script() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
-// test
+
 
 // function to dispay events - Gurpreet singh
 
@@ -166,7 +164,6 @@ add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 function display_events() {
     // Query events
     $events_query = new WP_Query(array(
-        'post_type' => 'events_page', // Your custom post type name
         'post_type' => 'events_page', // Your custom post type name
         'posts_per_page' => -1, // Display all events
         'order' => 'ASC', // Order events by ascending order
@@ -212,3 +209,4 @@ function events_shortcode() {
     return ob_get_clean(); 
 }
 add_shortcode('display_events', 'events_shortcode');
+?>
