@@ -1,4 +1,4 @@
-jQuery(document).ready(function($){
+$(function () {
   // $('.menu-category').show();
   $(".menu-category").hide();
   $(".menu-category-burgers-more").show(); // CHANGE THIS TO WHATEVER CATEGORY YOU WANT AS DEFAULT
