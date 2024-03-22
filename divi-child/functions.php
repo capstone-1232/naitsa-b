@@ -30,7 +30,7 @@ function display_menu_items() {
 
     echo '<div class="category-links">';
     echo '<ul class="cat-list">';
-    echo '<li><a class="cat-list-item active" href="#!" data-slug="">All</a></li>';
+    echo '<li><a class="cat-list-item" href="#" data-slug="">All</a></li>';
 
     foreach ($menu_categories as $menu_category) {
 
@@ -60,7 +60,7 @@ function display_menu_items() {
 
         // checking if there are posts
         if ($query->have_posts()) {
-            echo '<div class="menu-category-' . $menu_category->slug . '">'; 
+            echo '<div class="menu-category menu-category-' . $menu_category->slug . '">'; 
             echo '<h2>' . $menu_category->name . '</h2>'; 
 
             // loop
@@ -148,6 +148,12 @@ function filter_menu() {
 add_action('wp_ajax_filter_menu', 'filter_menu');
 add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
 
+function enqueue_menu_filter_script() {
+    wp_enqueue_script('jquery');
+
+    wp_enqueue_script('menu-filter-script', get_stylesheet_directory_uri() . '/menu-filter.js', array('jquery'), '1.0', true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
 
 
@@ -158,7 +164,7 @@ add_action('wp_ajax_nopriv_filter_menu', 'filter_menu');
 function display_events() {
     // Query events
     $events_query = new WP_Query(array(
-        'post_type' => 'events', // Your custom post type name
+        'post_type' => 'events_page', // Your custom post type name
         'posts_per_page' => -1, // Display all events
         'order' => 'ASC', // Order events by ascending order
     ));
@@ -196,4 +202,11 @@ function display_events() {
         echo '<p>No events found.</p>';
     }
 }
+
+function events_shortcode() {
+    ob_start(); 
+    display_events(); 
+    return ob_get_clean(); 
+}
+add_shortcode('display_events', 'events_shortcode');
 ?>
