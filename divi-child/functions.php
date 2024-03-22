@@ -17,6 +17,8 @@ add_action( 'wp_enqueue_scripts', 'dt_enqueue_styles' );
 // Removing Gutenberg from menu custom post type
 function remove_gutenberg_support() {
     remove_post_type_support( 'menu-item', 'editor' );
+    remove_post_type_support( 'events_page', 'editor' );
+
 }
 add_action( 'init', 'remove_gutenberg_support' );
 
