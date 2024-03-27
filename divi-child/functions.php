@@ -332,7 +332,7 @@ jQuery(document).ready(function($) {
 });
 </script>
 <?php
-    // Return the buffered content
+    // Return the buffered content 
     return ob_get_clean();
 }
 add_shortcode('display_events', 'events_shortcode');
