@@ -86,11 +86,18 @@ function display_menu_items()
                 echo '<p>$' . $menu_item_price . '</p>'; // price
                 echo '</div>'; // menu-flex-container closing
 
-                echo '<div class="menu-addon-container">';
-                echo '<p>' . $menu_item_addon_name . '</p>'; // addons
-                echo '<p>$' . $menu_item_addon_price . '</p>'; // addons
-                echo '</div>';
+                for ($i = 1; $i <= 5; $i++) {
+                    $addon_name = get_field('add_on_name_' . $i);
+                    $addon_price = get_field('add_on_price_' . $i);
 
+                    if ($addon_name && $addon_price) {
+                        echo '<div class="menu-addon-container">';
+                        echo '<p>' . $addon_name . '</p>'; // addon name
+                        echo '<p>$' . $addon_price . '</p>'; // addon price
+                        echo '</div>';
+                    }
+                }
+                
                 echo '<div>' . get_the_content() . '</div>';
                 $menu_item_description = get_field('menu_item_description');
                 echo '<p>' . $menu_item_description . '</p>'; // description
@@ -144,8 +151,6 @@ function filter_menu()
         while ($ajaxposts->have_posts()) : $ajaxposts->the_post();
             // Output HTML directly here
             $menu_item_addons = get_field('add_ons');
-            $menu_item_addon_name = get_field('add_on_name_1');
-            $menu_item_addon_price = get_field('add_on_price_1');
 
             $response .= '<div class="menu-item-container">';
             $response .= '<div class="menu-flex-container">';
