@@ -11,7 +11,28 @@
 /* =Theme customization starts here
 ------------------------------------------------------- */
 
+.menu-item-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
 .menu-flex-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.menu-addon-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-content {
+    margin-top: 1rem;
+}
+
+.menu-item-container p {
+    margin: 1rem 0;
 }

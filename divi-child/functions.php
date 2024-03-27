@@ -75,9 +75,7 @@ function display_menu_items()
             while ($query->have_posts()) {
                 $query->the_post();
 
-                $menu_item_price = get_field('menu_item_price');
-                $menu_item_addons = get_field('add_ons');
-                $menu_item_addon_name = get_field('add_on_name_1');
+                $menu_item_price = get_field('menu_item_price');                $menu_item_addon_name = get_field('add_on_name_1');
                 $menu_item_addon_price = get_field('add_on_price_1');
 
                 // display post title and content
@@ -85,18 +83,18 @@ function display_menu_items()
                 echo '<div class="menu-flex-container">';
                 echo '<h3>' . get_the_title() . '</h3>'; // title
                 echo '<p>$' . $menu_item_price . '</p>'; // price
-                echo '<p>' . $menu_item_addons . '</p>'; // price
-                echo '<p>' . $menu_item_addon_name . '</p>'; // price
-                echo '<p>' . $menu_item_addon_price . '</p>'; // price
-
                 echo '</div>'; // menu-flex-container closing
-
+                
+                echo '<div class="menu-addon-container">';
+                echo '<p>' . $menu_item_addon_name . '</p>'; // addons
+                echo '<p>' . $menu_item_addon_price . '</p>'; // addons
+                echo '</div>';
+                
                 echo '<div>' . get_the_content() . '</div>';
-
                 $menu_item_description = get_field('menu_item_description');
                 echo '<p>' . $menu_item_description . '</p>'; // description
-
-                echo '</div>'; // menu-item-container closing
+                
+                echo '</div>';
             }
 
             echo '</div>'; // category container closing
@@ -149,19 +147,19 @@ function filter_menu()
             $menu_item_addon_price = get_field('add_on_price_1');
 
             $response .= '<div class="menu-item-container">';
-            $response .= '<div class="menu-flex-container">';
-            $response .= '<h3>' . get_the_title() . '</h3>'; // title
-            $menu_item_price = get_field('menu_item_price');
-            $response .= '<p>$' . $menu_item_price . '</p>'; // price
-            $response .= '</div>'; // menu-flex-container closing
-            $response .= '<p>' . $menu_item_addons . '</p>'; // addons
-            $response .= '<p>' . $menu_item_addon_name . '</p>'; // addons
-            $response .= '<p>' . $menu_item_addon_price . '</p>'; // addons
-
-            $response .= '<div>' . get_the_content() . '</div>';
-            $menu_item_description = get_field('menu_item_description');
-            $response .= '<p>' . $menu_item_description . '</p>'; // description
-            $response .= '</div>'; // menu-item-container closing
+        $response .= '<div class="menu-flex-container">';
+        $response .= '<h3>' . get_the_title() . '</h3>'; // title
+        $menu_item_price = get_field('menu_item_price');
+        $response .= '<p>$' . $menu_item_price . '</p>'; // price
+        $response .= '</div>'; // menu-flex-container closing
+        $response .= '<div class="menu-addon-container">'; // addon container start
+        $response .= '<p>' . $menu_item_addon_name . '</p>'; // addons
+        $response .= '<p>' . $menu_item_addon_price . '</p>'; // addons
+        $response .= '</div>'; // menu-addon-container closing
+        $response .= '<div>' . get_the_content() . '</div>';
+        $menu_item_description = get_field('menu_item_description');
+        $response .= '<p>' . $menu_item_description . '</p>'; // description
+        $response .= '</div>'; // menu-item-container closing
         endwhile;
     } else {
         $response = 'empty';
