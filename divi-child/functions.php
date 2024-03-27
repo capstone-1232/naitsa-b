@@ -85,16 +85,16 @@ function display_menu_items()
                 echo '<h3>' . get_the_title() . '</h3>'; // title
                 echo '<p>$' . $menu_item_price . '</p>'; // price
                 echo '</div>'; // menu-flex-container closing
-                
+
                 echo '<div class="menu-addon-container">';
                 echo '<p>' . $menu_item_addon_name . '</p>'; // addons
                 echo '<p>$' . $menu_item_addon_price . '</p>'; // addons
                 echo '</div>';
-                
+
                 echo '<div>' . get_the_content() . '</div>';
                 $menu_item_description = get_field('menu_item_description');
                 echo '<p>' . $menu_item_description . '</p>'; // description
-                
+
                 echo '</div>';
             }
 
@@ -303,7 +303,7 @@ function events_shortcode($atts)
                 title="<?php _e('Search for:', 'textdomain'); ?>" />
         </label>
         <button type="submit" class="search-submit"><span
-                class="screen-reader-text"><?php _e('Search', 'textdomain'); ?></span></button>
+                class="screen-reader-text"><?php _e('Search', 'textdomain'); ?></span>Search</button>
     </form>
 </div>
 <div id="events-results">
