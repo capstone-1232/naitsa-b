@@ -75,7 +75,8 @@ function display_menu_items()
             while ($query->have_posts()) {
                 $query->the_post();
 
-                $menu_item_price = get_field('menu_item_price');                $menu_item_addon_name = get_field('add_on_name_1');
+                $menu_item_price = get_field('menu_item_price');                
+                $menu_item_addon_name = get_field('add_on_name_1');
                 $menu_item_addon_price = get_field('add_on_price_1');
 
                 // display post title and content
@@ -87,7 +88,7 @@ function display_menu_items()
                 
                 echo '<div class="menu-addon-container">';
                 echo '<p>' . $menu_item_addon_name . '</p>'; // addons
-                echo '<p>' . $menu_item_addon_price . '</p>'; // addons
+                echo '<p>$' . $menu_item_addon_price . '</p>'; // addons
                 echo '</div>';
                 
                 echo '<div>' . get_the_content() . '</div>';
@@ -152,10 +153,29 @@ function filter_menu()
         $menu_item_price = get_field('menu_item_price');
         $response .= '<p>$' . $menu_item_price . '</p>'; // price
         $response .= '</div>'; // menu-flex-container closing
-        $response .= '<div class="menu-addon-container">'; // addon container start
-        $response .= '<p>' . $menu_item_addon_name . '</p>'; // addons
-        $response .= '<p>' . $menu_item_addon_price . '</p>'; // addons
-        $response .= '</div>'; // menu-addon-container closing
+
+        if ($menu_item_addons) {
+            $response .= '<div class="menu-addon-container">'; // addon container start
+
+            // Loop through addon fields dynamically
+            for ($i = 1; $i <= 5; $i++) { 
+                $addon_name_key = 'add_on_name_' . $i;
+                $addon_price_key = 'add_on_price_' . $i;
+                
+                // Check if addon name and price exist
+                $addon_name = get_field($addon_name_key);
+                $addon_price = get_field($addon_price_key);
+
+                if ($addon_name && $addon_price) {
+                    // Display addon name and price
+                    $response .= '<p>' . $addon_name . '</p>'; // addons
+                    $response .= '<p>' . $addon_price . '</p>'; // addons
+                }
+            }
+
+            $response .= '</div>'; // menu-addon-container closing
+        }
+
         $response .= '<div>' . get_the_content() . '</div>';
         $menu_item_description = get_field('menu_item_description');
         $response .= '<p>' . $menu_item_description . '</p>'; // description
