@@ -7690,6 +7690,7 @@ function change_taxonomy_edit_style($args, $taxonomy) {
 }
 add_filter('cptui_taxonomy_args', 'change_taxonomy_edit_style', 10, 2);
 
+
 function et_divi_post_admin_scripts_styles( $hook ) {
 	global $typenow;
 

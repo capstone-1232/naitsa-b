@@ -11,7 +11,22 @@
 /* =Theme customization starts here
 ------------------------------------------------------- */
 
+.menu-item-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
 .menu-flex-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.menu-addon-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
 }
