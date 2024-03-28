@@ -221,38 +221,38 @@ function display_weekly_specials()
     // current day of the week
     $current_day = strtolower(date('l')); // returns the lowercase full name of the day (e.g., monday)
     if ($current_day != 'saturday' && $current_day != 'sunday') {
-    $args = array(
-        'post_type' => 'menu-item',
-        'posts_per_page' => -1,
-        'tax_query' => array(
-            array(
-                'taxonomy' => 'menu-categories',
-                'field' => 'slug',
-                'terms' => $current_day, // current day's slug as the term to query
+        $args = array(
+            'post_type' => 'menu-item',
+            'posts_per_page' => -1,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'menu-categories',
+                    'field' => 'slug',
+                    'terms' => $current_day, // current day's slug as the term to query
+                ),
             ),
-        ),
-    );
+        );
 
-    $weekly_specials_query = new WP_Query($args);
+        $weekly_specials_query = new WP_Query($args);
 
-    if ($weekly_specials_query->have_posts()) {
-        $output = '<ul>';
+        if ($weekly_specials_query->have_posts()) {
+            $output = '<ul>';
 
-        while ($weekly_specials_query->have_posts()) {
-            $weekly_specials_query->the_post();
-            $output .= '<li>' . get_the_title() . '</li>'; // change this later
+            while ($weekly_specials_query->have_posts()) {
+                $weekly_specials_query->the_post();
+                $output .= '<li>' . get_the_title() . '</li>'; // change this later
+            }
+
+            $output .= '</ul>';
+
+            // Reset post data
+            wp_reset_postdata();
+
+            return $output;
+        } else {
+            return '<p>No specials found for today.</p>';
         }
-
-        $output .= '</ul>';
-
-        // Reset post data
-        wp_reset_postdata();
-
-        return $output;
-    } else {
-        return '<p>No specials found for today.</p>';
     }
-}
 }
 
 
