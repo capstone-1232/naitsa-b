@@ -52,7 +52,7 @@ function display_menu_items()
         <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
         <?php foreach ($menu_categories as $menu_category) : ?>
-            <?php if ($menu_category->parent === null) : ?>
+            <?php if (empty(get_term_children($menu_category->term_id, 'menu-categories'))) : ?>
 
         <li>
             <a class="cat-list-item" href="#"
