@@ -1,9 +1,9 @@
 $(function () {
-  // $('.menu-category').show();
-  $(".menu-category").hide();
-  $(".menu-category-burgers-more").show(); // CHANGE THIS TO WHATEVER CATEGORY YOU WANT AS DEFAULT
+  $('.menu-category').show();
+  // $(".menu-category").hide();
+  // $(".menu-category-burgers-more").show(); // CHANGE THIS TO WHATEVER CATEGORY YOU WANT AS DEFAULT
 
-  $('.cat-list-item[data-slug="burgers-more"]').addClass("active"); // CHANGE THIS TO WHATEVER CATEGORY YOU WANT AS DEFAULT
+  // $('.cat-list-item[data-slug="burgers-more"]').addClass("active"); // CHANGE THIS TO WHATEVER CATEGORY YOU WANT AS DEFAULT
 
   $(document).on("click", ".cat-list-item", function (e) {
     e.preventDefault();

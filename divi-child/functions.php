@@ -1,6 +1,5 @@
 <?php
-
-
+// Enqueue styles
 function dt_enqueue_styles()
 {
     $parenthandle = 'divi-style';
@@ -36,30 +35,33 @@ function display_menu_items()
         'taxonomy' => 'menu-categories', // our menu category taxonomy slug
         'hide_empty' => false,
     ));
+?>
 
-    echo '<div class="weekly-specials">';
-    echo '<h2>Today\'s Specials</h2>';
-    echo '<div class="specials-container">';
-    echo '<div class="specials-content">';
-    echo display_weekly_specials(); // display weekly specials
-    echo '</div>'; // .specials-content
-    echo '</div>'; // .specials-container
-    echo '</div>'; // .weekly-specials
+<div class="weekly-specials">
+    <h2>Today's Specials</h2>
+    <div class="specials-container">
+        <div class="specials-content">
+            <?php echo display_weekly_specials(); // display weekly specials ?>
+        </div> <!-- .specials-content -->
+    </div> <!-- .specials-container -->
+</div> <!-- .weekly-specials -->
 
-    echo '<div class="category-links">';
-    echo '<ul class="cat-list">';
-    echo '<li><a class="cat-list-item" href="#" data-slug="">All</a></li>';
+    <div class="category-links">
+        <ul class="cat-list">
+            <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
-    foreach ($menu_categories as $menu_category) {
+            <?php foreach ($menu_categories as $menu_category) : ?>
 
-        echo '<li>';
-        echo '<a class="cat-list-item" href="#" data-slug="' . rtrim($menu_category->slug) . '">' . $menu_category->name . '</a>';
-        echo '</li>';
-    }
+                <li>
+                    <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
+                </li>
+                
+            <?php endforeach; ?>
+        </ul>
+    </div>
 
-    echo '</ul>';
-    echo '</div>';
 
+<?php
     foreach ($menu_categories as $menu_category) {
         $args = array(
             'post_type' => 'menu-item', // our custom post type slug
@@ -78,9 +80,12 @@ function display_menu_items()
 
         // checking if there are posts
         if ($query->have_posts()) {
-            echo '<div class="menu-category menu-category-' . $menu_category->slug . '">';
-            echo '<h2>' . $menu_category->name . '</h2>';
+            ?>
 
+            <div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
+            <h2><?php echo $menu_category->name; ?></h2>
+
+            <?php
             // loop
             while ($query->have_posts()) {
                 $query->the_post();
@@ -88,40 +93,52 @@ function display_menu_items()
                 $menu_item_price = get_field('menu_item_price');
                 $menu_item_addon_name = get_field('add_on_name_1');
                 $menu_item_addon_price = get_field('add_on_price_1');
+            ?>              
+                <div class="menu-item-container">
+                    <div class="menu-flex-container">
+                        <h3><?php echo get_the_title(); ?></h3> <!-- title -->
+                        <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
+                    </div> <!-- menu-flex-container closing -->
 
-                // display post title and content
-                echo '<div class="menu-item-container">';
-                echo '<div class="menu-flex-container">';
-                echo '<h3>' . get_the_title() . '</h3>'; // title
-                echo '<p>$' . $menu_item_price . '</p>'; // price
-                echo '</div>'; // menu-flex-container closing
+                <?php 
 
                 for ($i = 1; $i <= 5; $i++) {
                     $addon_name = get_field('add_on_name_' . $i);
                     $addon_price = get_field('add_on_price_' . $i);
 
-                    if ($addon_name && $addon_price) {
-                        echo '<div class="menu-addon-container">';
-                        echo '<p>' . $addon_name . '</p>'; // addon name
-                        echo '<p>$' . $addon_price . '</p>'; // addon price
-                        echo '</div>';
+                    if ($addon_name && $addon_price) { ?>
+
+                        <div class="menu-addon-container">
+                            <p><?php echo $addon_name; ?></p> <!-- addon name -->
+                            <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
+                        </div>
+                        <?php
                     }
-                }
+                } ?>
+                
 
-                echo '<div>' . get_the_content() . '</div>';
-                $menu_item_description = get_field('menu_item_description');
-                echo '<p>' . $menu_item_description . '</p>'; // description
 
-                echo '</div>';
-            }
+                <div><?php echo get_the_content(); ?></div>
+                    <p><?php echo $menu_item_description = get_field('menu_item_description');?></p> <!-- description -->
+                </div>
 
-            echo '</div>'; // category container closing
+                <?php
+            } ?>
 
+            </div> <!-- category container closing -->
+
+
+
+            <?php
             // restore original post data
             wp_reset_postdata();
-        } else {
+        } else { 
             // else no posts found for this category
-            echo '<p>No menu items found for ' . $menu_category->name . '.</p>';
+            ?>
+            
+            <p>No menu items found for <?php echo $menu_category->name ?>.</p>
+
+            <?php
         }
     }
 }
@@ -216,13 +233,12 @@ function enqueue_menu_filter_script()
 add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
 
-function display_weekly_specials()
-{
+function display_weekly_specials() {
     // current day of the week
     $current_day = strtolower(date('l')); // returns the lowercase full name of the day (e.g., monday)
-    if ($current_day != 'saturday' && $current_day != 'sunday') {
+
     $args = array(
-        'post_type' => 'menu-item',
+        'post_type' => 'menu-item', 
         'posts_per_page' => -1,
         'tax_query' => array(
             array(
@@ -250,9 +266,8 @@ function display_weekly_specials()
 
         return $output;
     } else {
-        return '<p>No specials found for today.</p>';
+        return '<p>No specials found for today.</p>'; 
     }
-}
 }
 
 
