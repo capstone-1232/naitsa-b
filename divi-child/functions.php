@@ -1,5 +1,6 @@
 <?php
-// Enqueue styles
+
+
 function dt_enqueue_styles()
 {
     $parenthandle = 'divi-style';
@@ -106,7 +107,7 @@ function display_menu_items()
                         echo '</div>';
                     }
                 }
-                
+
                 echo '<div>' . get_the_content() . '</div>';
                 $menu_item_description = get_field('menu_item_description');
                 echo '<p>' . $menu_item_description . '</p>'; // description
@@ -215,12 +216,13 @@ function enqueue_menu_filter_script()
 add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
 
-function display_weekly_specials() {
+function display_weekly_specials()
+{
     // current day of the week
     $current_day = strtolower(date('l')); // returns the lowercase full name of the day (e.g., monday)
     if ($current_day != 'saturday' && $current_day != 'sunday') {
     $args = array(
-        'post_type' => 'menu-item', 
+        'post_type' => 'menu-item',
         'posts_per_page' => -1,
         'tax_query' => array(
             array(
@@ -248,7 +250,7 @@ function display_weekly_specials() {
 
         return $output;
     } else {
-        return '<p>No specials found for today.</p>'; 
+        return '<p>No specials found for today.</p>';
     }
 }
 }
