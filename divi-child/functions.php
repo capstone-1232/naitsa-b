@@ -36,6 +36,15 @@ function display_menu_items()
         'hide_empty' => false,
     ));
 
+    echo '<div class="weekly-specials">';
+    echo '<h2>Today\'s Specials</h2>';
+    echo '<div class="specials-container">';
+    echo '<div class="specials-content">';
+    echo display_weekly_specials(); // display weekly specials
+    echo '</div>'; // .specials-content
+    echo '</div>'; // .specials-container
+    echo '</div>'; // .weekly-specials
+
     echo '<div class="category-links">';
     echo '<ul class="cat-list">';
     echo '<li><a class="cat-list-item" href="#" data-slug="">All</a></li>';
@@ -205,6 +214,44 @@ function enqueue_menu_filter_script()
 }
 add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
+
+function display_weekly_specials() {
+    // Get the current day of the week
+    $current_day = strtolower(date('l')); // Returns the lowercase full name of the day (e.g., monday)
+
+    $args = array(
+        'post_type' => 'menu-item', 
+        'posts_per_page' => -1,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'menu-categories',
+                'field' => 'slug',
+                'terms' => $current_day, // Use the current day's slug as the term to query
+            ),
+        ),
+    );
+
+    $weekly_specials_query = new WP_Query($args);
+
+    // Check if there are any posts for the current day's specials
+    if ($weekly_specials_query->have_posts()) {
+        $output = '<ul>';
+
+        while ($weekly_specials_query->have_posts()) {
+            $weekly_specials_query->the_post();
+            $output .= '<li>' . get_the_title() . '</li>'; // change this later
+        }
+
+        $output .= '</ul>';
+
+        // Reset post data
+        wp_reset_postdata();
+
+        return $output;
+    } else {
+        return '<p>No specials found for today.</p>'; 
+    }
+}
 
 
 // function to dispay events - Gurpreet singh
