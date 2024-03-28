@@ -52,7 +52,7 @@ function display_menu_items()
     foreach ($menu_categories as $menu_category) {
 
         echo '<li>';
-        echo '<a class="cat-list-item" href="#" data-slug="' . $menu_category->slug . '">' . $menu_category->name . '</a>';
+        echo '<a class="cat-list-item" href="#" data-slug="' . rtrim($menu_category->slug) . '">' . $menu_category->name . '</a>';
         echo '</li>';
     }
 
