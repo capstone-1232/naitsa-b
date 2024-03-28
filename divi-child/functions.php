@@ -52,12 +52,13 @@ function display_menu_items()
         <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
         <?php foreach ($menu_categories as $menu_category) : ?>
+            <?php if ($menu_category->parent === null) : ?>
 
         <li>
             <a class="cat-list-item" href="#"
                 data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
         </li>
-
+            <?php endif; ?>
         <?php endforeach; ?>
     </ul>
 </div>
