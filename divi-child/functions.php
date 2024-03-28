@@ -216,8 +216,8 @@ add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
 
 function display_weekly_specials() {
-    // Get the current day of the week
-    $current_day = strtolower(date('l')); // Returns the lowercase full name of the day (e.g., monday)
+    // current day of the week
+    $current_day = strtolower(date('l')); // returns the lowercase full name of the day (e.g., monday)
 
     $args = array(
         'post_type' => 'menu-item', 
@@ -226,14 +226,13 @@ function display_weekly_specials() {
             array(
                 'taxonomy' => 'menu-categories',
                 'field' => 'slug',
-                'terms' => $current_day, // Use the current day's slug as the term to query
+                'terms' => $current_day, // current day's slug as the term to query
             ),
         ),
     );
 
     $weekly_specials_query = new WP_Query($args);
 
-    // Check if there are any posts for the current day's specials
     if ($weekly_specials_query->have_posts()) {
         $output = '<ul>';
 
