@@ -1,6 +1,5 @@
 <?php
-
-
+// Enqueue styles
 function dt_enqueue_styles()
 {
     $parenthandle = 'divi-style';
@@ -36,30 +35,35 @@ function display_menu_items()
         'taxonomy' => 'menu-categories', // our menu category taxonomy slug
         'hide_empty' => false,
     ));
+?>
 
-    echo '<div class="weekly-specials">';
-    echo '<h2>Today\'s Specials</h2>';
-    echo '<div class="specials-container">';
-    echo '<div class="specials-content">';
-    echo display_weekly_specials(); // display weekly specials
-    echo '</div>'; // .specials-content
-    echo '</div>'; // .specials-container
-    echo '</div>'; // .weekly-specials
+<div class="weekly-specials">
+    <h2>Today's Specials</h2>
+    <div class="specials-container">
+        <div class="specials-content">
+            <?php echo display_weekly_specials(); // display weekly specials 
+                ?>
+        </div> <!-- .specials-content -->
+    </div> <!-- .specials-container -->
+</div> <!-- .weekly-specials -->
 
-    echo '<div class="category-links">';
-    echo '<ul class="cat-list">';
-    echo '<li><a class="cat-list-item" href="#" data-slug="">All</a></li>';
+<div class="category-links">
+    <ul class="cat-list">
+        <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
-    foreach ($menu_categories as $menu_category) {
+        <?php foreach ($menu_categories as $menu_category) : ?>
 
-        echo '<li>';
-        echo '<a class="cat-list-item" href="#" data-slug="' . $menu_category->slug . '">' . $menu_category->name . '</a>';
-        echo '</li>';
-    }
+        <li>
+            <a class="cat-list-item" href="#"
+                data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
+        </li>
 
-    echo '</ul>';
-    echo '</div>';
+        <?php endforeach; ?>
+    </ul>
+</div>
 
+
+<?php
     foreach ($menu_categories as $menu_category) {
         $args = array(
             'post_type' => 'menu-item', // our custom post type slug
@@ -78,50 +82,65 @@ function display_menu_items()
 
         // checking if there are posts
         if ($query->have_posts()) {
-            echo '<div class="menu-category menu-category-' . $menu_category->slug . '">';
-            echo '<h2>' . $menu_category->name . '</h2>';
+    ?>
 
-            // loop
-            while ($query->have_posts()) {
-                $query->the_post();
+<div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
+    <h2><?php echo $menu_category->name; ?></h2>
 
-                $menu_item_price = get_field('menu_item_price');
-                $menu_item_addon_name = get_field('add_on_name_1');
-                $menu_item_addon_price = get_field('add_on_price_1');
+    <?php
+                // loop
+                while ($query->have_posts()) {
+                    $query->the_post();
 
-                // display post title and content
-                echo '<div class="menu-item-container">';
-                echo '<div class="menu-flex-container">';
-                echo '<h3>' . get_the_title() . '</h3>'; // title
-                echo '<p>$' . $menu_item_price . '</p>'; // price
-                echo '</div>'; // menu-flex-container closing
+                    $menu_item_price = get_field('menu_item_price');
+                    $menu_item_addon_name = get_field('add_on_name_1');
+                    $menu_item_addon_price = get_field('add_on_price_1');
+                ?>
+    <div class="menu-item-container">
+        <div class="menu-flex-container">
+            <h3><?php echo get_the_title(); ?></h3> <!-- title -->
+            <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
+        </div> <!-- menu-flex-container closing -->
 
-                for ($i = 1; $i <= 5; $i++) {
-                    $addon_name = get_field('add_on_name_' . $i);
-                    $addon_price = get_field('add_on_price_' . $i);
+        <?php
 
-                    if ($addon_name && $addon_price) {
-                        echo '<div class="menu-addon-container">';
-                        echo '<p>' . $addon_name . '</p>'; // addon name
-                        echo '<p>$' . $addon_price . '</p>'; // addon price
-                        echo '</div>';
-                    }
-                }
+                        for ($i = 1; $i <= 5; $i++) {
+                            $addon_name = get_field('add_on_name_' . $i);
+                            $addon_price = get_field('add_on_price_' . $i);
 
-                echo '<div>' . get_the_content() . '</div>';
-                $menu_item_description = get_field('menu_item_description');
-                echo '<p>' . $menu_item_description . '</p>'; // description
+                            if ($addon_name && $addon_price) { ?>
 
-                echo '</div>';
-            }
+        <div class="menu-addon-container">
+            <p><?php echo $addon_name; ?></p> <!-- addon name -->
+            <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
+        </div>
+        <?php
+                            }
+                        } ?>
 
-            echo '</div>'; // category container closing
 
+
+        <div><?php echo get_the_content(); ?></div>
+        <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
+    </div>
+
+    <?php
+                } ?>
+
+</div> <!-- category container closing -->
+
+
+
+<?php
             // restore original post data
             wp_reset_postdata();
         } else {
             // else no posts found for this category
-            echo '<p>No menu items found for ' . $menu_category->name . '.</p>';
+        ?>
+
+<p>No menu items found for <?php echo $menu_category->name ?>.</p>
+
+<?php
         }
     }
 }
@@ -220,38 +239,37 @@ function display_weekly_specials()
 {
     // current day of the week
     $current_day = strtolower(date('l')); // returns the lowercase full name of the day (e.g., monday)
-    if ($current_day != 'saturday' && $current_day != 'sunday') {
-        $args = array(
-            'post_type' => 'menu-item',
-            'posts_per_page' => -1,
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'menu-categories',
-                    'field' => 'slug',
-                    'terms' => $current_day, // current day's slug as the term to query
-                ),
+
+    $args = array(
+        'post_type' => 'menu-item',
+        'posts_per_page' => -1,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'menu-categories',
+                'field' => 'slug',
+                'terms' => $current_day, // current day's slug as the term to query
             ),
-        );
+        ),
+    );
 
-        $weekly_specials_query = new WP_Query($args);
+    $weekly_specials_query = new WP_Query($args);
 
-        if ($weekly_specials_query->have_posts()) {
-            $output = '<ul>';
+    if ($weekly_specials_query->have_posts()) {
+        $output = '<ul>';
 
-            while ($weekly_specials_query->have_posts()) {
-                $weekly_specials_query->the_post();
-                $output .= '<li>' . get_the_title() . '</li>'; // change this later
-            }
-
-            $output .= '</ul>';
-
-            // Reset post data
-            wp_reset_postdata();
-
-            return $output;
-        } else {
-            return '<p>No specials found for today.</p>';
+        while ($weekly_specials_query->have_posts()) {
+            $weekly_specials_query->the_post();
+            $output .= '<li>' . get_the_title() . '</li>'; // change this later
         }
+
+        $output .= '</ul>';
+
+        // Reset post data
+        wp_reset_postdata();
+
+        return $output;
+    } else {
+        return '<p>No specials found for today.</p>';
     }
 }
 
@@ -306,7 +324,7 @@ function display_events($search_query = '', $date = '', $month = '')
         // Start the loop
         while ($events_query->have_posts()) {
             $events_query->the_post();
-?>
+        ?>
 <div class="event">
     <h2><?php the_field('event_heading'); ?></h2>
     <div class="event-image">
