@@ -107,8 +107,9 @@ function display_menu_items()
                         foreach ($dietary_options as $option) {
                             switch ($option) {
                                 case 'Gluten Friendly':
-                                    $gluten_icon_url = get_svg_icon_url_by_filename('gluten.svg');
-                                    echo '<img src="' . $gluten_icon_url . '" alt="Gluten Friendly" class="icon">';
+                                    // $gluten_icon_url = get_svg_icon_url_by_filename('gluten.svg');
+                                    // echo '<img src="' . $gluten_icon_url . '" alt="Gluten Friendly" class="icon">';
+                                    echo '<p>Gluten Friendly</p>';
                                     break;
                             }
                         }
