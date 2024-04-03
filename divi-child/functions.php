@@ -276,9 +276,11 @@ function display_weekly_specials()
 }
 
 
+
 // function to dispay events - Gurpreet singh
 
 
+// Create a function to display events with filtering
 // Create a function to display events with filtering
 function display_events($search_query = '', $date = '', $month = '')
 {
@@ -289,28 +291,32 @@ function display_events($search_query = '', $date = '', $month = '')
         'order'          => 'ASC', // Order events by ascending order
     );
 
+    // Initialize meta query array
+    $meta_query = array();
+
     // Add filter by date
     if (!empty($date)) {
-        $args['meta_query'] = array(
-            array(
-                'key'     => 'event_date_time',
-                'value'   => $date,
-                'compare' => '=',
-                'type'    => 'DATE',
-            ),
+        $meta_query[] = array(
+            'key'     => 'event_date_time',
+            'value'   => $date,
+            'compare' => '=',
+            'type'    => 'DATE',
         );
     }
 
     // Add filter by month
     if (!empty($month)) {
-        $args['meta_query'] = array(
-            array(
-                'key'     => 'event_date_time',
-                'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
-                'compare' => 'BETWEEN',
-                'type'    => 'DATE',
-            ),
+        $meta_query[] = array(
+            'key'     => 'event_date_time',
+            'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
+            'compare' => 'BETWEEN',
+            'type'    => 'DATE',
         );
+    }
+
+    // Add meta query to args if it's not empty
+    if (!empty($meta_query)) {
+        $args['meta_query'] = $meta_query;
     }
 
     // Add search query
@@ -326,7 +332,7 @@ function display_events($search_query = '', $date = '', $month = '')
         // Start the loop
         while ($events_query->have_posts()) {
             $events_query->the_post();
-        ?>
+    ?>
 <div class="event">
     <h2><?php the_field('event_heading'); ?></h2>
     <div class="event-image">
@@ -335,8 +341,8 @@ function display_events($search_query = '', $date = '', $month = '')
         <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
         <?php endif; ?>
     </div>
-    <div class="event-description">
-        <?php the_field('event_description'); ?>
+    <div class="event_location">
+        <?php the_field('event_location'); ?>
     </div>
     <div class="event-date-time">
         <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
@@ -354,6 +360,7 @@ function display_events($search_query = '', $date = '', $month = '')
         echo '<p>No events found.</p>';
     }
 }
+
 
 // Shortcode function for displaying events with search form// Shortcode function for displaying events with search form
 function events_shortcode($atts)
