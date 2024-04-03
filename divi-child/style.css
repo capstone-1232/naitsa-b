@@ -11,7 +11,6 @@
 /* =Theme customization starts here
 ------------------------------------------------------- */
 
-<<<<<<< Updated upstream
 @font-face {
     font-family: 'Museo sans';
     src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo300-Regular.otf') format('otf');
@@ -44,12 +43,6 @@ h1, h2, h3, p, a {
     font-family: 'Museo sans', sans-serif;
     font-size: 1rem;
 }
-=======
-#main-content{
-    background-color: #252530;
-}
-
->>>>>>> Stashed changes
 
 .menu-item-container {
     display: flex;
