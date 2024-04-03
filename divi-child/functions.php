@@ -38,7 +38,6 @@ function display_menu_items()
 ?>
 
 <div class="weekly-specials">
-    <h2>Today's Specials</h2>
     <div class="specials-container">
         <div class="specials-content">
             <?php echo display_weekly_specials(); // display weekly specials 
@@ -47,18 +46,37 @@ function display_menu_items()
     </div> <!-- .specials-container -->
 </div> <!-- .weekly-specials -->
 
+<<<<<<< HEAD
 <div class="category-links">
     <ul class="cat-list">
         <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
         <?php foreach ($menu_categories as $menu_category) : ?>
-            <?php if (empty(get_term_children($menu_category->term_id, 'menu-categories'))) : ?>
+        <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
 
+=======
+
+<div class="category-links">
+    <ul class="cat-list">
+        <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
+
+        <?php foreach ($menu_categories as $menu_category) : ?>
+        <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
+
+>>>>>>> 35786cb669fca95ad6d909b9d59c3646c88a5d45
         <li>
             <a class="cat-list-item" href="#"
                 data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
         </li>
+<<<<<<< Updated upstream
+<<<<<<< HEAD
             <?php endif; ?>
+=======
+        <?php endif; ?>
+>>>>>>> 35786cb669fca95ad6d909b9d59c3646c88a5d45
+=======
+        <?php endif; ?>
+>>>>>>> Stashed changes
         <?php endforeach; ?>
     </ul>
 </div>
@@ -105,11 +123,19 @@ function display_menu_items()
 
         <?php
 
+<<<<<<< HEAD
                         for ($i = 1; $i <= 5; $i++) {
                             $addon_name = get_field('add_on_name_' . $i);
                             $addon_price = get_field('add_on_price_' . $i);
 
                             if ($addon_name && $addon_price) { ?>
+=======
+        for ($i = 1; $i <= 5; $i++) {
+            $addon_name = get_field('add_on_name_' . $i);
+            $addon_price = get_field('add_on_price_' . $i);
+
+            if ($addon_name && $addon_price) { ?>
+>>>>>>> 35786cb669fca95ad6d909b9d59c3646c88a5d45
 
         <div class="menu-addon-container">
             <p><?php echo $addon_name; ?></p> <!-- addon name -->
@@ -256,7 +282,8 @@ function display_weekly_specials()
     $weekly_specials_query = new WP_Query($args);
 
     if ($weekly_specials_query->have_posts()) {
-        $output = '<ul>';
+        $output = '<h2>' . ucfirst($current_day) . '\'s Specials</h2>';
+        $output .= '<ul>';
 
         while ($weekly_specials_query->have_posts()) {
             $weekly_specials_query->the_post();
@@ -457,3 +484,57 @@ function auto_select_parent_category($post_id)
 
 // Hook into save_post action
 add_action('save_post', 'auto_select_parent_category');
+
+
+// home page event card display most recent event
+
+function display_most_recent_event()
+{
+    $args = array(
+        'post_type'      => 'events_page',
+        'posts_per_page' => 1,
+        'order'          => 'DESC',
+        'orderby'        => 'date',
+    );
+
+    $most_recent_event_query = new WP_Query($args);
+
+    if ($most_recent_event_query->have_posts()) {
+        while ($most_recent_event_query->have_posts()) {
+            $most_recent_event_query->the_post();
+    ?>
+<div class="event">
+    <h2><?php the_field('event_heading'); ?></h2>
+    <div class="event-image">
+        <?php $event_image = get_field('event_image'); ?>
+        <?php if ($event_image) : ?>
+        <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
+        <?php endif; ?>
+    </div>
+    <div class="event-description">
+        <?php the_field('event_description'); ?>
+    </div>
+    <div class="event-date-time">
+        <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
+    </div>
+    <div class="event-link
+    ">
+        <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
+    </div>
+</div>
+<?php
+        }
+        wp_reset_postdata();
+    } else {
+        echo '<p>No events found.</p>';
+    }
+}
+
+function most_recent_event_shortcode()
+{
+    ob_start();
+    display_most_recent_event();
+    return ob_get_clean();
+}
+
+add_shortcode('display_most_recent_event', 'most_recent_event_shortcode');
