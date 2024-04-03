@@ -109,7 +109,7 @@ function display_menu_items()
                                 case 'Gluten Friendly':
                                     $gluten_attachment_id = 626;
                                      $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                    echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly" class="icon">';
+                                    echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly" class="icon" width="16" height="auto">';
                                     // echo '<p>Gluten Friendly</p>';
                                     break;
                             }
