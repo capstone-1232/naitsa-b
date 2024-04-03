@@ -11,6 +11,39 @@
 /* =Theme customization starts here
 ------------------------------------------------------- */
 
+@font-face {
+    font-family: 'Museo sans';
+    src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo300-Regular.otf') format('otf');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Museo sans';
+    src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo500-Regular.otf') format('otf');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Museo sans';
+    src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo700-Regular.otf') format('otf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+html {
+    font-family: 'Museo sans', sans-serif;
+    font-weight: 300;
+    font-size: 100%;
+    line-height: 1.5;
+}
+
+h1, h2, h3, p, a {
+    font-family: 'Museo sans', sans-serif;
+    font-size: 1rem;
+}
+
 .menu-item-container {
     display: flex;
     flex-direction: column;
