@@ -96,20 +96,32 @@ function display_menu_items()
                     $menu_item_price = get_field('menu_item_price');
                     $menu_item_addon_name = get_field('add_on_name_1');
                     $menu_item_addon_price = get_field('add_on_price_1');
+                    $dietary_options = get_field('dietary_options');
+
                 ?>
     <div class="menu-item-container">
         <div class="menu-flex-container">
             <h3><?php echo get_the_title(); ?></h3> <!-- title -->
+            <?php
+                        
+                        foreach ($dietary_options as $option) {
+                            switch ($option) {
+                                case 'Gluten Friendly':
+                                    $gluten_icon_url = get_svg_icon_url_by_filename('gluten.svg');
+                                    echo '<img src="' . $gluten_icon_url . '" alt="Gluten Friendly" class="icon">';
+                                    break;
+                            }
+                        ?>
             <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
         </div> <!-- menu-flex-container closing -->
 
         <?php
 
-                        for ($i = 1; $i <= 5; $i++) {
-                            $addon_name = get_field('add_on_name_' . $i);
-                            $addon_price = get_field('add_on_price_' . $i);
+        for ($i = 1; $i <= 5; $i++) {
+            $addon_name = get_field('add_on_name_' . $i);
+            $addon_price = get_field('add_on_price_' . $i);
 
-                            if ($addon_name && $addon_price) { ?>
+            if ($addon_name && $addon_price) { ?>
 
         <div class="menu-addon-container">
             <p><?php echo $addon_name; ?></p> <!-- addon name -->
