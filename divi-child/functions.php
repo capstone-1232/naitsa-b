@@ -101,7 +101,7 @@ function display_menu_items()
                 ?>
     <div class="menu-item-container">
         <div class="menu-flex-container">
-            <div class="flex">
+            <div class="flex-row">
                 <h3><?php echo get_the_title(); ?></h3> <!-- title -->
                 <?php
                             

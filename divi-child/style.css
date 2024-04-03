@@ -68,6 +68,11 @@ h1, h2, h3, p, a {
     display: flex;
 }
 
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
 
 /* events page  */
 
