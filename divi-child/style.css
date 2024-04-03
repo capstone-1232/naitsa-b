@@ -73,6 +73,9 @@ h1, h2, h3, p, a {
     flex-direction: row;
 }
 
+.dietary-icon {
+    margin-left: 1rem;
+}
 
 /* events page  */
 
