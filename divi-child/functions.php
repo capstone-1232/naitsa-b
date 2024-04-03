@@ -111,6 +111,7 @@ function display_menu_items()
                                     echo '<img src="' . $gluten_icon_url . '" alt="Gluten Friendly" class="icon">';
                                     break;
                             }
+                        }
                         ?>
             <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
         </div> <!-- menu-flex-container closing -->
