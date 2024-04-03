@@ -101,20 +101,22 @@ function display_menu_items()
                 ?>
     <div class="menu-item-container">
         <div class="menu-flex-container">
-            <h3><?php echo get_the_title(); ?></h3> <!-- title -->
-            <?php
-                        
-                        foreach ($dietary_options as $option) {
-                            switch ($option) {
-                                case 'Gluten Friendly':
-                                    $gluten_attachment_id = 626;
-                                     $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                    echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly" class="icon" width="16" height="auto">';
-                                    // echo '<p>Gluten Friendly</p>';
-                                    break;
+            <div class="menu-title-container">
+                <h3><?php echo get_the_title(); ?></h3> <!-- title -->
+                <?php
+                            
+                            foreach ($dietary_options as $option) {
+                                switch ($option) {
+                                    case 'Gluten Friendly':
+                                        $gluten_attachment_id = 626;
+                                         $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
+                                        echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly" class="icon" width="16" height="auto">';
+                                        // echo '<p>Gluten Friendly</p>';
+                                        break;
+                                }
                             }
-                        }
-                        ?>
+                            ?>
+            </div>
             <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
         </div> <!-- menu-flex-container closing -->
 
