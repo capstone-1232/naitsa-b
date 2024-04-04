@@ -11,6 +11,8 @@
 /* =Theme customization starts here
 ------------------------------------------------------- */
 
+
+
 @font-face {
     font-family: 'Museo sans';
     src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo300-Regular.otf') format('otf');
@@ -77,10 +79,13 @@ h1, h2, h3, p, a {
     margin-left: 1rem;
 }
 
-/* events page  */
+
+
+/* Events Page  */
 
 .event {
-    background-color: red;
+    background-color: #252530;
+    color: white;
 }
 
 
