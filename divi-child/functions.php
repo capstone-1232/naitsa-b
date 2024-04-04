@@ -37,16 +37,6 @@ function display_menu_items()
     ));
 ?>
 
-<div class="weekly-specials">
-    <h2>Today's Specials</h2>
-    <div class="specials-container">
-        <div class="specials-content">
-            <?php echo display_weekly_specials(); // display weekly specials 
-                ?>
-        </div> <!-- .specials-content -->
-    </div> <!-- .specials-container -->
-</div> <!-- .weekly-specials -->
-
 <div class="category-links">
     <ul class="cat-list">
         <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
@@ -96,33 +86,42 @@ function display_menu_items()
                     $menu_item_price = get_field('menu_item_price');
                     $menu_item_addon_name = get_field('add_on_name_1');
                     $menu_item_addon_price = get_field('add_on_price_1');
+                    $menu_item_photo = get_field('menu_item_photo');
                 ?>
     <div class="menu-item-container">
-        <div class="menu-flex-container">
-            <h3><?php echo get_the_title(); ?></h3> <!-- title -->
-            <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
-        </div> <!-- menu-flex-container closing -->
-
-        <?php
-
-                        for ($i = 1; $i <= 5; $i++) {
-                            $addon_name = get_field('add_on_name_' . $i);
-                            $addon_price = get_field('add_on_price_' . $i);
-
-                            if ($addon_name && $addon_price) { ?>
-
-        <div class="menu-addon-container">
-            <p><?php echo $addon_name; ?></p> <!-- addon name -->
-            <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
+        <div class="menu-text-container">
+            <div class="menu-flex-container">
+                <h3><?php echo get_the_title(); ?></h3> <!-- title -->
+                <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
+                
+            </div> <!-- menu-flex-container closing -->
+    
+            <?php
+    
+                            for ($i = 1; $i <= 5; $i++) {
+                                $addon_name = get_field('add_on_name_' . $i);
+                                $addon_price = get_field('add_on_price_' . $i);
+    
+                                if ($addon_name && $addon_price) { ?>
+    
+            <div class="menu-addon-container">
+                <p><?php echo $addon_name; ?></p> <!-- addon name -->
+                <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
+            </div>
+            <?php
+                                }
+                            } ?>
+    
+    
+    
+            <div><?php echo get_the_content(); ?></div>
+            <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
         </div>
-        <?php
-                            }
-                        } ?>
-
-
-
-        <div><?php echo get_the_content(); ?></div>
-        <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
+        <div class="menu-photo-container">
+        <?php if ($menu_item_photo) : ?>
+                        <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="100" height="auto">
+                <?php endif; ?>
+        </div>
     </div>
 
     <?php
@@ -255,25 +254,48 @@ function display_weekly_specials()
 
     $weekly_specials_query = new WP_Query($args);
 
+    ob_start();
+
     if ($weekly_specials_query->have_posts()) {
-        $output = '<ul>';
-
-        while ($weekly_specials_query->have_posts()) {
-            $weekly_specials_query->the_post();
-            $output .= '<li>' . get_the_title() . '</li>'; // change this later
-        }
-
-        $output .= '</ul>';
-
-        // Reset post data
-        wp_reset_postdata();
-
-        return $output;
+        ?>
+        <div class="weekly-specials">
+            <h2>Today's Specials</h2>
+            <div class="specials-container">
+                <div class="specials-content">
+                    <ul>
+                        <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                            <li><?php the_title(); ?></li>
+                        <?php endwhile; ?>
+                    </ul>
+                </div> <!-- .specials-content -->
+            </div> <!-- .specials-container -->
+        </div> <!-- .weekly-specials -->
+        <?php
     } else {
-        return '<p>No specials found for today.</p>';
+        ?>
+        <div class="weekly-specials">
+            <h2>Today's Specials</h2>
+            <div class="specials-container">
+                <div class="specials-content">
+                    <p>No specials found for today.</p>
+                </div> <!-- .specials-content -->
+            </div> <!-- .specials-container -->
+        </div> <!-- .weekly-specials -->
+        <?php
     }
+
+    wp_reset_postdata();
+
+    echo ob_get_clean(); // Echo the buffered content and clean the buffer
 }
 
+function weekly_specials_shortcode()
+{
+    ob_start();
+    display_weekly_specials();
+    return ob_get_clean();
+}
+add_shortcode('display_weekly_specials', 'weekly_specials_shortcode');
 
 // function to dispay events - Gurpreet singh
 
