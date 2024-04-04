@@ -102,9 +102,19 @@ function display_menu_items()
                                     case 'Gluten Friendly':
                                         $gluten_attachment_id = 626;
                                          $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                        echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly" class="dietary-icon" width="20" height="auto">';
-                                        // echo '<p>Gluten Friendly</p>';
+                                        echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon" width="20" height="auto">';
+                                        
                                         break;
+                                    case 'Vegetarian':
+                                            $vegetarian_attachment_id = 632;
+                                             $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
+                                            echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon" width="20" height="auto">';
+                                            break;
+                                    case 'Spicy':
+                                                $spicy_attachment_id = 631;
+                                                 $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
+                                                echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon" width="20" height="auto">';
+                                                break;
                                 }
                             }
                             ?>
@@ -274,6 +284,7 @@ function display_weekly_specials()
     ob_start();
 
     if ($weekly_specials_query->have_posts()) {
+
         ?>
         <div class="weekly-specials">
             <h2>Today's Specials</h2>
