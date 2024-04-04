@@ -286,7 +286,7 @@ function display_weekly_specials()
 
     wp_reset_postdata();
 
-    echo ob_get_clean(); // Echo the buffered content and clean the buffer
+    echo ob_get_clean(); // Echo the buffered content and clean the buffer 
 }
 
 function weekly_specials_shortcode()
