@@ -220,6 +220,9 @@ function display_menu_items()
     }
 }
 
+}
+
+
 // display menu items shortcode
 function menu_items_shortcode()
 {
