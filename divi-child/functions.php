@@ -19,7 +19,7 @@ function dt_enqueue_styles()
 }
 add_action('wp_enqueue_scripts', 'dt_enqueue_styles');
 
-// Removing Gutenberg from menu custom post type
+// function to remove gutenberg editor from CPT
 function remove_gutenberg_support()
 {
     remove_post_type_support('menu-item', 'editor');
@@ -195,7 +195,7 @@ function filter_menu()
 
     if ($ajaxposts->have_posts()) {
         while ($ajaxposts->have_posts()) : $ajaxposts->the_post();
-            // Output HTML directly here
+
             $menu_item_addons = get_field('add_ons');
 
             $response .= '<div class="menu-item-container">';
@@ -303,8 +303,7 @@ function display_weekly_specials()
 
     wp_reset_postdata();
 
-    echo ob_get_clean(); // Echo the buffered content and clean the buffer 
-}
+    echo ob_get_clean(); 
 
 function weekly_specials_shortcode()
 {
@@ -316,19 +315,16 @@ add_shortcode('display_weekly_specials', 'weekly_specials_shortcode');
 
 // function to dispay events - Gurpreet singh
 
-
-// Create a function to display events with filtering
-// Create a function to display events with filtering
 function display_events($search_query = '', $date = '', $month = '')
 {
     // Prepare arguments for WP_Query
     $args = array(
-        'post_type'      => 'events_page', // Your custom post type name
-        'posts_per_page' => -1, // Display all events
-        'order'          => 'ASC', // Order events by ascending order
+        'post_type'      => 'events_page', 
+        'posts_per_page' => -1, 
+        'order'          => 'ASC', 
     );
 
-    // Initialize meta query array
+    
     $meta_query = array();
 
     // Add filter by date
@@ -341,7 +337,7 @@ function display_events($search_query = '', $date = '', $month = '')
         );
     }
 
-    // Add filter by month
+    
     if (!empty($month)) {
         $meta_query[] = array(
             'key'     => 'event_date_time',
@@ -351,20 +347,20 @@ function display_events($search_query = '', $date = '', $month = '')
         );
     }
 
-    // Add meta query to args if it's not empty
+    
     if (!empty($meta_query)) {
         $args['meta_query'] = $meta_query;
     }
 
-    // Add search query
+    
     if (!empty($search_query)) {
         $args['s'] = $search_query;
     }
 
-    // Query events
+    
     $events_query = new WP_Query($args);
 
-    // Check if there are any events
+    // check if there are any events
     if ($events_query->have_posts()) {
         // Start the loop
         while ($events_query->have_posts()) {
@@ -390,25 +386,23 @@ function display_events($search_query = '', $date = '', $month = '')
 </div>
 <?php
         }
-        // Reset Post Data
+        
         wp_reset_postdata();
     } else {
-        // If no events are found
+        
         echo '<p>No events found.</p>';
     }
 }
 
 
-// Shortcode function for displaying events with search form// Shortcode function for displaying events with search form
+// shortcode function for displaying events with search form
 function events_shortcode($atts)
 {
-    // Shortcode attributes
     $atts = shortcode_atts(array(
         'date'  => '', // Date to filter events (YYYY-MM-DD)
         'month' => '', // Month to filter events (YYYY-MM)
     ), $atts);
 
-    // Start output buffering
     ob_start();
     ?>
 <div class="events-search">
@@ -426,7 +420,7 @@ function events_shortcode($atts)
 </div>
 <div id="events-results">
     <?php
-        // Display events with provided filters and search query
+        // display events with provided filters and search query
         display_events(isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '', $atts['date'], $atts['month']);
         ?>
 </div>
@@ -434,9 +428,9 @@ function events_shortcode($atts)
 <script>
 jQuery(document).ready(function($) {
     $('#events-search-form').on('submit', function(e) {
-        e.preventDefault(); // Prevent form submission
+        e.preventDefault(); // prevent form submission
 
-        var formData = $(this).serialize(); // Serialize form data
+        var formData = $(this).serialize(); // serialize form data
         $.ajax({
             type: 'GET',
             url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>', // URL to handle the AJAX request
@@ -450,7 +444,6 @@ jQuery(document).ready(function($) {
 });
 </script>
 <?php
-    // Return the buffered content 
     return ob_get_clean();
 }
 add_shortcode('display_events', 'events_shortcode');
@@ -460,13 +453,11 @@ add_action('wp_ajax_events_search', 'events_search_ajax_handler');
 add_action('wp_ajax_nopriv_events_search', 'events_search_ajax_handler');
 function events_search_ajax_handler()
 {
-    // Get search query
+    
     $search_query = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
 
-    // Display events with search query
     display_events($search_query);
 
-    // Don't forget to exit to avoid extra output
     exit();
 }
 
