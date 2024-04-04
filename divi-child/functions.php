@@ -39,9 +39,9 @@ function display_menu_items()
     );
     ?>
 
-    <div class="category-links">
-        <ul class="cat-list">
-            <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
+<div class="category-links">
+    <ul class="cat-list">
+        <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
             <?php foreach ($menu_categories as $menu_category): ?>
                 <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0): ?>
@@ -57,7 +57,7 @@ function display_menu_items()
     </div>
 
 
-    <?php
+<?php
     foreach ($menu_categories as $menu_category) {
         if ($menu_category->parent === 0) {
             // Query child subcategories
@@ -103,7 +103,7 @@ function display_menu_items()
                     <?php echo $menu_category->name; ?>
                 </h2>
 
-                <?php
+    <?php
                 // loop
                 while ($query->have_posts()) {
                     $query->the_post();
@@ -150,9 +150,9 @@ function display_menu_items()
                                     <?php echo $menu_item_price; ?>
                                 </p> <!-- price -->
 
-                            </div> <!-- menu-flex-container closing -->
+            </div> <!-- menu-flex-container closing -->
 
-                            <?php
+            <?php
 
                             for ($i = 1; $i <= 5; $i++) {
                                 $addon_name = get_field('add_on_name_' . $i);
@@ -192,7 +192,7 @@ function display_menu_items()
                     <?php
                 } ?>
 
-            </div> <!-- category container closing -->
+</div> <!-- category container closing -->
 
 
 
@@ -461,7 +461,7 @@ function display_events($search_query = '', $date = '', $month = '')
 }
 
 
-// shortcode function for displaying events with search form
+// shortcode function for displaying events with search form// Shortcode function for displaying events with search form
 function events_shortcode($atts)
 {
     $atts = shortcode_atts(
@@ -493,7 +493,7 @@ function events_shortcode($atts)
         // display events with provided filters and search query
         display_events(isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '', $atts['date'], $atts['month']);
         ?>
-    </div>
+</div>
 
     <script>
         jQuery(document).ready(function ($) {
@@ -523,13 +523,14 @@ add_action('wp_ajax_events_search', 'events_search_ajax_handler');
 add_action('wp_ajax_nopriv_events_search', 'events_search_ajax_handler');
 function events_search_ajax_handler()
 {
-
     $search_query = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+    $month = isset($_GET['month']) ? sanitize_text_field($_GET['month']) : '';
 
-    display_events($search_query);
+    display_events($search_query, '', $month); // Pass the month parameter to the display_events function
 
     exit();
 }
+
 
 function auto_select_parent_category($post_id)
 {
