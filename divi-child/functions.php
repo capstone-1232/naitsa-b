@@ -48,7 +48,7 @@ function display_menu_items()
             <a class="cat-list-item" href="#"
                 data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
         </li>
-            <?php endif; ?>
+        <?php endif; ?>
         <?php endforeach; ?>
     </ul>
 </div>
@@ -87,22 +87,39 @@ function display_menu_items()
                     $menu_item_addon_name = get_field('add_on_name_1');
                     $menu_item_addon_price = get_field('add_on_price_1');
                     $menu_item_photo = get_field('menu_item_photo');
+                    $dietary_options = get_field('dietary_options');
+
                 ?>
     <div class="menu-item-container">
         <div class="menu-text-container">
             <div class="menu-flex-container">
+                <div class="flex-row">
                 <h3><?php echo get_the_title(); ?></h3> <!-- title -->
-                <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
+                    <?php
+                            
+                            foreach ($dietary_options as $option) {
+                                switch ($option) {
+                                    case 'Gluten Friendly':
+                                        $gluten_attachment_id = 626;
+                                         $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
+                                        echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly" class="dietary-icon" width="20" height="auto">';
+                                        // echo '<p>Gluten Friendly</p>';
+                                        break;
+                                }
+                            }
+                            ?>
+            </div>
+            <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
                 
             </div> <!-- menu-flex-container closing -->
     
             <?php
     
-                            for ($i = 1; $i <= 5; $i++) {
-                                $addon_name = get_field('add_on_name_' . $i);
-                                $addon_price = get_field('add_on_price_' . $i);
+            for ($i = 1; $i <= 5; $i++) {
+                $addon_name = get_field('add_on_name_' . $i);
+                $addon_price = get_field('add_on_price_' . $i);
     
-                                if ($addon_name && $addon_price) { ?>
+                if ($addon_name && $addon_price) { ?>
     
             <div class="menu-addon-container">
                 <p><?php echo $addon_name; ?></p> <!-- addon name -->
@@ -301,6 +318,7 @@ add_shortcode('display_weekly_specials', 'weekly_specials_shortcode');
 
 
 // Create a function to display events with filtering
+// Create a function to display events with filtering
 function display_events($search_query = '', $date = '', $month = '')
 {
     // Prepare arguments for WP_Query
@@ -310,28 +328,32 @@ function display_events($search_query = '', $date = '', $month = '')
         'order'          => 'ASC', // Order events by ascending order
     );
 
+    // Initialize meta query array
+    $meta_query = array();
+
     // Add filter by date
     if (!empty($date)) {
-        $args['meta_query'] = array(
-            array(
-                'key'     => 'event_date_time',
-                'value'   => $date,
-                'compare' => '=',
-                'type'    => 'DATE',
-            ),
+        $meta_query[] = array(
+            'key'     => 'event_date_time',
+            'value'   => $date,
+            'compare' => '=',
+            'type'    => 'DATE',
         );
     }
 
     // Add filter by month
     if (!empty($month)) {
-        $args['meta_query'] = array(
-            array(
-                'key'     => 'event_date_time',
-                'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
-                'compare' => 'BETWEEN',
-                'type'    => 'DATE',
-            ),
+        $meta_query[] = array(
+            'key'     => 'event_date_time',
+            'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
+            'compare' => 'BETWEEN',
+            'type'    => 'DATE',
         );
+    }
+
+    // Add meta query to args if it's not empty
+    if (!empty($meta_query)) {
+        $args['meta_query'] = $meta_query;
     }
 
     // Add search query
@@ -347,7 +369,7 @@ function display_events($search_query = '', $date = '', $month = '')
         // Start the loop
         while ($events_query->have_posts()) {
             $events_query->the_post();
-        ?>
+    ?>
 <div class="event">
     <h2><?php the_field('event_heading'); ?></h2>
     <div class="event-image">
@@ -356,8 +378,8 @@ function display_events($search_query = '', $date = '', $month = '')
         <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
         <?php endif; ?>
     </div>
-    <div class="event-description">
-        <?php the_field('event_description'); ?>
+    <div class="event_location">
+        <?php the_field('event_location'); ?>
     </div>
     <div class="event-date-time">
         <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
@@ -375,6 +397,7 @@ function display_events($search_query = '', $date = '', $month = '')
         echo '<p>No events found.</p>';
     }
 }
+
 
 // Shortcode function for displaying events with search form// Shortcode function for displaying events with search form
 function events_shortcode($atts)
@@ -479,3 +502,57 @@ function auto_select_parent_category($post_id)
 
 // Hook into save_post action
 add_action('save_post', 'auto_select_parent_category');
+
+
+// home page event card display most recent event
+
+function display_most_recent_event()
+{
+    $args = array(
+        'post_type'      => 'events_page',
+        'posts_per_page' => 1,
+        'order'          => 'DESC',
+        'orderby'        => 'date',
+    );
+
+    $most_recent_event_query = new WP_Query($args);
+
+    if ($most_recent_event_query->have_posts()) {
+        while ($most_recent_event_query->have_posts()) {
+            $most_recent_event_query->the_post();
+    ?>
+<div class="event">
+    <h2><?php the_field('event_heading'); ?></h2>
+    <div class="event-image">
+        <?php $event_image = get_field('event_image'); ?>
+        <?php if ($event_image) : ?>
+        <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
+        <?php endif; ?>
+    </div>
+    <div class="event-description">
+        <?php the_field('event_description'); ?>
+    </div>
+    <div class="event-date-time">
+        <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
+    </div>
+    <div class="event-link
+    ">
+        <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
+    </div>
+</div>
+<?php
+        }
+        wp_reset_postdata();
+    } else {
+        echo '<p>No events found.</p>';
+    }
+}
+
+function most_recent_event_shortcode()
+{
+    ob_start();
+    display_most_recent_event();
+    return ob_get_clean();
+}
+
+add_shortcode('display_most_recent_event', 'most_recent_event_shortcode');
