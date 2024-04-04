@@ -31,21 +31,25 @@ add_action('init', 'remove_gutenberg_support');
 // function to display menu items
 function display_menu_items()
 {
-    $menu_categories = get_terms(array(
-        'taxonomy' => 'menu-categories', // our menu category taxonomy slug
-        'hide_empty' => false,
-    ));
-?>
+    $menu_categories = get_terms(
+        array(
+            'taxonomy' => 'menu-categories', // our menu category taxonomy slug
+            'hide_empty' => false,
+        )
+    );
+    ?>
 
     <div class="category-links">
         <ul class="cat-list">
             <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
-            <?php foreach ($menu_categories as $menu_category) : ?>
-                <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
+            <?php foreach ($menu_categories as $menu_category): ?>
+                <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0): ?>
 
                     <li>
-                        <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
+                        <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
+                            <?php echo $menu_category->name; ?>
+                        </a>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>
@@ -55,27 +59,49 @@ function display_menu_items()
 
     <?php
     foreach ($menu_categories as $menu_category) {
-        $args = array(
-            'post_type' => 'menu-item', // our custom post type slug
-            'posts_per_page' => -1, // -1 gets all the posts of this post type
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'menu-categories', // our menu category taxonomy slug
-                    'field' => 'slug',
-                    'terms' => $menu_category->slug, // the current category slug
+        if ($menu_category->parent === 0) {
+            // Query child subcategories
+            $subcategories = get_terms(array(
+                'taxonomy' => 'menu-categories',
+                'hide_empty' => false,
+                'parent' => $menu_category->term_id,
+            ));
+        ?>
+        <div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
+            <h2><?php echo $menu_category->name; ?></h2>
+        <?php
+
+        // Loop through subcategories
+        foreach ($subcategories as $subcategory) {
+            ?>
+            <div class="subcategory subcategory-<?php echo $subcategory->slug; ?>">
+                <h3><?php echo $subcategory->name; ?></h3>
+            <?php
+
+            // Query menu items for this subcategory
+            $args = array(
+                'post_type' => 'menu-item',
+                'posts_per_page' => -1,
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'menu-categories',
+                        'field' => 'slug',
+                        'terms' => $subcategory->slug,
+                    ),
                 ),
-            ),
-        );
+            );
 
         // query the posts
         $query = new WP_Query($args);
 
         // checking if there are posts
         if ($query->have_posts()) {
-    ?>
+            ?>
 
             <div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
-                <h2><?php echo $menu_category->name; ?></h2>
+                <h2>
+                    <?php echo $menu_category->name; ?>
+                </h2>
 
                 <?php
                 // loop
@@ -88,12 +114,14 @@ function display_menu_items()
                     $menu_item_photo = get_field('menu_item_photo');
                     $dietary_options = get_field('dietary_options');
 
-                ?>
+                    ?>
                     <div class="menu-item-container">
                         <div class="menu-text-container">
                             <div class="menu-flex-container">
                                 <div class="flex-row">
-                                    <h3><?php echo get_the_title(); ?></h3> <!-- title -->
+                                    <h3>
+                                        <?php echo get_the_title(); ?>
+                                    </h3> <!-- title -->
                                     <?php
 
                                     foreach ($dietary_options as $option) {
@@ -118,7 +146,9 @@ function display_menu_items()
                                     }
                                     ?>
                                 </div>
-                                <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
+                                <p>$
+                                    <?php echo $menu_item_price; ?>
+                                </p> <!-- price -->
 
                             </div> <!-- menu-flex-container closing -->
 
@@ -131,42 +161,61 @@ function display_menu_items()
                                 if ($addon_name && $addon_price) { ?>
 
                                     <div class="menu-addon-container">
-                                        <p><?php echo $addon_name; ?></p> <!-- addon name -->
-                                        <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
+                                        <p>
+                                            <?php echo $addon_name; ?>
+                                        </p> <!-- addon name -->
+                                        <p>$
+                                            <?php echo $addon_price; ?>
+                                        </p> <!-- addon price -->
                                     </div>
-                            <?php
+                                    <?php
                                 }
                             } ?>
 
 
 
-                            <div><?php echo get_the_content(); ?></div>
-                            <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
+                            <div>
+                                <?php echo get_the_content(); ?>
+                            </div>
+                            <p>
+                                <?php echo $menu_item_description = get_field('menu_item_description'); ?>
+                            </p> <!-- description -->
                         </div>
                         <div class="menu-photo-container">
-                            <?php if ($menu_item_photo) : ?>
-                                <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="100" height="auto">
+                            <?php if ($menu_item_photo): ?>
+                                <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
+                                    class="menu-item-photo" width="100" height="auto">
                             <?php endif; ?>
                         </div>
                     </div>
 
-                <?php
+                    <?php
                 } ?>
 
             </div> <!-- category container closing -->
 
 
 
-        <?php
+            <?php
             // restore original post data
             wp_reset_postdata();
         } else {
             // else no posts found for this category
-        ?>
+            ?>
 
-            <p>No menu items found for <?php echo $menu_category->name ?>.</p>
+            <p>No menu items found for
+                <?php echo $menu_category->name ?>.
+            </p>
 
-        <?php
+                </div><!-- .subcategory -->
+                <?php
+            }
+
+            ?>
+            </div><!-- .menu-category -->
+            
+
+            <?php
         }
     }
 }
@@ -203,7 +252,8 @@ function filter_menu()
     $response = '';
 
     if ($ajaxposts->have_posts()) {
-        while ($ajaxposts->have_posts()) : $ajaxposts->the_post();
+        while ($ajaxposts->have_posts()):
+            $ajaxposts->the_post();
 
             $menu_item_addons = get_field('add_ons');
 
@@ -290,16 +340,19 @@ function display_weekly_specials()
             <div class="specials-container">
                 <div class="specials-content">
                     <ul>
-                        <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
-                            <li><?php the_title(); ?></li>
+                        <?php while ($weekly_specials_query->have_posts()):
+                            $weekly_specials_query->the_post(); ?>
+                            <li>
+                                <?php the_title(); ?>
+                            </li>
                         <?php endwhile; ?>
                     </ul>
                 </div> <!-- .specials-content -->
             </div> <!-- .specials-container -->
         </div> <!-- .weekly-specials -->
-    <?php
+        <?php
     } else {
-    ?>
+        ?>
         <div class="weekly-specials">
             <h2>Today's Specials</h2>
             <div class="specials-container">
@@ -330,9 +383,9 @@ function display_events($search_query = '', $date = '', $month = '')
 {
     // Prepare arguments for WP_Query
     $args = array(
-        'post_type'      => 'events_page',
+        'post_type' => 'events_page',
         'posts_per_page' => -1,
-        'order'          => 'ASC',
+        'order' => 'ASC',
     );
 
 
@@ -341,20 +394,20 @@ function display_events($search_query = '', $date = '', $month = '')
     // Add filter by date
     if (!empty($date)) {
         $meta_query[] = array(
-            'key'     => 'event_date_time',
-            'value'   => $date,
+            'key' => 'event_date_time',
+            'value' => $date,
             'compare' => '=',
-            'type'    => 'DATE',
+            'type' => 'DATE',
         );
     }
 
 
     if (!empty($month)) {
         $meta_query[] = array(
-            'key'     => 'event_date_time',
-            'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
+            'key' => 'event_date_time',
+            'value' => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
             'compare' => 'BETWEEN',
-            'type'    => 'DATE',
+            'type' => 'DATE',
         );
     }
 
@@ -376,12 +429,14 @@ function display_events($search_query = '', $date = '', $month = '')
         // Start the loop
         while ($events_query->have_posts()) {
             $events_query->the_post();
-        ?>
+            ?>
             <div class="event">
-                <h2><?php the_field('event_heading'); ?></h2>
+                <h2>
+                    <?php the_field('event_heading'); ?>
+                </h2>
                 <div class="event-image">
                     <?php $event_image = get_field('event_image'); ?>
-                    <?php if ($event_image) : ?>
+                    <?php if ($event_image): ?>
                         <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
                     <?php endif; ?>
                 </div>
@@ -395,7 +450,7 @@ function display_events($search_query = '', $date = '', $month = '')
                     <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
                 </div>
             </div>
-    <?php
+            <?php
         }
 
         wp_reset_postdata();
@@ -409,20 +464,28 @@ function display_events($search_query = '', $date = '', $month = '')
 // shortcode function for displaying events with search form
 function events_shortcode($atts)
 {
-    $atts = shortcode_atts(array(
-        'date'  => '', // Date to filter events (YYYY-MM-DD)
-        'month' => '', // Month to filter events (YYYY-MM)
-    ), $atts);
+    $atts = shortcode_atts(
+        array(
+            'date' => '', // Date to filter events (YYYY-MM-DD)
+            'month' => '', // Month to filter events (YYYY-MM)
+        ), $atts);
 
     ob_start();
     ?>
     <div class="events-search">
         <form role="search" method="get" class="search-form" id="events-search-form">
             <label>
-                <span class="screen-reader-text"><?php _e('Search for:', 'textdomain'); ?></span>
-                <input type="search" class="search-field" id="events-search-input" placeholder="<?php _e('Search events', 'textdomain'); ?>" value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search" title="<?php _e('Search for:', 'textdomain'); ?>" />
+                <span class="screen-reader-text">
+                    <?php _e('Search for:', 'textdomain'); ?>
+                </span>
+                <input type="search" class="search-field" id="events-search-input"
+                    placeholder="<?php _e('Search events', 'textdomain'); ?>"
+                    value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search"
+                    title="<?php _e('Search for:', 'textdomain'); ?>" />
             </label>
-            <button type="submit" class="search-submit"><span class="screen-reader-text"><?php _e('Search', 'textdomain'); ?></span>Search</button>
+            <button type="submit" class="search-submit"><span class="screen-reader-text">
+                    <?php _e('Search', 'textdomain'); ?>
+                </span>Search</button>
         </form>
     </div>
     <div id="events-results">
@@ -433,8 +496,8 @@ function events_shortcode($atts)
     </div>
 
     <script>
-        jQuery(document).ready(function($) {
-            $('#events-search-form').on('submit', function(e) {
+        jQuery(document).ready(function ($) {
+            $('#events-search-form').on('submit', function (e) {
                 e.preventDefault(); // prevent form submission
 
                 var formData = $(this).serialize(); // serialize form data
@@ -442,7 +505,7 @@ function events_shortcode($atts)
                     type: 'GET',
                     url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>', // URL to handle the AJAX request
                     data: formData + '&action=events_search', // Add action parameter
-                    success: function(response) {
+                    success: function (response) {
                         $('#events-results').html(
                             response); // Update results container with AJAX response
                     }
@@ -507,10 +570,10 @@ add_action('save_post', 'auto_select_parent_category');
 function display_most_recent_event()
 {
     $args = array(
-        'post_type'      => 'events_page',
+        'post_type' => 'events_page',
         'posts_per_page' => 1,
-        'order'          => 'DESC',
-        'orderby'        => 'date',
+        'order' => 'DESC',
+        'orderby' => 'date',
     );
 
     $most_recent_event_query = new WP_Query($args);
@@ -518,12 +581,14 @@ function display_most_recent_event()
     if ($most_recent_event_query->have_posts()) {
         while ($most_recent_event_query->have_posts()) {
             $most_recent_event_query->the_post();
-    ?>
+            ?>
             <div class="event">
-                <h2><?php the_field('event_heading'); ?></h2>
+                <h2>
+                    <?php the_field('event_heading'); ?>
+                </h2>
                 <div class="event-image">
                     <?php $event_image = get_field('event_image'); ?>
-                    <?php if ($event_image) : ?>
+                    <?php if ($event_image): ?>
                         <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
                     <?php endif; ?>
                 </div>
@@ -538,7 +603,7 @@ function display_most_recent_event()
                     <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
                 </div>
             </div>
-<?php
+            <?php
         }
         wp_reset_postdata();
     } else {
