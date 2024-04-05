@@ -37,50 +37,37 @@ function display_menu_items()
     ));
 ?>
 
-<div class="category-links">
-    <ul class="cat-list">
-        <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
-
-        <?php foreach ($menu_categories as $menu_category) : ?>
-        <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
-
-        <li>
-            <a class="cat-list-item" href="#"
-                data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
-        </li>
-        <?php endif; ?>
-        <?php endforeach; ?>
-    </ul>
-</div>
 
 
 <?php
-    foreach ($menu_categories as $menu_category) {
-        if ($menu_category->parent == 0) {
-            echo '<div class="menu-category menu-category-' . $menu_category->slug . '">';
-            echo '<h2>' . $menu_category->name . '</h2>';
+     foreach ($menu_categories as $menu_category) {
+        echo '<div class="menu-category menu-category-' . $menu_category->slug . '">';
+        echo '<h2>' . $menu_category->name . '</h2>';
 
-            // Query subcategories of the current top-level category
-            $subcategories = get_terms(array(
-                'taxonomy' => 'menu-categories',
-                'parent' => $menu_category->term_id,
-                'hide_empty' => false,
-            ));
-            foreach ($subcategories as $subcategory) {
-                echo '<div class="subcategory">';
-                echo '<h3>' . $subcategory->name . '</h3>';
+        // Query subcategories of the current category
+        $subcategories = get_terms(array(
+            'taxonomy' => 'menu-categories',
+            'parent' => $menu_category->term_id,
+            'hide_empty' => false,
+        ));
 
-                $args = array(
-                    'post_type' => 'menu-item', // our custom post type slug
-                    'posts_per_page' => -1, // -1 gets all the posts of this post type
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'menu-categories', // our menu category taxonomy slug
-                            'field' => 'slug',
-                            'terms' => $subcategory->slug, // the current category slug
-                        ),
+        foreach ($subcategories as $subcategory) {
+            echo '<div class="menu-subcategory menu-subcategory-' . $subcategory->slug . '">';
+            echo '<h3>' . $subcategory->name . '</h3>';
+
+            // Query menu items associated with the current subcategory
+            $args = array(
+                'post_type' => 'menu-item',
+                'posts_per_page' => -1,
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'menu-categories',
+                        'field' => 'slug',
+                        'terms' => $subcategory->slug,
                     ),
-                );
+                ),
+            );
+
 
                 // query the posts
                 $query = new WP_Query($args);
@@ -161,8 +148,11 @@ function display_menu_items()
             }
             echo '</div>'; // Close top-level category div
         }
+
     }
-}
+
+    
+
 
 // display menu items shortcode
 function menu_items_shortcode()
