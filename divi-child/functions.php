@@ -24,6 +24,7 @@ function remove_gutenberg_support()
 {
     remove_post_type_support('menu-item', 'editor');
     remove_post_type_support('events_page', 'editor');
+    remove_post_type_support('seasonal_promotion', 'editor');
 }
 add_action('init', 'remove_gutenberg_support');
 
@@ -35,8 +36,7 @@ function display_menu_items()
         'taxonomy' => 'menu-categories', // our menu category taxonomy slug
         'hide_empty' => false,
     ));
-?>
-
+    ?>
     <div class="category-links">
         <ul class="cat-list">
             <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
@@ -51,7 +51,6 @@ function display_menu_items()
             <?php endforeach; ?>
         </ul>
     </div>
-
 
     <?php
     foreach ($menu_categories as $menu_category) {
@@ -72,14 +71,9 @@ function display_menu_items()
 
         // checking if there are posts
         if ($query->have_posts()) {
-            if ($menu_category->parent !== 0) {
-                echo '<div class="menu-subcategory-' . $menu_category->parent . '">'; // Opening subcategory div
-            }
-    ?>
-
+            ?>
             <div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
                 <h2><?php echo $menu_category->name; ?></h2>
-
                 <?php
                 // loop
                 while ($query->have_posts()) {
@@ -91,23 +85,19 @@ function display_menu_items()
                     $menu_item_photo = get_field('menu_item_photo');
                     $dietary_options = get_field('dietary_options');
                     $parent_term = get_term($menu_category->parent);
-
-                    if ($parent_term && $parent_term->parent === 0) {
-                ?>
+                    ?>
                     <div class="menu-item-container">
                         <div class="menu-text-container">
                             <div class="menu-flex-container">
                                 <div class="flex-row">
                                     <h3><?php echo get_the_title(); ?></h3> <!-- title -->
                                     <?php
-
                                     foreach ($dietary_options as $option) {
                                         switch ($option) {
                                             case 'Gluten Friendly':
                                                 $gluten_attachment_id = 626;
                                                 $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
                                                 echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon" width="20" height="auto">';
-
                                                 break;
                                             case 'Vegetarian':
                                                 $vegetarian_attachment_id = 632;
@@ -124,90 +114,22 @@ function display_menu_items()
                                     ?>
                                 </div>
                                 <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
-
                             </div> <!-- menu-flex-container closing -->
 
                             <?php
-
                             for ($i = 1; $i <= 5; $i++) {
                                 $addon_name = get_field('add_on_name_' . $i);
                                 $addon_price = get_field('add_on_price_' . $i);
-
-                                if ($addon_name && $addon_price) { ?>
-
+                                if ($addon_name && $addon_price) {
+                                    ?>
                                     <div class="menu-addon-container">
                                         <p><?php echo $addon_name; ?></p> <!-- addon name -->
                                         <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
                                     </div>
-                            <?php
-                                }
-                            } ?>
-
-
-
-                            <div><?php echo get_the_content(); ?></div>
-                            <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
-                        </div>
-                        <div class="menu-photo-container">
-                            <?php if ($menu_item_photo) : ?>
-                                <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="100" height="auto">
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                <?php
-                } else { ?>
-                <div class="menu-subcategory-<?php echo $parent_term->slug; ?>">
-                <div class="menu-item-container">
-                        <div class="menu-text-container">
-                            <div class="menu-flex-container">
-                                <div class="flex-row">
-                                    <h3><?php echo get_the_title(); ?></h3> <!-- title -->
                                     <?php
-
-                                    foreach ($dietary_options as $option) {
-                                        switch ($option) {
-                                            case 'Gluten Friendly':
-                                                $gluten_attachment_id = 626;
-                                                $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                                echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon" width="20" height="auto">';
-
-                                                break;
-                                            case 'Vegetarian':
-                                                $vegetarian_attachment_id = 632;
-                                                $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
-                                                echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon" width="20" height="auto">';
-                                                break;
-                                            case 'Spicy':
-                                                $spicy_attachment_id = 631;
-                                                $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
-                                                echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon" width="20" height="auto">';
-                                                break;
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                                <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
-
-                            </div> <!-- menu-flex-container closing -->
-
-                            <?php
-
-                            for ($i = 1; $i <= 5; $i++) {
-                                $addon_name = get_field('add_on_name_' . $i);
-                                $addon_price = get_field('add_on_price_' . $i);
-
-                                if ($addon_name && $addon_price) { ?>
-
-                                    <div class="menu-addon-container">
-                                        <p><?php echo $addon_name; ?></p> <!-- addon name -->
-                                        <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
-                                    </div>
-                            <?php
                                 }
-                            } ?>
-
-
+                            }
+                            ?>
 
                             <div><?php echo get_the_content(); ?></div>
                             <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
@@ -218,25 +140,17 @@ function display_menu_items()
                             <?php endif; ?>
                         </div>
                     </div>
-                    </div>
-                    <?php }
+                    <?php
                 } ?>
-
             </div> <!-- category container closing -->
-
-        <?php
-            // if ($menu_category->parent !== 0) {
-            //     echo '</div>'; // Closing subcategory div
-            // }
-            // restore original post data
+            <?php
+            // Restore original post data
             wp_reset_postdata();
         } else {
-            // else no posts found for this category
-        ?>
-
+            // No menu items found for this category
+            ?>
             <p>No menu items found for <?php echo $menu_category->name ?>.</p>
-
-        <?php
+            <?php
         }
     }
 }
