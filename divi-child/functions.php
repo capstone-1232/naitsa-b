@@ -286,24 +286,25 @@ function display_weekly_specials()
 
     if ($weekly_specials_query->have_posts()) {
 
-        ?>
+    ?>
 <div class="weekly-specials">
-    <h2><?php ucfirst($current_day); ?>'s Specials</h2>
+    <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
     <div class="specials-container">
         <div class="specials-content">
 
-            <?php if ($weekly_specials_query->have_posts()) : ?>
+            <?php if ($weekly_specials_query->have_posts()): ?>
             <ul>
                 <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
                 <li><?php the_title(); ?></li>
                 <?php endwhile; ?>
             </ul>
-            <?php else : ?>
+            <?php else: ?>
             <p>No specials found for today.</p>
             <?php endif; ?>
         </div> <!-- .specials-content -->
     </div> <!-- .specials-container -->
 </div> <!-- .weekly-specials -->
+
 <?php
     }
 
@@ -329,13 +330,22 @@ function display_events($search_query = '', $date = '', $month = '')
         'post_type'      => 'events_page',
         'posts_per_page' => -1,
         'order'          => 'ASC',
+        'meta_key'       => 'event_date_time',
+        'orderby'        => 'meta_value',
+        'meta_query'     => array(
+            'relation' => 'AND',
+            array(
+                'key'     => 'event_date_time',
+                'value'   => date('Y-m-d'), // Current date
+                'compare' => '>=', // Greater than or equal to
+                'type'    => 'DATE',
+            ),
+        ),
     );
 
-    $meta_query = array();
-
-    // Add filter by date
+    // Add filter by specific date if provided
     if (!empty($date)) {
-        $meta_query[] = array(
+        $args['meta_query'][] = array(
             'key'     => 'event_date_time',
             'value'   => $date,
             'compare' => '=',
@@ -343,8 +353,9 @@ function display_events($search_query = '', $date = '', $month = '')
         );
     }
 
+    // Add filter by specific month if provided
     if (!empty($month)) {
-        $meta_query[] = array(
+        $args['meta_query'][] = array(
             'key'     => 'event_date_time',
             'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
             'compare' => 'BETWEEN',
@@ -352,27 +363,20 @@ function display_events($search_query = '', $date = '', $month = '')
         );
     }
 
-    if (!empty($meta_query)) {
-        $args['meta_query'] = $meta_query;
-    }
-
+    // Add search query if provided
     if (!empty($search_query)) {
-        // Add search query
         $args['s'] = $search_query;
     }
 
+    // Query events
     $events_query = new WP_Query($args);
 
-    // check if there are any events
+    // Check if there are any events
     if ($events_query->have_posts()) {
         // Start the loop
         while ($events_query->have_posts()) {
             $events_query->the_post();
-            // Get event date
-            $event_date = strtotime(get_field('event_date_time'));
-            // Check if the event date is in the future
-            if (empty($date) || $event_date >= strtotime('today')) {
-        ?>
+            ?>
 <div class="event">
     <h2><?php the_field('event_heading'); ?></h2>
     <div class="event-image">
@@ -387,22 +391,21 @@ function display_events($search_query = '', $date = '', $month = '')
         <?php the_field('event_location'); ?>
     </div>
     <div class="event-date-time">
-        <?php echo date('F j, Y', $event_date); ?>
+        <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
     </div>
     <div class="event-link">
         <a href="<?php the_field('event_link'); ?>" target="_blank">More Details on OoksLife</a>
     </div>
 </div>
 <?php
-            }
         }
 
+        // Reset post data
         wp_reset_postdata();
     } else {
         echo '<p>No events found.</p>';
     }
 }
-
 
 
 
@@ -489,7 +492,7 @@ function events_search_ajax_handler()
     exit();
 }
 
-// Auto select parent category when a child category is selected
+
 function auto_select_parent_category($post_id)
 {
     // Get the post object
