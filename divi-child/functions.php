@@ -62,7 +62,7 @@ function display_menu_items()
                         array(
                             'taxonomy' => 'menu-categories', // our menu category taxonomy slug
                             'field' => 'slug',
-                            'terms' => $subcategory->slug, // the current category slug
+                            'terms' => $menu_category->slug, // the current category slug
                         ),
                     ),
                 );
