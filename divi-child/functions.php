@@ -357,6 +357,7 @@ function display_events($search_query = '', $date = '', $month = '')
     }
 
     if (!empty($search_query)) {
+        // Add search query
         $args['s'] = $search_query;
     }
 
@@ -370,7 +371,7 @@ function display_events($search_query = '', $date = '', $month = '')
             // Get event date
             $event_date = strtotime(get_field('event_date_time'));
             // Check if the event date has passed
-            if ($event_date >= time()) {
+            if (empty($date) || $event_date >= strtotime('today')) {
                 ?>
 <div class="event">
     <h2><?php the_field('event_heading'); ?></h2>
