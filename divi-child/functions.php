@@ -34,11 +34,27 @@ add_action('init', 'remove_gutenberg_support');
 
 function display_menu_items()
 {
+    
     $menu_categories = get_terms(array(
         'taxonomy' => 'menu-categories', // our menu category taxonomy slug
         'hide_empty' => false,
         'parent' => 0, // Only get top-level categories
     ));
+    ?>
+    <div class="category-links">
+    <ul class="cat-list">
+        <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
+
+        <?php foreach ($menu_categories as $menu_category) : ?>
+            <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
+                <li>
+                    <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php
 
     // Loop through top-level categories
     foreach ($menu_categories as $menu_category) {
