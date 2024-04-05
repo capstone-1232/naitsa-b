@@ -477,38 +477,7 @@ function events_search_ajax_handler()
 }
 
 
-function auto_select_parent_category($post_id)
-{
-    // Get the post object
-    $post = get_post($post_id);
 
-    // Check if the post is a menu item
-    if ($post->post_type === 'menu-item') {
-        // Get the post terms
-        $terms = get_the_terms($post_id, 'menu-categories');
-
-        // Check if the post has terms
-        if ($terms) {
-            // Get the first term
-            $term = array_shift($terms);
-
-            // Get the parent term
-            $parent_term = get_term($term->parent, 'menu-categories');
-
-            // Check if the parent term is not empty
-            if ($parent_term) {
-                // Set both parent and child terms
-                $selected_terms = array($term->term_id, $parent_term->term_id);
-
-                // Set the terms for the post
-                wp_set_post_terms($post_id, $selected_terms, 'menu-categories');
-            }
-        }
-    }
-}
-
-// Hook into save_post action
-add_action('save_post', 'auto_select_parent_category');
 
 
 // home page event card display most recent event
