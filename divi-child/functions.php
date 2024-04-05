@@ -252,6 +252,9 @@ function display_menu_items()
                         <div class="menu-photo-container">
                             <?php if ($menu_item_photo) : ?>
                                 <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="100" height="auto">
+                                <?php else : ?>
+                                <?php $img_placeholder = wp_get_attachment_url(819); ?>
+                                <img src="<?php $img_placeholder ?>" alt="Placeholder" class="menu-item-photo" width="100" height="auto">    
                             <?php endif; ?>
                         </div>
                     </div>
