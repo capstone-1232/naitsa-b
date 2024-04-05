@@ -61,12 +61,6 @@ function display_menu_items()
                 'post_type' => 'menu-item',
                 'posts_per_page' => -1,
                 'tax_query' => array(
-                    'relation' => 'OR',
-                    array(
-                        'taxonomy' => 'menu-categories',
-                        'field' => 'slug',
-                        'terms' => $menu_category->slug,
-                    ),
                     array(
                         'taxonomy' => 'menu-categories',
                         'field' => 'slug',
