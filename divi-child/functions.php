@@ -41,6 +41,7 @@ function display_menu_items()
 
 <?php
      foreach ($menu_categories as $menu_category) {
+        if ($menu_category->parent == 0) {
         echo '<div class="menu-category menu-category-' . $menu_category->slug . '">';
         echo '<h2>' . $menu_category->name . '</h2>';
 
@@ -148,6 +149,7 @@ function display_menu_items()
             }
             echo '</div>'; // Close top-level category div
         }
+    }
 
     }
 
