@@ -263,66 +263,6 @@ function enqueue_menu_filter_script()
 add_action('wp_enqueue_scripts', 'enqueue_menu_filter_script');
 
 
-function display_weekly_specials()
-{
-    // current day of the week
-    $current_day = strtolower(date('l')); // returns the lowercase full name of the day (e.g., monday)
-
-    $args = array(
-        'post_type' => 'menu-item',
-        'posts_per_page' => -1,
-        'tax_query' => array(
-            array(
-                'taxonomy' => 'menu-categories',
-                'field' => 'slug',
-                'terms' => $current_day, // current day's slug as the term to query
-            ),
-        ),
-    );
-
-    $weekly_specials_query = new WP_Query($args);
-
-    ob_start();
-
-    if ($weekly_specials_query->have_posts()) {
-
-    ?>
-<div class="weekly-specials">
-    <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
-    <div class="specials-container">
-        <div class="specials-content">
-
-            <?php if ($weekly_specials_query->have_posts()): ?>
-            <ul>
-                <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
-                <li><?php the_title(); ?></li>
-                <?php endwhile; ?>
-            </ul>
-            <?php else: ?>
-            <p>No specials found for today.</p>
-            <?php endif; ?>
-        </div> <!-- .specials-content -->
-    </div> <!-- .specials-container -->
-</div> <!-- .weekly-specials -->
-
-<?php
-    }
-
-    wp_reset_postdata();
-
-    echo ob_get_clean();
-}
-
-function weekly_specials_shortcode()
-{
-    ob_start();
-    display_weekly_specials();
-    return ob_get_clean();
-}
-add_shortcode('display_weekly_specials', 'weekly_specials_shortcode');
-
-// function to dispay events - Gurpreet singh
-
 function display_events($search_query = '', $date = '', $month = '')
 {
     // Prepare arguments for WP_Query
@@ -330,22 +270,13 @@ function display_events($search_query = '', $date = '', $month = '')
         'post_type'      => 'events_page',
         'posts_per_page' => -1,
         'order'          => 'ASC',
-        'meta_key'       => 'event_date_time',
-        'orderby'        => 'meta_value',
-        'meta_query'     => array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'event_date_time',
-                'value'   => date('Y-m-d'), // Current date
-                'compare' => '>=', // Greater than or equal to
-                'type'    => 'DATE',
-            ),
-        ),
     );
 
-    // Add filter by specific date if provided
+    $meta_query = array();
+
+    // Add filter by date
     if (!empty($date)) {
-        $args['meta_query'][] = array(
+        $meta_query[] = array(
             'key'     => 'event_date_time',
             'value'   => $date,
             'compare' => '=',
@@ -353,9 +284,8 @@ function display_events($search_query = '', $date = '', $month = '')
         );
     }
 
-    // Add filter by specific month if provided
     if (!empty($month)) {
-        $args['meta_query'][] = array(
+        $meta_query[] = array(
             'key'     => 'event_date_time',
             'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
             'compare' => 'BETWEEN',
@@ -363,19 +293,25 @@ function display_events($search_query = '', $date = '', $month = '')
         );
     }
 
-    // Add search query if provided
+    if (!empty($meta_query)) {
+        $args['meta_query'] = $meta_query;
+    }
+
     if (!empty($search_query)) {
         $args['s'] = $search_query;
     }
 
-    // Query events
     $events_query = new WP_Query($args);
 
-    // Check if there are any events
+    // check if there are any events
     if ($events_query->have_posts()) {
         // Start the loop
         while ($events_query->have_posts()) {
             $events_query->the_post();
+            // Get event date
+            $event_date = strtotime(get_field('event_date_time'));
+            // Check if the event date is in the future or today
+            if ($event_date >= time() || date('Y-m', $event_date) === date('Y-m')) {
             ?>
 <div class="event">
     <h2><?php the_field('event_heading'); ?></h2>
@@ -391,21 +327,22 @@ function display_events($search_query = '', $date = '', $month = '')
         <?php the_field('event_location'); ?>
     </div>
     <div class="event-date-time">
-        <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
+        <?php echo date('F j, Y', $event_date); ?>
     </div>
     <div class="event-link">
         <a href="<?php the_field('event_link'); ?>" target="_blank">More Details on OoksLife</a>
     </div>
 </div>
 <?php
+            }
         }
 
-        // Reset post data
         wp_reset_postdata();
     } else {
         echo '<p>No events found.</p>';
     }
 }
+
 
 
 
@@ -552,15 +489,12 @@ function display_most_recent_event()
         <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
         <?php endif; ?>
     </div>
-    <div class="event-description">
-        <?php the_field('event_description'); ?>
-    </div>
     <div class="event-date-time">
         <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
     </div>
     <div class="event-link
     ">
-        <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
+        <a href="<?php the_field('event_link'); ?>" target="_blank">More deailts on OoksLife</a>
     </div>
 </div>
 <?php
