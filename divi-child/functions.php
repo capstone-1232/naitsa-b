@@ -30,56 +30,55 @@ add_action('init', 'remove_gutenberg_support');
 
 
 // function to display menu items
+
 function display_menu_items()
 {
     $menu_categories = get_terms(array(
         'taxonomy' => 'menu-categories', // our menu category taxonomy slug
         'hide_empty' => false,
+        'parent' => 0, // Only get top-level categories
     ));
-    ?>
-    <div class="category-links">
-        <ul class="cat-list">
-            <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
-            <?php foreach ($menu_categories as $menu_category) : ?>
-                <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
-
-                    <li>
-                        <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
-                    </li>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-
-    <?php
+    // Loop through top-level categories
     foreach ($menu_categories as $menu_category) {
-        $args = array(
-            'post_type' => 'menu-item', // our custom post type slug
-            'posts_per_page' => -1, // -1 gets all the posts of this post type
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'menu-categories', // our menu category taxonomy slug
-                    'field' => 'slug',
-                    'terms' => $menu_category->slug, // the current category slug
-                ),
-            ),
-        );
+        ?>
+        <div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
+            <h2><?php echo $menu_category->name; ?></h2>
+            <?php
+            // Get subcategories of current top-level category
+            $subcategories = get_terms(array(
+                'taxonomy' => 'menu-categories',
+                'hide_empty' => false,
+                'parent' => $menu_category->term_id, // Get subcategories of current category
+            ));
 
-        // query the posts
-        $query = new WP_Query($args);
+            // Loop through subcategories
+            foreach ($subcategories as $subcategory) {
+                $args = array(
+                    'post_type' => 'menu-item', // our custom post type slug
+                    'posts_per_page' => -1, // -1 gets all the posts of this post type
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'menu-categories', // our menu category taxonomy slug
+                            'field' => 'slug',
+                            'terms' => $subcategory->slug, // the current subcategory slug
+                        ),
+                    ),
+                );
 
-        // checking if there are posts
-        if ($query->have_posts()) {
-            ?>
-            <div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
-                <h2><?php echo $menu_category->name; ?></h2>
-                <?php
-                // loop
-                while ($query->have_posts()) {
-                    $query->the_post();
+                // query the posts
+                $query = new WP_Query($args);
 
-                    $menu_item_price = get_field('menu_item_price');
+                // checking if there are posts
+                if ($query->have_posts()) {
+                    ?>
+                    <div class="sub-menu-category sub-menu-category-<?php echo $subcategory->slug; ?>">
+                        <h3><?php echo $subcategory->name; ?></h3>
+                        <?php
+                        // loop
+                        while ($query->have_posts()) {
+                            $query->the_post();
+                            $menu_item_price = get_field('menu_item_price');
                     $menu_item_addon_name = get_field('add_on_name_1');
                     $menu_item_addon_price = get_field('add_on_price_1');
                     $menu_item_photo = get_field('menu_item_photo');
@@ -140,21 +139,25 @@ function display_menu_items()
                             <?php endif; ?>
                         </div>
                     </div>
+                    <?php 
+                        }
+                        ?>
+                    </div>
                     <?php
-                } ?>
-            </div> <!-- category container closing -->
-            <?php
-            // Restore original post data
-            wp_reset_postdata();
-        } else {
-            // No menu items found for this category
+                    // Restore original post data
+                    wp_reset_postdata();
+                } else {
+                    // No menu items found for this subcategory
+                    ?>
+                    <p>No menu items found for <?php echo $subcategory->name ?>.</p>
+                    <?php
+                }
+            }
             ?>
-            <p>No menu items found for <?php echo $menu_category->name ?>.</p>
-            <?php
-        }
+        </div> <!-- category container closing -->
+        <?php
     }
 }
-    
 
 
 // display menu items shortcode
