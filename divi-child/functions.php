@@ -286,29 +286,23 @@ function display_weekly_specials()
 
         ?>
         <div class="weekly-specials">
-            <h2>Today's Specials</h2>
-            <div class="specials-container">
-                <div class="specials-content">
-                    <ul>
-                        <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
-                            <li><?php the_title(); ?></li>
-                        <?php endwhile; ?>
-                    </ul>
-                </div> <!-- .specials-content -->
-            </div> <!-- .specials-container -->
-        </div> <!-- .weekly-specials -->
-    <?php
-    } else {
-    ?>
-        <div class="weekly-specials">
-            <h2>Today's Specials</h2>
-            <div class="specials-container">
-                <div class="specials-content">
-                    <p>No specials found for today.</p>
-                </div> <!-- .specials-content -->
-            </div> <!-- .specials-container -->
-        </div> <!-- .weekly-specials -->
-        <?php
+        <h2><?php ucfirst($current_day); ?>'s Specials</h2>
+        <div class="specials-container">
+            <div class="specials-content">
+
+            <?php if ($weekly_specials_query->have_posts()): ?>
+                <ul>
+                    <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                        <li><?php the_title(); ?></li>
+                    <?php endwhile; ?>
+                </ul>
+            <?php else: ?>
+                <p>No specials found for today.</p>
+            <?php endif; ?>
+            </div> <!-- .specials-content -->
+        </div> <!-- .specials-container -->
+    </div> <!-- .weekly-specials -->
+    <?php 
     }
 
     wp_reset_postdata();
