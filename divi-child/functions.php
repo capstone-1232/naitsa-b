@@ -219,13 +219,15 @@ function display_menu_items()
                         </div>
                     </div>
                     </div>
+                    <?php }
+                } ?>
 
             </div> <!-- category container closing -->
 
         <?php
-            if ($menu_category->parent !== 0) {
-                echo '</div>'; // Closing subcategory div
-            }
+            // if ($menu_category->parent !== 0) {
+            //     echo '</div>'; // Closing subcategory div
+            // }
             // restore original post data
             wp_reset_postdata();
         } else {
