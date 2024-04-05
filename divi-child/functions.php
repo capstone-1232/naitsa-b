@@ -287,24 +287,24 @@ function display_weekly_specials()
     if ($weekly_specials_query->have_posts()) {
 
         ?>
-        <div class="weekly-specials">
-        <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
-        <div class="specials-container">
-            <div class="specials-content">
+<div class="weekly-specials">
+    <h2><?php ucfirst($current_day); ?>'s Specials</h2>
+    <div class="specials-container">
+        <div class="specials-content">
 
-            <?php if ($weekly_specials_query->have_posts()): ?>
-                <ul>
-                    <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
-                        <li><?php the_title(); ?></li>
-                    <?php endwhile; ?>
-                </ul>
-            <?php else: ?>
-                <p>No specials found for today.</p>
+            <?php if ($weekly_specials_query->have_posts()) : ?>
+            <ul>
+                <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                <li><?php the_title(); ?></li>
+                <?php endwhile; ?>
+            </ul>
+            <?php else : ?>
+            <p>No specials found for today.</p>
             <?php endif; ?>
-            </div> <!-- .specials-content -->
-        </div> <!-- .specials-container -->
-    </div> <!-- .weekly-specials -->
-    <?php 
+        </div> <!-- .specials-content -->
+    </div> <!-- .specials-container -->
+</div> <!-- .weekly-specials -->
+<?php
     }
 
     wp_reset_postdata();
@@ -370,9 +370,9 @@ function display_events($search_query = '', $date = '', $month = '')
             $events_query->the_post();
             // Get event date
             $event_date = strtotime(get_field('event_date_time'));
-            // Check if the event date has passed
+            // Check if the event date is in the future
             if (empty($date) || $event_date >= strtotime('today')) {
-                ?>
+        ?>
 <div class="event">
     <h2><?php the_field('event_heading'); ?></h2>
     <div class="event-image">
@@ -402,6 +402,7 @@ function display_events($search_query = '', $date = '', $month = '')
         echo '<p>No events found.</p>';
     }
 }
+
 
 
 
