@@ -41,75 +41,31 @@ function display_menu_items()
 
 <?php
      foreach ($menu_categories as $menu_category) {
-        echo '<div class="menu-category menu-category-' . $menu_category->slug . '">';
-        echo '<h2>' . $menu_category->name . '</h2>';
+        if ($menu_category->parent == 0) {
+            echo '<div class="menu-category menu-category-' . $menu_category->slug . '">';
+            echo '<h2>' . $menu_category->name . '</h2>';
 
-        // Query subcategories of the current category
-        $subcategories = get_terms(array(
-            'taxonomy' => 'menu-categories',
-            'parent' => $menu_category->term_id,
-            'hide_empty' => false,
-        ));
-
-        // Check if the current category has subcategories
-        if (!empty($subcategories)) {
-            // If the category has subcategories, loop through them
+            // Query subcategories of the current top-level category
+            $subcategories = get_terms(array(
+                'taxonomy' => 'menu-categories',
+                'parent' => $menu_category->term_id,
+                'hide_empty' => false,
+            ));
             foreach ($subcategories as $subcategory) {
-                echo '<div class="menu-subcategory menu-subcategory-' . $subcategory->slug . '">';
+                echo '<div class="subcategory">';
                 echo '<h3>' . $subcategory->name . '</h3>';
 
-                // Query menu items associated with the current subcategory
                 $args = array(
-                    'post_type' => 'menu-item',
-                    'posts_per_page' => -1,
+                    'post_type' => 'menu-item', // our custom post type slug
+                    'posts_per_page' => -1, // -1 gets all the posts of this post type
                     'tax_query' => array(
                         array(
-                            'taxonomy' => 'menu-categories',
+                            'taxonomy' => 'menu-categories', // our menu category taxonomy slug
                             'field' => 'slug',
-                            'terms' => $subcategory->slug,
+                            'terms' => $subcategory->slug, // the current category slug
                         ),
                     ),
                 );
-
-                // Query the posts
-                $query = new WP_Query($args);
-
-                // Check if there are posts
-                if ($query->have_posts()) {
-                    while ($query->have_posts()) {
-                        $query->the_post();
-
-                        // Display menu item content
-                        // You can customize this part as per your requirement
-                        echo '<div class="menu-item">';
-                        echo '<h4>' . get_the_title() . '</h4>';
-                        echo '<p>' . get_the_content() . '</p>';
-                        // Display other menu item details as needed
-                        echo '</div>';
-                    }
-                } else {
-                    // No menu items found for this subcategory
-                    echo '<p>No menu items found for ' . $subcategory->name . '.</p>';
-                }
-
-                // Restore original post data
-                wp_reset_postdata();
-
-                echo '</div>'; // Close menu subcategory div
-            }
-        } else {
-            // If the category has no subcategories, query and display menu items directly associated with it
-            $args = array(
-                'post_type' => 'menu-item',
-                'posts_per_page' => -1,
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => 'menu-categories',
-                        'field' => 'slug',
-                        'terms' => $menu_category->slug,
-                    ),
-                ),
-            );
 
 
                 // query the posts
@@ -191,6 +147,8 @@ function display_menu_items()
             }
             echo '</div>'; // Close top-level category div
         }
+    }
+
     }
 
     
