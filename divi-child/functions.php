@@ -288,7 +288,7 @@ function display_weekly_specials()
 
         ?>
         <div class="weekly-specials">
-        <h2><?php ucfirst($current_day); ?>'s Specials</h2>
+        <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
         <div class="specials-container">
             <div class="specials-content">
 
