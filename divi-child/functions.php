@@ -386,7 +386,7 @@ function display_weekly_specials()
 
     ob_start();
 
-    if ($weekly_specials_query->have_posts()) {
+    // if ($weekly_specials_query->have_posts()) { // UNCOMMENT THIS IF YOU DON'T WANT CARD TO SHOW ON SAT/SUN
 
     ?>
         <div class="weekly-specials">
@@ -413,7 +413,7 @@ function display_weekly_specials()
     wp_reset_postdata();
 
     echo ob_get_clean();
-}
+// } // END OF IF STATMENT
 
 function weekly_specials_shortcode()
 {
