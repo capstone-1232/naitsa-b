@@ -392,18 +392,23 @@ function display_weekly_specials()
 
     ?>
         <div class="weekly-specials">
-            <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
+            <!-- <h2><?php // echo ucfirst($current_day); ?>'s Specials</h2> -->
             <div class="specials-container">
                 <div class="specials-content">
 
                     <?php if ($weekly_specials_query->have_posts()) : ?>
+                        <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
                         <ul>
                             <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
                                 <li><?php the_title(); ?></li>
                             <?php endwhile; ?>
                         </ul>
                     <?php else : ?>
-                        <p>No specials found for today.</p>
+                        <h2>Weekly Specials</h2>
+                        <ul>
+                            <li>Check out our popular dishes for the day!</li>
+                            <li><a href="https://naitsa-b.web.dmitcapstone.ca/naitsa/menu/">See More</a></li>
+                        </ul>
                     <?php endif; ?>
                 </div> <!-- .specials-content -->
             </div> <!-- .specials-container -->
