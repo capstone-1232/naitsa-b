@@ -85,6 +85,13 @@ a {
   display: flex;
 }
 
+.specials-flex {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;

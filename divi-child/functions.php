@@ -437,18 +437,27 @@ function display_weekly_specials()
 
             <?php if ($weekly_specials_query->have_posts()) : ?>
             <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
-            <ul>
-                <?php $image_displayed = false; ?>                <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
-                <li><?php the_title(); ?></li>
-                <?php $menu_item_photo = get_post_meta(get_the_ID(), 'menu_item_photo', true); ?>
-                <?php if ($menu_item_photo) : ?>
+            <div class="specials-flex">
+            <?php $image_displayed = false; ?>
+            <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                <?php if (!$image_displayed) : ?>
+                    <?php $menu_item_photo_array = get_field('menu_item_photo'); ?>
+                    <?php if ($menu_item_photo_array) : ?>
                         <div class="special-thumbnail">
-                            <img src="<?php echo esc_url($menu_item_photo); ?>" alt="Menu Item Photo">
+                            <img src="<?php echo esc_url($menu_item_photo_array['url']); ?>" alt="<?php echo esc_attr($menu_item_photo_array['alt']); ?>" width="250" height="auto">
                         </div>
-                    <?php $image_displayed = true; ?>
+                        <?php $image_displayed = true; ?>
                     <?php endif; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
+            <ul>
+                <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                    <li>
+                        <?php the_title(); ?>
+                    </li>
                 <?php endwhile; ?>
             </ul>
+            </div>
             <?php else : ?>
             <h2>Weekly Specials</h2>
             <ul>
@@ -459,6 +468,7 @@ function display_weekly_specials()
         </div> <!-- .specials-content -->
     </div> <!-- .specials-container -->
 </div> <!-- .weekly-specials -->
+
 
 <?php
 }
