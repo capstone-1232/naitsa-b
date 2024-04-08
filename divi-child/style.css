@@ -54,12 +54,22 @@ html {
   line-height: 1.5;
 }
 
+body {
+  background-color: #252530 !important;
+
+}
+
+.et_pb_section {
+ background-color:#252530;
+}
+
 h1,
 h2,
 h3,
 p,
 a {
   font-family: "Museo sans", sans-serif;
+  color: #efefef;
 }
 
 .menu-item-container {
