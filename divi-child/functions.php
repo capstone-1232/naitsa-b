@@ -548,11 +548,17 @@ function display_events($search_query = '', $date = '', $month = '')
         <div class="event-heading">
             <h2><?php the_field('event_heading'); ?></h2>
         </div>
+        <div class="event-date-time">
+            <?php
+                        // Get the event date and time
+                        $event_datetime = get_field('event_date_time');
+                        // Format date and time
+                        $formatted_datetime = date('F j, Y - g:i A', strtotime($event_datetime));
+                        echo esc_html($formatted_datetime);
+                        ?>
+        </div>
         <div class="event-location">
             <?php the_field('event_location'); ?>
-        </div>
-        <div class="event-date-time">
-            <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
         </div>
     </div>
     <div class="event-link">
@@ -569,9 +575,6 @@ function display_events($search_query = '', $date = '', $month = '')
         echo '<p>No events found.</p>';
     }
 }
-
-
-
 
 
 //  Shortcode function for displaying events with search form
@@ -599,7 +602,9 @@ function events_shortcode($atts)
                 title="<?php _e('Search for:', 'textdomain'); ?>" />
         </label>
         <label for="month-filter">
-            <?php _e('Filter by Month:', 'textdomain'); ?>
+            <span class="screen-reader-text">
+                <?php _e('Filter by Month:', 'textdomain'); ?>
+            </span>
         </label>
         <select name="month" id="month-filter">
             <option value="">Search by Months</option>
