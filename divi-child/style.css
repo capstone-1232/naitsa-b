@@ -95,6 +95,25 @@ a {
   margin-left: 1rem;
 }
 
+/* Weekly Special Card */
+
+.weekly-specials {
+  background-image: linear-gradient(to right, #152447, #484848);
+  /* width: 525px;
+    height: 318px; */
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.weekly-specials > h2 {
+  color: #fdb728;
+  font-size: 28px;
+}
+
+.weekly-specials > ul {
+  list-style: none;
+}
+
 /* Events Page  */
 
 .event {
