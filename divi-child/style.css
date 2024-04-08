@@ -72,6 +72,10 @@ a {
   color: #efefef;
 }
 
+.et_pb_heading_container > h1 {
+  color: #f6f6f7;
+}
+
 .menu-item-container {
   display: flex;
   flex-direction: column;
