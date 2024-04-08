@@ -438,15 +438,22 @@ function display_weekly_specials()
             <?php if ($weekly_specials_query->have_posts()) : ?>
             <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
             <ul>
-                <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                <?php $image_displayed = false; ?>                <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
                 <li><?php the_title(); ?></li>
+                <?php $menu_item_photo = get_post_meta(get_the_ID(), 'menu_item_photo', true); ?>
+                <?php if ($menu_item_photo) : ?>
+                        <div class="special-thumbnail">
+                            <img src="<?php echo esc_url($menu_item_photo); ?>" alt="Menu Item Photo">
+                        </div>
+                    <?php $image_displayed = true; ?>
+                    <?php endif; ?>
                 <?php endwhile; ?>
             </ul>
             <?php else : ?>
             <h2>Weekly Specials</h2>
             <ul>
                 <li>Check out our popular dishes for the day!</li>
-                <li><a href="https://naitsa-b.web.dmitcapstone.ca/naitsa/menu/">See More</a></li>
+                <li><a href="<?php echo home_url('/menu/'); ?>">See More</a></li>
             </ul>
             <?php endif; ?>
         </div> <!-- .specials-content -->
