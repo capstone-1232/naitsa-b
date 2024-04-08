@@ -437,14 +437,14 @@ function display_weekly_specials()
 
             <?php if ($weekly_specials_query->have_posts()) : ?>
             <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
-            <div class="specials-flex">
+            <!-- <div class="specials-flex"> -->
             <?php $image_displayed = false; ?>
             <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
                 <?php if (!$image_displayed) : ?>
                     <?php $menu_item_photo_array = get_field('menu_item_photo'); ?>
                     <?php if ($menu_item_photo_array) : ?>
                         <div class="special-thumbnail">
-                            <img src="<?php echo esc_url($menu_item_photo_array['url']); ?>" alt="<?php echo esc_attr($menu_item_photo_array['alt']); ?>" width="250" height="auto">
+                            <img src="<?php echo esc_url($menu_item_photo_array['url']); ?>" alt="<?php echo esc_attr($menu_item_photo_array['alt']); ?>" width="150" height="auto">
                         </div>
                         <?php $image_displayed = true; ?>
                     <?php endif; ?>
@@ -457,7 +457,7 @@ function display_weekly_specials()
                     </li>
                 <?php endwhile; ?>
             </ul>
-            </div>
+            <!-- </div> -->
             <?php else : ?>
             <h2>Weekly Specials</h2>
             <ul>
