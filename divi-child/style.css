@@ -95,6 +95,8 @@ a {
   justify-content: space-between;
 }
 
+/* flex */
+
 .flex {
   display: flex;
 }
@@ -113,6 +115,11 @@ a {
 
 .dietary-icon {
   margin-left: 1rem;
+}
+
+/* lists */
+ul {
+  list-style-type: none !important;
 }
 
 /* Weekly Special Card */
