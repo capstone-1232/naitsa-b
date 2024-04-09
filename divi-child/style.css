@@ -56,11 +56,10 @@ html {
 
 body {
   background-color: #252530 !important;
-
 }
 
 .et_pb_section {
- background-color:#252530;
+  background-color: #252530;
 }
 
 h1,
@@ -176,7 +175,6 @@ ul {
 
 /* Month Filter */
 #month-filter {
-  display: block;
   color: grey;
   max-width: 255px;
   padding: 0.75rem;
