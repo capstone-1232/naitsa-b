@@ -56,11 +56,10 @@ html {
 
 body {
   background-color: #252530 !important;
-
 }
 
 .et_pb_section {
- background-color:#252530;
+  background-color: #252530;
 }
 
 h1,
@@ -218,6 +217,7 @@ ul {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  margin-bottom: 2rem;
 }
 
 /* Search Field */
@@ -226,7 +226,7 @@ ul {
   display: block;
   border: 1px solid #ccc;
   border-radius: 2rem;
-  max-width: 255px;
+  width: 255px;
   padding: 0.75rem;
   margin: 1rem 0;
   font-size: 16px;
@@ -235,9 +235,8 @@ ul {
 
 /* Month Filter */
 #month-filter {
-  display: block;
   color: grey;
-  max-width: 255px;
+  width: 255px;
   padding: 0.75rem;
   margin: 1rem 0;
   border: 1px solid #ccc;
