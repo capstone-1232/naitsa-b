@@ -117,7 +117,7 @@ function display_menu_items()
                         $dietary_options = get_field('dietary_options');
                         $parent_term = get_term($menu_category->term_id);
                     ?>
-        <div class="menu-two-row">
+
         <div class="menu-item-container">
             <div class="menu-text-container">
                 <div class="menu-flex-container">
@@ -176,10 +176,10 @@ function display_menu_items()
                                     </div>
                                     <div class="menu-photo-container">
                                         <?php if ($menu_item_photo) : ?>
-                                            <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="100" height="auto">
+                                            <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo">
                                             <?php else : ?>
                                     <?php $img_placeholder = wp_get_attachment_url(819); ?>
-                                    <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="100" height="auto">
+                                    <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo">
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -226,7 +226,6 @@ function display_menu_items()
                 $dietary_options = get_field('dietary_options');
                 $parent_term = get_term($menu_category->term_id);
             ?>
-    <div class="menu-two-row">
     <div class="menu-item-container">
         <div class="menu-text-container">
             <div class="menu-flex-container">
@@ -294,7 +293,6 @@ function display_menu_items()
             <?php endif; ?>
         </div>
     </div> <!-- menu item container closed -->
-    </div>
     <?php
         }
         // Restore original post data
