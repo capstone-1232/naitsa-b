@@ -95,7 +95,7 @@ a {
 }
 
 .menu-item-container {
-  flex: 50%;
+  /* flex: 50%; */
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -109,7 +109,7 @@ a {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  
+
 }
 
 .menu-flex-container {
@@ -331,5 +331,9 @@ ul {
   .event-card {
     flex: 1 0 calc(100% - 1rem);
     margin-right: 0;
+  }
+
+  .menu-item-container {
+    flex-direction: column;
   }
 }
