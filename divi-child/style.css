@@ -345,7 +345,11 @@ ul {
 
   .menu-photo-container img {
 
-    border-radius: 15px;
+    border-radius: 15px 15px 0 0;
 
+  }
+
+  .menu-text-container {
+    padding: 1.25rem;
   }
 }
