@@ -7,87 +7,313 @@
  Template: Divi
  Version: 1.0.0
 */
- 
+
 /* =Theme customization starts here
 ------------------------------------------------------- */
+:root {
+  --orange: #f15422;
+  --lt-orange: #f7986b;
 
+  --yellow: #fcb62a;
+  --lt-yellow: #fed182;
 
+  --blue: #132246;
+  --lt-blue: #606079;
 
+  --grey: #e9e9e9;
+  --lt-grey: #fafafa;
+}
 @font-face {
-    font-family: 'Museo sans';
-    src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo300-Regular.otf') format('otf');
-    font-weight: 300;
-    font-style: normal;
+  font-family: "Museo sans";
+  src: url("http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo300-Regular.otf")
+    format("otf");
+  font-weight: 300;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Museo sans';
-    src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo500-Regular.otf') format('otf');
-    font-weight: 500;
-    font-style: normal;
+  font-family: "Museo sans";
+  src: url("http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo500-Regular.otf")
+    format("otf");
+  font-weight: 500;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Museo sans';
-    src: url('http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo700-Regular.otf') format('otf');
-    font-weight: 700;
-    font-style: normal;
+  font-family: "Museo sans";
+  src: url("http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo700-Regular.otf")
+    format("otf");
+  font-weight: 700;
+  font-style: normal;
 }
 
 html {
-    font-family: 'Museo sans', sans-serif;
-    font-weight: 300;
-    font-size: 100%;
-    line-height: 1.5;
+  font-family: "Museo sans", sans-serif;
+  font-weight: 300;
+  font-size: 100%;
+  line-height: 1.5;
 }
 
-h1, h2, h3, p, a {
-    font-family: 'Museo sans', sans-serif;
-    font-size: 1rem;
+body {
+  background-color: #252530 !important;
+}
+
+.et_pb_section {
+  background-color: #252530;
+}
+
+h1,
+h2,
+h3,
+p,
+a {
+  font-family: "Museo sans", sans-serif;
+  color: #efefef;
+}
+
+p, 
+a {
+  font-weight: 300;
+}
+
+.et_pb_heading_container > h1 {
+  color: #f6f6f7;
+}
+
+/*********** MENU PAGE ***********/
+
+.menu-two-row {
+  display: flex;
 }
 
 .menu-item-container {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    margin-bottom: 1rem;
+  flex: 50%;
+  display: flex;
+  justify-content:flex-start;
+  align-items:flex-start;
+  background-image: linear-gradient(to right, #152447, #484848);
+  margin-bottom: 1rem;
+  border-radius: 15px;
+}
+
+.menu-text-container {
+  padding: 1.25rem 1.25rem 1.25rem 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .menu-flex-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.menu-addon-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-}
-
-.flex {
-    display: flex;
-}
-
-.flex-row {
-    display: flex;
-    flex-direction: row;
+.menu-text-container h3 {
+  color: #FDCF87;
+  font-size: 1.25rem;
+  padding-bottom: 0px;
 }
 
 .dietary-icon {
-    margin-left: 1rem;
+  width: 1.5rem;
+  height: auto;
 }
 
+.menu-text-container .dish-price {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
 
+.menu-text-container .dish-description {
+  margin-bottom: 1rem;
+}
 
-/* Events Page  */
+.menu-addon-container {
+  display: flex;
+  order: 10;
+}
+
+.menu-addon-container p {
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+  color: #FED182;
+  margin-right: 0.5rem;
+}
+
+.menu-addon-container .addon-price::before {
+  content: "  ——  ";
+}
+
+.menu-photo-container {
+  order: -1;
+  padding: 0;
+  width: 30%;
+  margin-right: 2rem;
+}
+
+.menu-photo-container img {
+  margin: 0;
+  border-radius: 15px 0 0 15px;
+  height: auto;
+  width: 100%;
+}
+
+/* flex */
+
+.flex {
+  display: flex;
+}
+
+.specials-flex {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.dietary-icon {
+  margin-left: 1rem;
+}
+
+/* lists */
+ul {
+  list-style-type: none !important;
+}
+
+/* Weekly Special Card */
+
+.weekly-specials {
+  background-image: linear-gradient(to right, #152447, #484848);
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.weekly-content > h2 {
+  color: #fdb728;
+  font-size: 28px;
+}
+
+.special-thumbnail {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/************ Events Page ************/
 
 .event {
-    background-color: #252530;
-    color: white;
+  background-color: #252530;
+  color: white;
 }
 
+.event-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
 
+/* Search Field */
+.search-field {
+  color: grey;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  width: 255px;
+  padding: 0.75rem;
+  margin: 1rem 0;
+  font-size: 16px;
+  background-color: #252530;
+}
 
+/* Month Filter */
+#month-filter {
+  color: grey;
+  width: 255px;
+  padding: 0.75rem;
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  background-color: #252530;
+  font-size: 16px;
+}
 
+.search-submit {
+  background-color: var(--lt-blue);
+  color: white;
+  border: none;
+  padding: 0.75rem 5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 1rem;
+}
+
+/* event card */
+.event-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.event-heading h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--lt-grey);
+}
+
+.event-card {
+  flex: 0 0 calc(33.8% - 1rem);
+  box-sizing: border-box;
+  background-color: var(--lt-blue);
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(95, 95, 95, 0.3);
+}
+
+.event-card:last-child {
+  margin-right: 0;
+}
+
+.event-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.event-details {
+  padding: 20px;
+  text-align: center;
+}
+
+.event-link a {
+  color: var(--lt-grey);
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border-top: 0.5px solid var(--grey);
+  font-weight: 500;
+}
+
+/* Tablet and Desktop Styles */
+@media screen and (max-width: 992px) {
+  .event-card {
+    flex: 1 0 calc(50% - 1rem);
+  }
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 576px) {
+  .event-card {
+    flex: 1 0 calc(100% - 1rem);
+    margin-right: 0;
+  }
+}

@@ -38,119 +38,138 @@ remove_action( 'wp_head', 'et_add_viewport_meta' );
 function display_menu_items()
 {
 
-    $menu_categories = get_terms(array(
-        'taxonomy' => 'menu-categories', // our menu category taxonomy slug
-        'hide_empty' => false,
-        'parent' => 0, // Only get top-level categories
-    ));
+    $menu_categories = get_terms(
+        array(
+            'taxonomy' => 'menu-categories', // our menu category taxonomy slug
+            'hide_empty' => false,
+            'parent' => 0, // Only get top-level categories
+        )
+    );
 ?>
-    <div class="category-links">
-        <ul class="cat-list">
-            <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
+<div class="category-links">
+    <ul class="cat-list">
+        <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
-            <?php foreach ($menu_categories as $menu_category) : ?>
-                <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
-                    <li>
-                        <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>"><?php echo $menu_category->name; ?></a>
-                    </li>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-    <?php
+        <?php foreach ($menu_categories as $menu_category) : ?>
+        <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
+        <li>
+            <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
+                <?php echo $menu_category->name; ?>
+            </a>
+        </li>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php
 
     // Loop through top-level categories
     foreach ($menu_categories as $menu_category) {
     ?>
-        <div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
-            <h2><?php echo $menu_category->name; ?></h2>
-            <?php
-            // Get subcategories of current top-level category
-            $subcategories = get_terms(array(
+<div class="menu-category menu-category-<?php echo $menu_category->slug; ?>">
+    <h2>
+        <?php echo $menu_category->name; ?>
+    </h2>
+    <?php
+        // Get subcategories of current top-level category
+        $subcategories = get_terms(
+            array(
                 'taxonomy' => 'menu-categories',
                 'hide_empty' => false,
                 'parent' => $menu_category->term_id, // Get subcategories of current category
-            ));
+            )
+        );
 
-            // If there are subcategories, display them
-            if (!empty($subcategories)) {
-                // Loop through subcategories
-                foreach ($subcategories as $subcategory) {
-                    $args = array(
-                        'post_type' => 'menu-item', // our custom post type slug
-                        'posts_per_page' => -1, // -1 gets all the posts of this post type
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'menu-categories', // our menu category taxonomy slug
-                                'field' => 'slug',
-                                'terms' => $subcategory->slug, // the current subcategory slug
-                            ),
+        // If there are subcategories, display them
+        if (!empty($subcategories)) {
+            // Loop through subcategories
+            foreach ($subcategories as $subcategory) {
+                $args = array(
+                    'post_type' => 'menu-item', // our custom post type slug
+                    'posts_per_page' => -1, // -1 gets all the posts of this post type
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'menu-categories', // our menu category taxonomy slug
+                            'field' => 'slug',
+                            'terms' => $subcategory->slug, // the current subcategory slug
                         ),
-                    );
+                    ),
+                );
 
-                    // query the posts
-                    $query = new WP_Query($args);
+                // query the posts
+                $query = new WP_Query($args);
 
-                    // checking if there are posts
-                    if ($query->have_posts()) {
-            ?>
-                        <div class="sub-menu-category sub-menu-category-<?php echo $subcategory->slug; ?>">
-                            <h3><?php echo $subcategory->name; ?></h3>
-                            <?php
-                            // loop
-                            while ($query->have_posts()) {
-                                $query->the_post();
-                                $menu_item_price = get_field('menu_item_price');
-                                $menu_item_addon_name = get_field('add_on_name_1');
-                                $menu_item_addon_price = get_field('add_on_price_1');
-                                $menu_item_photo = get_field('menu_item_photo');
-                                $dietary_options = get_field('dietary_options');
-                                $parent_term = get_term($menu_category->term_id);
-                            ?>
-                                <div class="menu-item-container">
-                                    <div class="menu-text-container">
-                                        <div class="menu-flex-container">
-                                            <div class="flex-row">
-                                                <h3><?php echo get_the_title(); ?></h3> <!-- title -->
-                                                <?php
-                                                foreach ($dietary_options as $option) {
-                                                    switch ($option) {
-                                                        case 'Gluten Friendly':
-                                                            $gluten_attachment_id = 626;
-                                                            $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                                            echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon" width="20" height="auto">';
-                                                            break;
-                                                        case 'Vegetarian':
-                                                            $vegetarian_attachment_id = 632;
-                                                            $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
-                                                            echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon" width="20" height="auto">';
-                                                            break;
-                                                        case 'Spicy':
-                                                            $spicy_attachment_id = 631;
-                                                            $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
-                                                            echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon" width="20" height="auto">';
-                                                            break;
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
-                                        </div> <!-- menu-flex-container closing -->
+                // checking if there are posts
+                if ($query->have_posts()) {
+        ?>
+    <div class="sub-menu-category sub-menu-category-<?php echo $subcategory->slug; ?>">
+        <h3>
+            <?php echo $subcategory->name; ?>
+        </h3>
+        <?php
+                    // loop
+                    while ($query->have_posts()) {
+                        $query->the_post();
+                        $menu_item_price = get_field('menu_item_price');
+                        $menu_item_addon_name = get_field('add_on_name_1');
+                        $menu_item_addon_price = get_field('add_on_price_1');
+                        $menu_item_photo = get_field('menu_item_photo');
+                        $dietary_options = get_field('dietary_options');
+                        $parent_term = get_term($menu_category->term_id);
+                    ?>
+        <div class="menu-two-row">
+        <div class="menu-item-container">
+            <div class="menu-text-container">
+                <div class="menu-flex-container">
+                    <div class="flex-row">
+                        <h3 class="dish-name">
+                            <?php echo get_the_title(); ?>
+                        </h3> <!-- title -->
+                        <?php
+                        foreach ($dietary_options as $option) {
+                            switch ($option) {
+                                case 'Gluten Friendly':
+                                    $gluten_attachment_id = 626;
+                                    $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
+                                    echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon">';
+                                    break;
+                                case 'Vegetarian':
+                                    $vegetarian_attachment_id = 632;
+                                    $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
+                                    echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon">';
+                                    break;
+                                case 'Spicy':
+                                    $spicy_attachment_id = 631;
+                                    $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
+                                    echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon">';
+                                    break;
+                            }
+                        }
+                        ?>
+                    </div>
+                    <p class="dish-price">$
+                        <?php echo $menu_item_price; ?>
+                    </p> <!-- price -->
+                </div> <!-- menu-flex-container closing -->
 
-                                        <?php
-                                        for ($i = 1; $i <= 5; $i++) {
-                                            $addon_name = get_field('add_on_name_' . $i);
-                                            $addon_price = get_field('add_on_price_' . $i);
-                                            if ($addon_name && $addon_price) {
-                                        ?>
-                                                <div class="menu-addon-container">
-                                                    <p><?php echo $addon_name; ?></p> <!-- addon name -->
-                                                    <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
-                                                </div>
-                                        <?php
-                                            }
-                                        }
-                                        ?>
+                <?php
+                    for ($i = 1; $i <= 5; $i++) {
+                        $addon_name = get_field('add_on_name_' . $i);
+                        $addon_price = get_field('add_on_price_' . $i);
+                        if ($addon_name && $addon_price) {
+                    ?>
+                <div class="menu-addon-container">
+                    <p class="addon-name">
+                        <?php echo $addon_name; ?>
+                    </p> <!-- addon name -->
+                    <p class="addon-price">$
+                        <?php echo $addon_price; ?>
+                    </p> <!-- addon price -->
+                </div>
+                <?php
+                    }
+                }
+                ?>
 
                                         <div><?php echo get_the_content(); ?></div>
                                         <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
@@ -192,92 +211,106 @@ function display_menu_items()
                     ),
                 );
 
-                // query the posts
-                $query = new WP_Query($args);
+        // query the posts
+        $query = new WP_Query($args);
 
-                // checking if there are posts
-                if ($query->have_posts()) {
-                    // loop
-                    while ($query->have_posts()) {
-                        $query->the_post();
-                        $menu_item_price = get_field('menu_item_price');
-                        $menu_item_addon_name = get_field('add_on_name_1');
-                        $menu_item_addon_price = get_field('add_on_price_1');
-                        $menu_item_photo = get_field('menu_item_photo');
-                        $dietary_options = get_field('dietary_options');
-                        $parent_term = get_term($menu_category->term_id);
-                    ?>
-                        <div class="menu-item-container">
-                            <div class="menu-text-container">
-                                <div class="menu-flex-container">
-                                    <div class="flex-row">
-                                        <h3><?php echo get_the_title(); ?></h3> <!-- title -->
-                                        <?php
-                                        foreach ($dietary_options as $option) {
-                                            switch ($option) {
-                                                case 'Gluten Friendly':
-                                                    $gluten_attachment_id = 626;
-                                                    $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                                    echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon" width="20" height="auto">';
-                                                    break;
-                                                case 'Vegetarian':
-                                                    $vegetarian_attachment_id = 632;
-                                                    $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
-                                                    echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon" width="20" height="auto">';
-                                                    break;
-                                                case 'Spicy':
-                                                    $spicy_attachment_id = 631;
-                                                    $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
-                                                    echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon" width="20" height="auto">';
-                                                    break;
-                                            }
-                                        }
-                                        ?>
-                                    </div>
-                                    <p>$<?php echo $menu_item_price; ?></p> <!-- price -->
-                                </div> <!-- menu-flex-container closing -->
-
-                                <?php
-                                for ($i = 1; $i <= 5; $i++) {
-                                    $addon_name = get_field('add_on_name_' . $i);
-                                    $addon_price = get_field('add_on_price_' . $i);
-                                    if ($addon_name && $addon_price) {
-                                ?>
-                                        <div class="menu-addon-container">
-                                            <p><?php echo $addon_name; ?></p> <!-- addon name -->
-                                            <p>$<?php echo $addon_price; ?></p> <!-- addon price -->
-                                        </div>
-                                <?php
-                                    }
-                                }
-                                ?>
-
-                                <div><?php echo get_the_content(); ?></div>
-                                <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
-                            </div>
-                            <div class="menu-photo-container">
-                                <?php if ($menu_item_photo) : ?>
-                                    <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="100" height="auto">
-                                <?php else : ?>
-                                    <?php $img_placeholder = wp_get_attachment_url(819); ?>
-                                    <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="100" height="auto">
-                                <?php endif; ?>
-                            </div>
-                        </div>
+        // checking if there are posts
+        if ($query->have_posts()) {
+            // loop
+            while ($query->have_posts()) {
+                $query->the_post();
+                $menu_item_price = get_field('menu_item_price');
+                $menu_item_addon_name = get_field('add_on_name_1');
+                $menu_item_addon_price = get_field('add_on_price_1');
+                $menu_item_photo = get_field('menu_item_photo');
+                $dietary_options = get_field('dietary_options');
+                $parent_term = get_term($menu_category->term_id);
+            ?>
+    <div class="menu-two-row">
+    <div class="menu-item-container">
+        <div class="menu-text-container">
+            <div class="menu-flex-container">
+                <div class="flex-row">
+                    <h3 class="dish-name">
+                        <?php echo get_the_title(); ?>
+                    </h3> <!-- title -->
                     <?php
+                    foreach ($dietary_options as $option) {
+                        switch ($option) {
+                            case 'Gluten Friendly':
+                                $gluten_attachment_id = 626;
+                                $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
+                                echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon">';
+                                break;
+                            case 'Vegetarian':
+                                $vegetarian_attachment_id = 632;
+                                $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
+                                echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon">';
+                                break;
+                            case 'Spicy':
+                                $spicy_attachment_id = 631;
+                                $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
+                                echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon">';
+                                break;
+                        }
                     }
-                    // Restore original post data
-                    wp_reset_postdata();
-                } else {
-                    // No menu items found for this category
                     ?>
-                    <p>No menu items found for <?php echo $menu_category->name ?>.</p>
+                </div>
+                <p class="dish-price">$
+                    <?php echo $menu_item_price; ?>
+                </p> <!-- price -->
+            </div> <!-- menu-flex-container closing -->
+
+            <?php
+                for ($i = 1; $i <= 5; $i++) {
+                    $addon_name = get_field('add_on_name_' . $i);
+                    $addon_price = get_field('add_on_price_' . $i);
+                    if ($addon_name && $addon_price) {
+                ?>
+            <div class="menu-addon-container">
+                <p class="addon-name">
+                    <?php echo $addon_name; ?>
+                </p> <!-- addon name -->
+                <p class="addon-price">$
+                    <?php echo $addon_price; ?>
+                </p> <!-- addon price -->
+            </div>
             <?php
                 }
             }
             ?>
-        </div> <!-- category container closing -->
+
+            <div><?php echo get_the_content(); ?></div>
+            <p class="dish-description"><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
+        </div>
+        <div class="menu-photo-container">
+            <?php if ($menu_item_photo) : ?>
+            <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo">
+            <?php else : ?>
+
+            <?php $img_placeholder = wp_get_attachment_url(983); ?>
+
+            <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo">
+            <?php endif; ?>
+        </div>
+    </div> <!-- menu item container closed -->
+    </div>
     <?php
+        }
+        // Restore original post data
+        wp_reset_postdata();
+    } else {
+        // No menu items found for this category
+        ?>
+    <p>No menu items found for
+        <?php echo $menu_category->name ?>.
+    </p>
+    <?php
+        }
+    }
+    ?>
+</div> <!-- category container closing -->
+<?php
     }
 }
 
@@ -313,15 +346,16 @@ function filter_menu()
     $response = '';
 
     if ($ajaxposts->have_posts()) {
-        while ($ajaxposts->have_posts()) : $ajaxposts->the_post();
+        while ($ajaxposts->have_posts()) :
+            $ajaxposts->the_post();
 
             $menu_item_addons = get_field('add_ons');
 
             $response .= '<div class="menu-item-container">';
             $response .= '<div class="menu-flex-container">';
-            $response .= '<h3>' . get_the_title() . '</h3>'; // title
+            $response .= '<h3 class="dish-name">' . get_the_title() . '</h3>'; // title
             $menu_item_price = get_field('menu_item_price');
-            $response .= '<p>$' . $menu_item_price . '</p>'; // price
+            $response .= '<p class="dish-price">$' . $menu_item_price . '</p>'; // price
             $response .= '</div>'; // menu-flex-container closing
 
             if ($menu_item_addons) {
@@ -338,8 +372,8 @@ function filter_menu()
 
                     if ($addon_name && $addon_price) {
                         // Display addon name and price
-                        $response .= '<p>' . $addon_name . '</p>'; // addons
-                        $response .= '<p>' . $addon_price . '</p>'; // addons
+                        $response .= '<p class="addon-name">' . $addon_name . '</p>'; // addons
+                        $response .= '<p class="addon-price>' . $addon_price . '</p>'; // addons
                     }
                 }
 
@@ -348,7 +382,7 @@ function filter_menu()
 
             $response .= '<div>' . get_the_content() . '</div>';
             $menu_item_description = get_field('menu_item_description');
-            $response .= '<p>' . $menu_item_description . '</p>'; // description
+            $response .= '<p class="dish-description">' . $menu_item_description . '</p>'; // description
             $response .= '</div>'; // menu-item-container closing
         endwhile;
     } else {
@@ -395,30 +429,53 @@ function display_weekly_specials()
     // if ($weekly_specials_query->have_posts()) { // UNCOMMENT THIS IF YOU DON'T WANT CARD TO SHOW ON SAT/SUN
 
     ?>
-        <div class="weekly-specials">
+<div class="weekly-specials">
+    <!-- <h2><?php // echo ucfirst($current_day); 
+                    ?>'s Specials</h2> -->
+    <div class="specials-container">
+        <div class="specials-content">
+
+            <?php if ($weekly_specials_query->have_posts()) : ?>
             <h2><?php echo ucfirst($current_day); ?>'s Specials</h2>
-            <div class="specials-container">
-                <div class="specials-content">
-
-                    <?php if ($weekly_specials_query->have_posts()) : ?>
-                        <ul>
-                            <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
-                                <li><?php the_title(); ?></li>
-                            <?php endwhile; ?>
-                        </ul>
-                    <?php else : ?>
-                        <p>No specials found for today.</p>
+            <!-- <div class="specials-flex"> -->
+            <?php $image_displayed = false; ?>
+            <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                <?php if (!$image_displayed) : ?>
+                    <?php $menu_item_photo_array = get_field('menu_item_photo'); ?>
+                    <?php if ($menu_item_photo_array) : ?>
+                        <div class="special-thumbnail">
+                            <img src="<?php echo esc_url($menu_item_photo_array['url']); ?>" alt="<?php echo esc_attr($menu_item_photo_array['alt']); ?>" width="150" height="auto">
+                        </div>
+                        <?php $image_displayed = true; ?>
                     <?php endif; ?>
-                </div> <!-- .specials-content -->
-            </div> <!-- .specials-container -->
-        </div> <!-- .weekly-specials -->
+                <?php endif; ?>
+            <?php endwhile; ?>
+            <ul>
+                <?php while ($weekly_specials_query->have_posts()) : $weekly_specials_query->the_post(); ?>
+                    <li>
+                        <?php the_title(); ?>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+            <!-- </div> -->
+            <?php else : ?>
+            <h2>Weekly Specials</h2>
+            <ul>
+                <li>Check out our popular dishes for the day!</li>
+                <li><a href="<?php echo home_url('/menu/'); ?>">See More</a></li>
+            </ul>
+            <?php endif; ?>
+        </div> <!-- .specials-content -->
+    </div> <!-- .specials-container -->
+</div> <!-- .weekly-specials -->
 
-        <?php
-    }
 
-    wp_reset_postdata();
+<?php
+}
 
-    echo ob_get_clean();
+wp_reset_postdata();
+
+echo ob_get_clean();
 // } // END OF IF STATMENT
 
 function weekly_specials_shortcode()
@@ -429,24 +486,28 @@ function weekly_specials_shortcode()
 }
 add_shortcode('display_weekly_specials', 'weekly_specials_shortcode');
 
-// function to dispay events - Gurpreet singh
 
+
+
+
+// function to dispay events - Gurpreet singh
 function display_events($search_query = '', $date = '', $month = '')
 {
     // Prepare arguments for WP_Query
     $args = array(
-        'post_type'      => 'events_page',
+        'post_type' => 'events_page',
         'posts_per_page' => -1,
-        'order'          => 'ASC',
-        'meta_key'       => 'event_date_time',
-        'orderby'        => 'meta_value',
-        'meta_query'     => array(
+        'order' => 'ASC',
+        'orderby' => 'date',
+        'meta_key' => 'event_date_time',
+        'orderby' => 'meta_value',
+        'meta_query' => array(
             'relation' => 'AND',
             array(
-                'key'     => 'event_date_time',
-                'value'   => date('Y-m-d'), // Current date
+                'key' => 'event_date_time',
+                'value' => date('Y-m-d'), // Current date
                 'compare' => '>=', // Greater than or equal to
-                'type'    => 'DATE',
+                'type' => 'DATE',
             ),
         ),
     );
@@ -454,20 +515,20 @@ function display_events($search_query = '', $date = '', $month = '')
     // Add filter by specific date if provided
     if (!empty($date)) {
         $args['meta_query'][] = array(
-            'key'     => 'event_date_time',
-            'value'   => $date,
+            'key' => 'event_date_time',
+            'value' => $date,
             'compare' => '=',
-            'type'    => 'DATE',
+            'type' => 'DATE',
         );
     }
 
     // Add filter by specific month if provided
     if (!empty($month)) {
         $args['meta_query'][] = array(
-            'key'     => 'event_date_time',
-            'value'   => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
+            'key' => 'event_date_time',
+            'value' => array(date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))),
             'compare' => 'BETWEEN',
-            'type'    => 'DATE',
+            'type' => 'DATE',
         );
     }
 
@@ -481,32 +542,49 @@ function display_events($search_query = '', $date = '', $month = '')
 
     // Check if there are any events
     if ($events_query->have_posts()) {
+        echo '<div class="event-card-container">';
         // Start the loop
         while ($events_query->have_posts()) {
             $events_query->the_post();
-        ?>
-            <div class="event">
-                <h2><?php the_field('event_heading'); ?></h2>
-                <div class="event-image">
-                    <?php $event_image = get_field('event_image'); ?>
-                    <?php if ($event_image) : ?>
-                        <a href="<?php the_field('event_link'); ?>">
-                            <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
-                        </a>
-                    <?php endif; ?>
-                </div>
-                <div class="event_location">
-                    <?php the_field('event_location'); ?>
-                </div>
-                <div class="event-date-time">
-                    <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
-                </div>
-                <div class="event-link">
-                    <a href="<?php the_field('event_link'); ?>" target="_blank">More Details on OoksLife</a>
-                </div>
-            </div>
-    <?php
+    ?>
+<div class="event-card">
+    <div class="event-image">
+        <?php $event_link = get_field('event_link'); ?>
+        <?php if ($event_link) : ?>
+        <a href="<?php echo esc_url($event_link); ?>" target="_blank">
+            <?php endif; ?>
+            <?php $event_image = get_field('event_image'); ?>
+            <?php if ($event_image) : ?>
+            <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
+            <?php endif; ?>
+            <?php if ($event_link) : ?>
+        </a>
+        <?php endif; ?>
+    </div>
+    <div class="event-details">
+        <div class="event-heading">
+            <h2><?php the_field('event_heading'); ?></h2>
+        </div>
+        <div class="event-date-time">
+            <?php
+                        // Get the event date and time
+                        $event_datetime = get_field('event_date_time');
+                        // Format date and time
+                        $formatted_datetime = date('F j, Y - g:i A', strtotime($event_datetime));
+                        echo esc_html($formatted_datetime);
+                        ?>
+        </div>
+        <div class="event-location">
+            <?php the_field('event_location'); ?>
+        </div>
+    </div>
+    <div class="event-link">
+        <a href="<?php the_field('event_link'); ?>" target="_blank">More Details on OoksLife</a>
+    </div>
+</div>
+<?php
         }
+        echo '</div>'; // Close event-card-container
 
         // Reset post data
         wp_reset_postdata();
@@ -516,27 +594,38 @@ function display_events($search_query = '', $date = '', $month = '')
 }
 
 
-
 //  Shortcode function for displaying events with search form
 function events_shortcode($atts)
 {
-    $atts = shortcode_atts(array(
-        'date'  => '',
-        'month' => '',
-    ), $atts);
+    $atts = shortcode_atts(
+        array(
+            'date' => '',
+            'month' => '',
+        ),
+        $atts
+    );
 
     ob_start();
     ?>
-    <div class="events-search">
-        <form role="search" method="get" class="search-form" id="events-search-form">
-            <label>
-                <span class="screen-reader-text"><?php _e('Search for:', 'textdomain'); ?></span>
-                <input type="search" class="search-field" id="events-search-input" placeholder="<?php _e('Search events', 'textdomain'); ?>" value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search" title="<?php _e('Search for:', 'textdomain'); ?>" />
-            </label>
-            <label for="month-filter"><?php _e('Filter by Month:', 'textdomain'); ?></label>
-            <select name="month" id="month-filter">
-                <option value="">All Months</option>
-                <?php
+<div class="events-search">
+    <form role="search" method="get" class="search-form" id="events-search-form">
+        <label>
+            <span class="screen-reader-text">
+                <?php _e('Search for:', 'textdomain'); ?>
+            </span>
+            <input type="search" class="search-field" id="events-search-input"
+                placeholder="<?php _e('Search events', 'textdomain'); ?>"
+                value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search"
+                title="<?php _e('Search for:', 'textdomain'); ?>" />
+        </label>
+        <label for="month-filter">
+            <span class="screen-reader-text">
+                <?php _e('Filter by Month:', 'textdomain'); ?>
+            </span>
+        </label>
+        <select name="month" id="month-filter">
+            <option value="">Search by Months</option>
+            <?php
 
                 for ($i = 1; $i <= 12; $i++) {
                     $month_value = date('Y-m', mktime(0, 0, 0, $i, 1));
@@ -549,65 +638,69 @@ function events_shortcode($atts)
                     echo '>' . $month_label . '</option>';
                 }
                 ?>
-            </select>
-            <button type="submit" class="search-submit"><span class="screen-reader-text"><?php _e('Search', 'textdomain'); ?></span>Search</button>
-        </form>
-    </div>
-    <div id="events-results">
-        <?php
+        </select>
+        <button type="submit" class="search-submit"><span class="screen-reader-text">
+                <?php _e('Search', 'textdomain'); ?>
+            </span>Search</button>
+    </form>
+</div>
+<div id="events-results">
+    <?php
 
         display_events(isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '', $atts['date'], $atts['month']);
         ?>
-    </div>
+</div>
 
-    <script>
-        jQuery(document).ready(function($) {
-            $('#events-search-form').on('submit', function(e) {
-                e.preventDefault();
+<script>
+jQuery(document).ready(function($) {
+    $('#events-search-form').on('submit', function(e) {
+        e.preventDefault(); // prevent form submission
 
-                var formData = $(this).serialize();
-                $.ajax({
-                    type: 'GET',
-                    data: formData + '&action=events_search',
-                    success: function(response) {
-                        $('#events-results').html(
-                            response);
-                    }
-                });
-            });
+        var formData = $(this).serialize(); // serialize form data
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>', // URL to handle the AJAX request
+            data: formData + '&action=events_search', // Add action parameter
+            success: function(response) {
+                $('#events-results').html(
+                    response); // Update results container with AJAX response
+            }
         });
-    </script>
-    <?php
+    });
+});
+</script>
+
+<?php
     return ob_get_clean();
 }
 add_shortcode('display_events', 'events_shortcode');
 
 // AJAX handler for search
-add_action('wp_ajax_events_search', 'events_search_ajax_handler');
-add_action('wp_ajax_nopriv_events_search', 'events_search_ajax_handler');
+// Add this code in your theme's functions.php file or in a custom plugin
+add_action('wp_ajax_events_search', 'events_search');
+add_action('wp_ajax_nopriv_events_search', 'events_search');
 
-
-function events_search_ajax_handler()
+function events_search()
 {
     $search_query = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+    $date = isset($_GET['date']) ? sanitize_text_field($_GET['date']) : '';
     $month = isset($_GET['month']) ? sanitize_text_field($_GET['month']) : '';
 
-    display_events($search_query, '', $month); // Pass the month parameter to the display_events function
+    // Display events based on search query, date, and month
+    display_events($search_query, $date, $month);
 
-    exit();
+    wp_die(); // Always include this to terminate script execution
 }
-
-
 
 // home page event card display most recent event
 
 function display_most_recent_event()
 {
     $args = array(
-        'post_type'      => 'events_page',
+        'post_type' => 'events_page',
         'posts_per_page' => 1,
-        'order'          => 'DESC',
-        'orderby'        => 'date',
+        'order' => 'DESC',
+        'orderby' => 'date',
     );
 
     $most_recent_event_query = new WP_Query($args);
@@ -616,26 +709,33 @@ function display_most_recent_event()
         while ($most_recent_event_query->have_posts()) {
             $most_recent_event_query->the_post();
     ?>
-            <div class="event">
-                <h2><?php the_field('event_heading'); ?></h2>
-                <div class="event-image">
-                    <?php $event_image = get_field('event_image'); ?>
-                    <?php if ($event_image) : ?>
-                        <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
-                    <?php endif; ?>
-                </div>
-                <div class="event-description">
-                    <?php the_field('event_description'); ?>
-                </div>
-                <div class="event-date-time">
-                    <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
-                </div>
-                <div class="event-link
-    ">
-                    <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
-                </div>
-            </div>
-        <?php
+<div class="event">
+    <h2>
+        <?php the_field('event_heading'); ?>
+    </h2>
+    <div class="event-image">
+        <?php $event_image = get_field('event_image'); ?>
+        <?php if ($event_image) : ?>
+        <img src="<?php echo esc_url($event_image['url']); ?>" alt="<?php echo esc_attr($event_image['alt']); ?>">
+        <?php endif; ?>
+    </div>
+
+    <div class="event-details">
+
+        <div class="event-date-time">
+            <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
+        </div>
+        <div class="event_location">
+            <?php the_field('event_location'); ?>
+        </div>
+
+        <div class="event-link">
+            <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
+        </div>
+    </div>
+
+</div>
+<?php
         }
         wp_reset_postdata();
     } else {
@@ -661,21 +761,21 @@ function display_seasonal_promotions()
 
     // Prepare arguments for WP_Query
     $args = array(
-        'post_type'      => 'seasonal_promotion',
+        'post_type' => 'seasonal_promotion',
         'posts_per_page' => 1,
-        'meta_query'     => array(
+        'meta_query' => array(
             'relation' => 'AND',
             array(
-                'key'     => 'promotion_start_date',
-                'value'   => $current_date,
+                'key' => 'promotion_start_date',
+                'value' => $current_date,
                 'compare' => '<=',
-                'type'    => 'DATE',
+                'type' => 'DATE',
             ),
             array(
-                'key'     => 'promotion_end_date',
-                'value'   => $current_date,
+                'key' => 'promotion_end_date',
+                'value' => $current_date,
                 'compare' => '>=',
-                'type'    => 'DATE',
+                'type' => 'DATE',
             ),
         ),
     );
@@ -689,19 +789,22 @@ function display_seasonal_promotions()
         while ($promotions_query->have_posts()) {
             $promotions_query->the_post();
         ?>
-            <div class="promotion-card">
-                <h2><?php the_title(); ?></h2>
-                <div class="promotion-image">
-                    <?php
+<div class="promotion-card">
+    <h2>
+        <?php the_title(); ?>
+    </h2>
+    <div class="promotion-image">
+        <?php
                     $promotion_image = get_field('promotion_image');
                     if ($promotion_image) : ?>
-                        <img src="<?php echo esc_url($promotion_image['url']); ?>" alt="<?php echo esc_attr($promotion_image['alt']); ?>">
-                    <?php endif; ?>
-                </div>
-                <div class="promotion-description">
-                    <?php the_field('promotion_description'); ?>
-                </div>
-            </div>
+        <img src="<?php echo esc_url($promotion_image['url']); ?>"
+            alt="<?php echo esc_attr($promotion_image['alt']); ?>">
+        <?php endif; ?>
+    </div>
+    <div class="promotion-description">
+        <?php the_field('promotion_description'); ?>
+    </div>
+</div>
 <?php
         }
 
