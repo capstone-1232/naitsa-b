@@ -179,7 +179,7 @@ function display_menu_items()
                 }
                 ?>
 
-                                        <div><?php echo get_the_content(); ?></div>
+                                        
                                         <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
                                     </div>
                                     <div class="menu-photo-container">
