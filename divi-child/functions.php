@@ -28,8 +28,16 @@ function remove_gutenberg_support()
 }
 add_action('init', 'remove_gutenberg_support');
 
-remove_action( 'wp_head', 'et_add_viewport_meta' );
+// function et_add_viewport_meta(){
+// 	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+// }
 
+// add_action( 'wp_head', 'et_add_viewport_meta' );
+
+add_action('after_setup_theme', 'remove_parent_theme_function', 11);
+function remove_parent_theme_function() {
+    remove_action('wp_head', 'et_add_viewport_meta');
+}
 
 
 // function to display menu items
