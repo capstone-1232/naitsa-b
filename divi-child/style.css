@@ -83,12 +83,10 @@ a {
 /*********** MENU PAGE ***********/
 
 /* Menu category carousel  */
-/* .cat-list {
+.cat-list {
 }
 .cat-list-item {
 }
-.cat-list-item::before {
-} */
 
 .menu-two-row {
   display: flex;
