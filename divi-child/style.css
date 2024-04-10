@@ -72,27 +72,92 @@ a {
   color: #efefef;
 }
 
+p, 
+a {
+  font-weight: 300;
+}
+
 .et_pb_heading_container > h1 {
   color: #f6f6f7;
 }
 
+/*********** MENU PAGE ***********/
+
+.menu-two-row {
+  display: flex;
+}
+
 .menu-item-container {
+  flex: 50%;
+  display: flex;
+  justify-content:flex-start;
+  align-items:flex-start;
+  background-image: linear-gradient(to right, #152447, #484848);
+  margin-bottom: 1rem;
+  border-radius: 15px;
+}
+
+.menu-text-container {
+  padding: 1.25rem 1.25rem 1.25rem 0;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  margin-bottom: 1rem;
 }
 
 .menu-flex-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.menu-text-container h3 {
+  color: #FDCF87;
+  font-size: 1.25rem;
+  padding-bottom: 0px;
+}
+
+.dietary-icon {
+  width: 1.5rem;
+  height: auto;
+}
+
+.menu-text-container .dish-price {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+.menu-text-container .dish-description {
+  margin-bottom: 1rem;
 }
 
 .menu-addon-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  order: 10;
+}
+
+.menu-addon-container p {
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+  color: #FED182;
+  margin-right: 0.5rem;
+}
+
+.menu-addon-container .addon-price::before {
+  content: "  ——  ";
+}
+
+.menu-photo-container {
+  order: -1;
+  padding: 0;
+  width: 30%;
+  margin-right: 2rem;
+}
+
+.menu-photo-container img {
+  margin: 0;
+  border-radius: 15px 0 0 15px;
+  height: auto;
+  width: 100%;
 }
 
 /* flex */
@@ -126,19 +191,13 @@ ul {
 
 .weekly-specials {
   background-image: linear-gradient(to right, #152447, #484848);
-  /* width: 525px;
-    height: 318px; */
   border-radius: 15px;
   padding: 1rem;
 }
 
-.weekly-specials > h2 {
+.weekly-content > h2 {
   color: #fdb728;
   font-size: 28px;
-}
-
-.weekly-specials > ul {
-  list-style: none;
 }
 
 .special-thumbnail {
@@ -147,7 +206,7 @@ ul {
   right: 0;
 }
 
-/* Events Page  */
+/************ Events Page ************/
 
 .event {
   background-color: #252530;
