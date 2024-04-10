@@ -28,6 +28,9 @@ function remove_gutenberg_support()
 }
 add_action('init', 'remove_gutenberg_support');
 
+remove_action( 'wp_head', 'et_add_viewport_meta' );
+
+
 
 // function to display menu items
 
@@ -168,49 +171,45 @@ function display_menu_items()
                 }
                 ?>
 
-                <div>
-                    <?php echo get_the_content(); ?>
-                </div>
-                <p class="dish-description">
-                    <?php echo $menu_item_description = get_field('menu_item_description'); ?>
-                </p> <!-- description -->
-            </div>
-            <div class="menu-photo-container">
-                <?php if ($menu_item_photo) : ?>
-                <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo">
-                <?php endif; ?>
-            </div>
-        </div>
-        </div>
-        <?php
-        }
-        ?>
-    </div>
-    <?php
-            // Restore original post data
-            wp_reset_postdata();
-        } else {
-            // No menu items found for this subcategory
-        ?>
-    <p>No menu items found for
-        <?php echo $subcategory->name ?>.
-    </p>
-    <?php
-            }
-        }
-    } else {
-        // If there are no subcategories, display menu items directly under the parent category
-        $args = array(
-            'post_type' => 'menu-item', // our custom post type slug
-            'posts_per_page' => -1, // -1 gets all the posts of this post type
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'menu-categories', // our menu category taxonomy slug
-                    'field' => 'slug',
-                    'terms' => $menu_category->slug, // the current category slug
-                ),
-            ),
-        );
+                                        <div><?php echo get_the_content(); ?></div>
+                                        <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
+                                    </div>
+                                    <div class="menu-photo-container">
+                                        <?php if ($menu_item_photo) : ?>
+                                            <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="100" height="auto">
+                                            <?php else : ?>
+                                    <?php $img_placeholder = wp_get_attachment_url(819); ?>
+                                    <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="100" height="auto">
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    <?php
+                        // Restore original post data
+                        wp_reset_postdata();
+                    } else {
+                        // No menu items found for this subcategory
+                    ?>
+                        <p>No menu items found for <?php echo $subcategory->name ?>.</p>
+                    <?php
+                    }
+                }
+            } else {
+                // If there are no subcategories, display menu items directly under the parent category
+                $args = array(
+                    'post_type' => 'menu-item', // our custom post type slug
+                    'posts_per_page' => -1, // -1 gets all the posts of this post type
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'menu-categories', // our menu category taxonomy slug
+                            'field' => 'slug',
+                            'terms' => $menu_category->slug, // the current category slug
+                        ),
+                    ),
+                );
 
         // query the posts
         $query = new WP_Query($args);
