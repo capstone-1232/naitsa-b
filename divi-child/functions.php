@@ -192,16 +192,17 @@ function display_menu_items()
                                         }
                                         ?>
 
-                <div><?php echo get_the_content(); ?></div>
+
                 <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
             </div>
             <div class="menu-photo-container">
                 <?php if ($menu_item_photo) : ?>
                 <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
-                    class="menu-item-photo">
+                    class="menu-item-photo" width="200" height="auto">
                 <?php else : ?>
                 <?php $img_placeholder = wp_get_attachment_url(819); ?>
-                <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo">
+                <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo"
+                    width="200" height="auto">
                 <?php endif; ?>
             </div>
         </div>
@@ -308,12 +309,13 @@ function display_menu_items()
         <div class="menu-photo-container">
             <?php if ($menu_item_photo) : ?>
             <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
-                class="menu-item-photo">
+                class="menu-item-photo" width="200" height="auto">
             <?php else : ?>
 
             <?php $img_placeholder = wp_get_attachment_url(983); ?>
 
-            <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo">
+            <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="200"
+                height="auto">
             <?php endif; ?>
         </div>
     </div> <!-- menu item container closed -->
