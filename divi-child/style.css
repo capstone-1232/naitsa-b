@@ -341,7 +341,13 @@ ul {
     flex-grow: 1;
     max-width: unset;
     flex-basis: unset;
-    
+    margin-right: unset;
+
+  }
+
+  .menu-photo-container img {
+
+    border-radius: 15px;
 
   }
 }
