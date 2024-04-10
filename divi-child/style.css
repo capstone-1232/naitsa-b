@@ -158,6 +158,7 @@ a {
   padding: 0;
   width: 30%;
   margin-right: 2rem;
+  flex: 1 0 200;
 }
 
 .menu-photo-container img {
