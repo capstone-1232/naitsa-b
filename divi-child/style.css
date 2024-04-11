@@ -400,6 +400,13 @@ ul {
   font-weight: 500;
 }
 
+#event-results > p {
+  color: var(--lt-grey);
+  font-size: 1.25rem;
+  text-align: center;
+
+}
+
 /* Tablet and Desktop Styles */
 @media screen and (max-width: 980px) {
   #event_code > .et_pb_code_inner{
