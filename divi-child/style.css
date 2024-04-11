@@ -402,7 +402,7 @@ ul {
 
 @media screen and (max-width: 700px) {
 
-  /* .menu-two-row {
+   .menu-two-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -416,11 +416,11 @@ ul {
     background-image: linear-gradient(to right, #152447, #484848);
     margin-bottom: 1rem;
     border-radius: 15px;
-  } */
+  } 
 
-  /* .menu-item-container {
+   .menu-item-container {
     flex-direction: column;
-  } */
+  } 
   
   .menu-item-photo {
     flex-grow: 1;
