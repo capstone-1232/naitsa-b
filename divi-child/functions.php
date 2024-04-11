@@ -43,33 +43,6 @@ function remove_parent_theme_function()
 
 // function to add image to menu-categories taxonomy
 
-function add_image_field_to_taxonomy() {
-    acf_add_local_field_group(array(
-        'key' => 'group_taxonomy_image', // Unique identifier for the field group
-        'title' => 'Category Image', // Field group title
-        'fields' => array(
-            array(
-                'key' => 'field_category_image', // Unique identifier for the field
-                'label' => 'Category Image', // Field label
-                'name' => 'category_image', // Field name
-                'type' => 'image', // Field type
-                'instructions' => 'Upload an image for this category.', // Field instructions
-                'return_format' => 'url', // Return format (URL)
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'taxonomy', // Target parameter (taxonomy)
-                    'operator' => '==', // Operator
-                    'value' => 'menu-categories', // Taxonomy slug
-                ),
-            ),
-        ),
-    ));
-}
-add_action('acf/init', 'add_image_field_to_taxonomy');
-
 // function for menu slider
 function enqueue_swiper_scripts() {
     // Enqueue Swiper CSS
