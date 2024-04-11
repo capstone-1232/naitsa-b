@@ -423,7 +423,6 @@ ul {
   } 
   
   .menu-item-photo {
-    flex-grow: 1;
     max-width: unset;
     flex-basis: unset;
     margin-right: unset;
