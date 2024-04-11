@@ -399,6 +399,12 @@ width: 1.75rem;
 padding: 0.25rem;
 }
 
+.event-date-time,
+.event-location{
+  display: flex;
+  align-items: center;
+}
+
 /* Tablet and Desktop Styles */
 @media screen and (max-width: 980px) {
   #event_code > .et_pb_code_inner{
