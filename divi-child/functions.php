@@ -65,10 +65,10 @@ function display_menu_items()
             <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
                 <?php
                             // Get custom icon URL for the current category
-                            $category_icon_url = get_stylesheet_directory_uri() . '/img/' . $menu_category->slug . '-icon.png';
+                            $category_icon_url = get_stylesheet_directory_uri() . '/img/' . $menu_category->slug . '.png';
 
                             // Check if the icon file exists
-                            if (file_exists(get_stylesheet_directory() . '/img/' . $menu_category->slug . '-icon.png')) {
+                            if (file_exists(get_stylesheet_directory() . '/img/' . $menu_category->slug . '.png')) {
                                 // Output custom icon
                                 echo '<img src="' . esc_url($category_icon_url) . '" alt="' . $menu_category->name . '" class="category-icon">';
                             } else {
@@ -142,7 +142,7 @@ function display_menu_items()
         <div class="menu-item-container">
             <div class="menu-text-container">
                 <div class="menu-flex-container">
-                    <div>
+                    <div class="flex-row">
                         <h3 class="dish-name">
                             <?php echo get_the_title(); ?>
                         </h3> <!-- title -->
@@ -195,6 +195,7 @@ function display_menu_items()
 
                 <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
             </div>
+            <div class="menu-photo-container">
                 <?php if ($menu_item_photo) : ?>
                 <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
                     class="menu-item-photo" width="200" height="auto">
@@ -203,6 +204,7 @@ function display_menu_items()
                 <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo"
                     width="200" height="auto">
                 <?php endif; ?>
+            </div>
         </div>
         <?php
                             }
@@ -250,7 +252,7 @@ function display_menu_items()
     <div class="menu-item-container">
         <div class="menu-text-container">
             <div class="menu-flex-container">
-                <div>
+                <div class="flex-row">
                     <h3 class="dish-name">
                         <?php echo get_the_title(); ?>
                     </h3> <!-- title -->
@@ -304,6 +306,7 @@ function display_menu_items()
             <p class="dish-description"><?php echo $menu_item_description = get_field('menu_item_description'); ?></p>
             <!-- description -->
         </div>
+        <div class="menu-photo-container">
             <?php if ($menu_item_photo) : ?>
             <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
                 class="menu-item-photo" width="200" height="auto">
@@ -314,6 +317,7 @@ function display_menu_items()
             <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="200"
                 height="auto">
             <?php endif; ?>
+        </div>
     </div> <!-- menu item container closed -->
     <?php
                     }

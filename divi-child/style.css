@@ -23,9 +23,32 @@
   --grey: #e9e9e9;
   --lt-grey: #fafafa;
 }
+@font-face {
+  font-family: "Museo sans";
+  src: url("http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo300-Regular.otf")
+    format("otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Museo sans";
+  src: url("http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo500-Regular.otf")
+    format("otf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Museo sans";
+  src: url("http://www.naitsa-b.web.dmitcapstone.ca/naitsa//wp-content/themes/divi-child/fonts/Museo700-Regular.otf")
+    format("otf");
+  font-weight: 700;
+  font-style: normal;
+}
 
 html {
-  /* font-family: "Museo Sans Rounded", sans-serif; */
+  font-family: "Museo sans", sans-serif;
   font-weight: 300;
   font-size: 100%;
   line-height: 1.5;
@@ -44,7 +67,7 @@ h2,
 h3,
 p,
 a {
-  /* font-family: "Museo Sans Rounded", sans-serif; */
+  font-family: "Museo sans", sans-serif;
   color: #efefef;
 }
 
@@ -73,6 +96,7 @@ a {
   /* flex: 50%; */
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   background-image: linear-gradient(to right, #152447, #484848);
   margin-bottom: 1rem;
   border-radius: 15px;
@@ -89,9 +113,8 @@ a {
 .menu-flex-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 1rem;
-  gap: 1rem;
 }
 
 .menu-text-container h3 {
@@ -103,14 +126,6 @@ a {
 .dietary-icon {
   width: 1.5rem;
   height: auto;
-}
-
-.dish-name {
-    max-width: max-content;
-}
-
-.dish-price, .addon-price {
-    white-space: nowrap;
 }
 
 .menu-text-container .dish-price {
@@ -138,23 +153,25 @@ a {
   content: "  ——  ";
 }
 
-.menu-item-photo {
-    order: -1;
-    padding: 0;
-    width: 100%; 
-    max-width: 300px; 
-    height: auto;
-    margin-right: 2rem;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-  
-  .menu-item-photo {
-    border-radius: 15px 0 0 15px;
-    height: auto; 
-    width: 100%; 
-    object-fit: cover;
-  }
+.menu-photo-container {
+  order: -1;
+  padding: 0;
+  /* width: 30%; */
+  margin-right: 2rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 200px;
+  max-width: 200px;
+}
+
+.menu-photo-container img {
+  margin: 0;
+  border-radius: 15px 0 0 15px;
+  height: auto;
+  width: 100%;
+
+}
+
 /* flex */
 
 .flex {
@@ -171,11 +188,10 @@ a {
 .flex-row {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
 }
 
 .dietary-icon {
-  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 /* lists */
@@ -289,13 +305,13 @@ ul {
 
 .event-details {
   padding: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .event-link a {
   color: var(--lt-grey);
   display: block;
-  text-align: center;
+  text-align: left;
   padding: 10px;
   border-top: 0.5px solid var(--grey);
   font-weight: 500;
@@ -309,34 +325,21 @@ ul {
 }
 
 /* Mobile Styles */
-
-@media screen and (max-width: 700px) {
-  
-    .menu-item-container {
-      flex-direction: column;
-  
-    }
-    .menu-item-photo {
-      flex-grow: 1;
-      max-width: unset;
-      flex-basis: unset;
-      margin-right: unset;
-      border-radius: 15px 15px 0 0;
-
-  
-    }
-  
-    .menu-text-container {
-      padding: 1.25rem;
-    }
-  }
-
 @media screen and (max-width: 576px) {
   .event-card {
     flex: 1 0 calc(100% - 1rem);
     margin-right: 0;
   }
 
+  .menu-item-container {
+    flex-direction: column;
+
+  }
+  .menu-photo-container {
+    flex-grow: 1;
+    max-width: unset;
+    flex-basis: unset;
+    
+
+  }
 }
-
-
