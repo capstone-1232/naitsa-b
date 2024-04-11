@@ -177,7 +177,7 @@ a {
 }
 
 .dietary-icon {
-  /* margin-left: 1rem; */
+  margin-left: 1rem;
 }
 
 /* lists */
@@ -312,7 +312,7 @@ ul {
 
 /* Mobile Styles */
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 700px) {
   
     .menu-item-container {
       flex-direction: column;
