@@ -66,6 +66,10 @@ a {
   align-items: center;
 }
 
+.cat-list li {
+  text-align: center;
+}
+
 .swiper-container {
   width: 100%;
   padding-top: 50px;
