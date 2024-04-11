@@ -28,6 +28,13 @@
     </script>
 
     <?php wp_head(); ?>
+
+	<script src="
+https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js
+"></script>
+<link href="
+https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css
+" rel="stylesheet">
 </head>
 
 <body <?php body_class(); ?>>

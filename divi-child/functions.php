@@ -100,8 +100,20 @@ function display_menu_items()
         <div class="swiper-button-prev"></div>
     </div>
 
-    <div class="category-links">
-        <ul class="cat-list">
+
+    <section class="splide" aria-label="Splide Basic HTML Example">
+  <div class="splide__track">
+		<ul class="splide__list">
+			<li class="splide__slide">Slide 01</li>
+			<li class="splide__slide">Slide 02</li>
+			<li class="splide__slide">Slide 03</li>
+		</ul>
+  </div>
+</section>
+
+<section class="splide" aria-label="Splide Basic HTML Example">
+    <div class="category-links splide_track">
+        <ul class="cat-list splide_list">
             <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
             <?php foreach ($menu_categories as $menu_category) : ?>
@@ -111,7 +123,7 @@ function display_menu_items()
                     $category_image = get_field('category_image', $menu_category);
                     ?>
 
-                    <li>
+                    <li class="splide_splide">
                         <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
                             <?php if ($category_image) : ?>
                                 <img src="<?php echo $category_image; ?>" alt="<?php echo $menu_category->name; ?>">
@@ -129,6 +141,7 @@ function display_menu_items()
             <?php endforeach; ?>
         </ul>
     </div>
+</section>
     <?php
 
     // Loop through top-level categories
