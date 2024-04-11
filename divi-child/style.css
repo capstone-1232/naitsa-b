@@ -65,16 +65,67 @@ a {
 .cat-list-item {
 }
 
-.menu-two-row {
-  display: flex;
+.swiper-container {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+}
+
+/* Navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  margin-top: -25px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Pagination */
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  opacity: 0.4;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+.menu-category {
+  margin: 5rem 0;
+}
+
+.menu-category h2 {
+  font-size: 2rem;
+  color: #fdcf87;
+  margin-bottom: 3rem;
 }
 
 .menu-item-container {
-  /* flex: 50%; */
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   background-image: linear-gradient(to right, #152447, #484848);
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   border-radius: 15px;
 }
 
@@ -83,7 +134,6 @@ a {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-
 }
 
 .menu-flex-container {
@@ -106,11 +156,12 @@ a {
 }
 
 .dish-name {
-    max-width: max-content;
+  max-width: max-content;
+  margin-bottom: 6px;
 }
 
 .dish-price, .addon-price {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .menu-text-container .dish-price {
@@ -139,22 +190,52 @@ a {
 }
 
 .menu-item-photo {
-    order: -1;
-    padding: 0;
-    width: 100%; 
+  order: -1;
+  padding: 0;
+  flex-grow: 1;
+  max-width: unset;
+  flex-basis: unset;
+  margin-right: unset;
+  border-radius: 15px 15px 0 0;
+  width: 100%;
+  height: auto;
+}
+
+.menu-text-container {
+  padding: 1.25rem;
+}
+
+@media screen and (min-width: 650px) {
+  .menu-two-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2%;
+  }
+
+  .menu-item-container {
+    flex: 49%; 
+  }
+}
+
+@media screen and (min-width: 920px) {
+  .menu-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .menu-item-photo {
+    width: 30%; 
     max-width: 300px; 
-    height: auto;
-    margin-right: 2rem;
+    /* margin-right: 2rem; */
     flex-shrink: 0;
     overflow: hidden;
-  }
-  
-  .menu-item-photo {
     border-radius: 15px 0 0 15px;
-    height: auto; 
-    width: 100%; 
     object-fit: cover;
   }
+}
+
 /* flex */
 
 .flex {
@@ -185,13 +266,17 @@ ul {
 
 /* Weekly Special Card */
 
-.weekly-specials {
+.weekly-specials,
+.promotion-card,
+.event-card-homepage {
   background-image: linear-gradient(to right, #152447, #484848);
   border-radius: 15px;
   padding: 1rem;
 }
 
-.weekly-content > h2 {
+.specials-content > h2,
+.promotion-card > h2,
+.event-card-homepage > h2 {
   color: #fdb728;
   font-size: 28px;
 }
@@ -202,6 +287,11 @@ ul {
   right: 0;
 }
 
+.special-thumbnail img,
+.event-card-homepage img {
+  /* width: 100%;
+  height: auto; */
+}
 /************ Events Page ************/
 
 .event {
@@ -311,25 +401,39 @@ ul {
 /* Mobile Styles */
 
 @media screen and (max-width: 700px) {
-  
-    .menu-item-container {
-      flex-direction: column;
-  
-    }
-    .menu-item-photo {
-      flex-grow: 1;
-      max-width: unset;
-      flex-basis: unset;
-      margin-right: unset;
-      border-radius: 15px 15px 0 0;
 
-  
-    }
-  
-    .menu-text-container {
-      padding: 1.25rem;
-    }
+  /* .menu-two-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2%;
   }
+  
+  .menu-item-container {
+    flex: 49%;
+    display: flex;
+    justify-content: flex-start;
+    background-image: linear-gradient(to right, #152447, #484848);
+    margin-bottom: 1rem;
+    border-radius: 15px;
+  } */
+
+  /* .menu-item-container {
+    flex-direction: column;
+  } */
+  
+  .menu-item-photo {
+    flex-grow: 1;
+    max-width: unset;
+    flex-basis: unset;
+    margin-right: unset;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .menu-text-container {
+    padding: 1.25rem;
+  }
+}
 
 @media screen and (max-width: 576px) {
   .event-card {

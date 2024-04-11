@@ -41,6 +41,20 @@ function remove_parent_theme_function()
 }
 
 
+// function for menu slider
+function enqueue_swiper_scripts() {
+    // Enqueue Swiper CSS
+    wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css');
+
+    // Enqueue Swiper JS
+    wp_enqueue_script('swiper-js', 'https://unpkg.com/swiper/swiper-bundle.min.js', array(), false, true);
+
+    // Enqueue your custom script that initializes Swiper
+    wp_enqueue_script('custom-swiper-init', get_stylesheet_directory_uri() . '/js/swiper-init.js', array('swiper-js'), false, true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_swiper_scripts');
+
+
 // function to display menu items
 
 
@@ -55,6 +69,34 @@ function display_menu_items()
         )
     );
 ?>
+
+
+<!-- Swiper -->
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <?php
+        $menu_items = new WP_Query(array('post_type' => 'menu_item'));
+        if ($menu_items->have_posts()) : 
+            while ($menu_items->have_posts()) : $menu_items->the_post(); ?>
+                <div class="swiper-slide">
+                    <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+                    <h3><?php the_title(); ?></h3>
+                    <!-- Your custom fields like price etc. -->
+                </div>
+        <?php 
+            endwhile;
+        endif;
+        wp_reset_postdata();
+        ?>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+
 <div class="category-links">
     <ul class="cat-list">
         <li class="item-active"><a class="cat-list-item" href="#" data-slug=""><i class="fas fa-list"></i></a></li>
@@ -64,18 +106,18 @@ function display_menu_items()
         <li>
             <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
                 <?php
-                            // Get custom icon URL for the current category
-                            $category_icon_url = get_stylesheet_directory_uri() . '/img/' . $menu_category->slug . '-icon.png';
+                    // Get custom icon URL for the current category
+                    $category_icon_url = get_stylesheet_directory_uri() . '/img/' . $menu_category->slug . '-icon.png';
 
-                            // Check if the icon file exists
-                            if (file_exists(get_stylesheet_directory() . '/img/' . $menu_category->slug . '-icon.png')) {
-                                // Output custom icon
-                                echo '<img src="' . esc_url($category_icon_url) . '" alt="' . $menu_category->name . '" class="category-icon">';
-                            } else {
-                                // Output default icon or font icon
-                                echo '<i class="fas fa-star"></i>';
-                            }
-                            ?>
+                    // Check if the icon file exists
+                    if (file_exists(get_stylesheet_directory() . '/img/' . $menu_category->slug . '-icon.png')) {
+                        // Output custom icon
+                        echo '<img src="' . esc_url($category_icon_url) . '" alt="' . $menu_category->name . '" class="category-icon">';
+                    } else {
+                        // Output default icon or font icon
+                        echo '<i class="fas fa-star"></i>';
+                    }
+                    ?>
             </a>
         </li>
         <?php endif; ?>
@@ -91,6 +133,7 @@ function display_menu_items()
     <h2>
         <?php echo $menu_category->name; ?>
     </h2>
+    <div class="menu-two-row">
     <?php
             // Get subcategories of current top-level category
             $subcategories = get_terms(
@@ -128,16 +171,16 @@ function display_menu_items()
             <?php echo $subcategory->name; ?>
         </h3>
         <?php
-                            // loop
-                            while ($query->have_posts()) {
-                                $query->the_post();
-                                $menu_item_price = get_field('menu_item_price');
-                                $menu_item_addon_name = get_field('add_on_name_1');
-                                $menu_item_addon_price = get_field('add_on_price_1');
-                                $menu_item_photo = get_field('menu_item_photo');
-                                $dietary_options = get_field('dietary_options');
-                                $parent_term = get_term($menu_category->term_id);
-                            ?>
+            // loop
+            while ($query->have_posts()) {
+                $query->the_post();
+                $menu_item_price = get_field('menu_item_price');
+                $menu_item_addon_name = get_field('add_on_name_1');
+                $menu_item_addon_price = get_field('add_on_price_1');
+                $menu_item_photo = get_field('menu_item_photo');
+                $dietary_options = get_field('dietary_options');
+                $parent_term = get_term($menu_category->term_id);
+            ?>
 
         <div class="menu-item-container">
             <div class="menu-text-container">
@@ -147,26 +190,26 @@ function display_menu_items()
                             <?php echo get_the_title(); ?>
                         </h3> <!-- title -->
                         <?php
-                                                foreach ($dietary_options as $option) {
-                                                    switch ($option) {
-                                                        case 'Gluten Friendly':
-                                                            $gluten_attachment_id = 626;
-                                                            $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                                            echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon">';
-                                                            break;
-                                                        case 'Vegetarian':
-                                                            $vegetarian_attachment_id = 632;
-                                                            $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
-                                                            echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon">';
-                                                            break;
-                                                        case 'Spicy':
-                                                            $spicy_attachment_id = 631;
-                                                            $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
-                                                            echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon">';
-                                                            break;
-                                                    }
-                                                }
-                                                ?>
+                        foreach ($dietary_options as $option) {
+                            switch ($option) {
+                                case 'Gluten Friendly':
+                                    $gluten_attachment_id = 626;
+                                    $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
+                                    echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon">';
+                                    break;
+                                case 'Vegetarian':
+                                    $vegetarian_attachment_id = 632;
+                                    $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
+                                    echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon">';
+                                    break;
+                                case 'Spicy':
+                                    $spicy_attachment_id = 631;
+                                    $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
+                                    echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon">';
+                                    break;
+                            }
+                        }
+                        ?>
                     </div>
                     <p class="dish-price">$
                         <?php echo $menu_item_price; ?>
@@ -174,11 +217,11 @@ function display_menu_items()
                 </div> <!-- menu-flex-container closing -->
 
                 <?php
-                                        for ($i = 1; $i <= 5; $i++) {
-                                            $addon_name = get_field('add_on_name_' . $i);
-                                            $addon_price = get_field('add_on_price_' . $i);
-                                            if ($addon_name && $addon_price) {
-                                        ?>
+                for ($i = 1; $i <= 5; $i++) {
+                    $addon_name = get_field('add_on_name_' . $i);
+                    $addon_price = get_field('add_on_price_' . $i);
+                    if ($addon_name && $addon_price) {
+                ?>
                 <div class="menu-addon-container">
                     <p class="addon-name">
                         <?php echo $addon_name; ?>
@@ -188,16 +231,15 @@ function display_menu_items()
                     </p> <!-- addon price -->
                 </div>
                 <?php
-                                            }
-                                        }
-                                        ?>
+                    }
+                }
+                ?>
 
 
                 <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
             </div>
                 <?php if ($menu_item_photo) : ?>
-                <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
-                    class="menu-item-photo" width="200" height="auto">
+                <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="200" height="auto">
                 <?php else : ?>
                 <?php $img_placeholder = wp_get_attachment_url(819); ?>
                 <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo"
@@ -255,26 +297,26 @@ function display_menu_items()
                         <?php echo get_the_title(); ?>
                     </h3> <!-- title -->
                     <?php
-                                        foreach ($dietary_options as $option) {
-                                            switch ($option) {
-                                                case 'Gluten Friendly':
-                                                    $gluten_attachment_id = 626;
-                                                    $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
-                                                    echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon">';
-                                                    break;
-                                                case 'Vegetarian':
-                                                    $vegetarian_attachment_id = 632;
-                                                    $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
-                                                    echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon">';
-                                                    break;
-                                                case 'Spicy':
-                                                    $spicy_attachment_id = 631;
-                                                    $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
-                                                    echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon">';
-                                                    break;
-                                            }
-                                        }
-                                        ?>
+                    foreach ($dietary_options as $option) {
+                        switch ($option) {
+                            case 'Gluten Friendly':
+                                $gluten_attachment_id = 626;
+                                $gluten_icon_url = wp_get_attachment_url($gluten_attachment_id);
+                                echo '<img src="' . esc_url($gluten_icon_url) . '" alt="Gluten Friendly Icon" class="dietary-icon">';
+                                break;
+                            case 'Vegetarian':
+                                $vegetarian_attachment_id = 632;
+                                $vegetarian_icon_url = wp_get_attachment_url($vegetarian_attachment_id);
+                                echo '<img src="' . esc_url($vegetarian_icon_url) . '" alt="Vegetarian Icon" class="dietary-icon">';
+                                break;
+                            case 'Spicy':
+                                $spicy_attachment_id = 631;
+                                $spicy_icon_url = wp_get_attachment_url($spicy_attachment_id);
+                                echo '<img src="' . esc_url($spicy_icon_url) . '" alt="Spicy Icon" class="dietary-icon">';
+                                break;
+                        }
+                    }
+                    ?>
                 </div>
                 <p class="dish-price">$
                     <?php echo $menu_item_price; ?>
@@ -282,11 +324,11 @@ function display_menu_items()
             </div> <!-- menu-flex-container closing -->
 
             <?php
-                                for ($i = 1; $i <= 5; $i++) {
-                                    $addon_name = get_field('add_on_name_' . $i);
-                                    $addon_price = get_field('add_on_price_' . $i);
-                                    if ($addon_name && $addon_price) {
-                                ?>
+            for ($i = 1; $i <= 5; $i++) {
+                $addon_name = get_field('add_on_name_' . $i);
+                $addon_price = get_field('add_on_price_' . $i);
+                if ($addon_name && $addon_price) {
+            ?>
             <div class="menu-addon-container">
                 <p class="addon-name">
                     <?php echo $addon_name; ?>
@@ -296,9 +338,9 @@ function display_menu_items()
                 </p> <!-- addon price -->
             </div>
             <?php
-                                    }
-                                }
-                                ?>
+                }
+            }
+            ?>
 
             <div><?php echo get_the_content(); ?></div>
             <p class="dish-description"><?php echo $menu_item_description = get_field('menu_item_description'); ?></p>
@@ -316,12 +358,12 @@ function display_menu_items()
             <?php endif; ?>
     </div> <!-- menu item container closed -->
     <?php
-                    }
-                    // Restore original post data
-                    wp_reset_postdata();
-                } else {
-                    // No menu items found for this category
-                    ?>
+        }
+        // Restore original post data
+        wp_reset_postdata();
+    } else {
+        // No menu items found for this category
+        ?>
     <p>No menu items found for
         <?php echo $menu_category->name ?>.
     </p>
@@ -329,6 +371,7 @@ function display_menu_items()
                 }
             }
             ?>
+    </div>
 </div> <!-- category container closing -->
 <?php
     }
@@ -730,7 +773,7 @@ function display_most_recent_event()
         while ($most_recent_event_query->have_posts()) {
             $most_recent_event_query->the_post();
     ?>
-<div class="event">
+<div class="event-card-homepage">
     <h2>
         <?php the_field('event_heading'); ?>
     </h2>
