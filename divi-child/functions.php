@@ -116,8 +116,14 @@ function display_menu_items()
                             <?php if ($category_image) : ?>
                                 <img src="<?php echo $category_image; ?>" alt="<?php echo $menu_category->name; ?>">
                             <?php endif; ?>
+                            
+                        </a>
+
+                        <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
                             <?php echo $menu_category->name; ?>
                         </a>
+
+
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>
