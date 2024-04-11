@@ -170,6 +170,7 @@ function display_menu_items()
         <h3>
             <?php echo $subcategory->name; ?>
         </h3>
+        <div class="menu-two-row">
         <?php
             // loop
             while ($query->have_posts()) {
@@ -249,6 +250,7 @@ function display_menu_items()
         <?php
                             }
                             ?>
+    </div>
     </div>
     <?php
                         // Restore original post data
