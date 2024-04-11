@@ -388,6 +388,12 @@ svg.cliipy {
 
 }
 
+.event-date-time > img , 
+.event-location > img{
+ fill: white;
+width: 1.75rem;
+}
+
 /* Tablet and Desktop Styles */
 @media screen and (max-width: 980px) {
   #event_code > .et_pb_code_inner{
