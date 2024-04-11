@@ -115,6 +115,7 @@ function display_menu_items()
                 <?php if ($category_image) : ?>
                 <img src="<?php echo $category_image; ?>" alt="<?php echo $menu_category->name; ?>">
                 <?php endif; ?>
+                <?php echo $menu_category->name; ?>
             </a>
         </li>
         <?php endif; ?>

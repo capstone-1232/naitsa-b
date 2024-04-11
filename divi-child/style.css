@@ -61,8 +61,7 @@ a {
 
 /* Menu category carousel  */
 .cat-list {
-}
-.cat-list-item {
+  display: flex;
 }
 
 .swiper-container {
