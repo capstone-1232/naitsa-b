@@ -105,6 +105,7 @@ function display_menu_items()
         <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
         <li>
             <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
+            <?php echo $menu_category->name; ?>
                 <?php
                     // Get custom icon URL for the current category
                     $category_icon_url = get_stylesheet_directory_uri() . '/img/' . $menu_category->slug . '-icon.png';
