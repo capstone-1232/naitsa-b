@@ -74,34 +74,10 @@ function display_menu_items()
 ?>
 
 
-    <!-- Swiper -->
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <!-- Slides -->
-            <?php
-            $menu_items = new WP_Query(array('post_type' => 'menu_item'));
-            if ($menu_items->have_posts()) :
-                while ($menu_items->have_posts()) : $menu_items->the_post(); ?>
-                    <div class="swiper-slide">
-                        <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
-                        <h3><?php the_title(); ?></h3>
-                        <!-- Your custom fields like price etc. -->
-                    </div>
-            <?php
-                endwhile;
-            endif;
-            wp_reset_postdata();
-            ?>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-        <!-- Add Arrows -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-    </div>
 
 
-    <section class="splide" aria-label="Splide Basic HTML Example">
+
+    <!-- <section class="splide" aria-label="Splide Basic HTML Example">
   <div class="splide__track">
 		<ul class="splide__list">
 			<li class="splide__slide">Slide 01</li>
@@ -109,7 +85,7 @@ function display_menu_items()
 			<li class="splide__slide">Slide 03</li>
 		</ul>
   </div>
-</section>
+</section> -->
 
 <section class="splide" aria-label="Splide Basic HTML Example">
     <div class="category-links splide_track">

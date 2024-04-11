@@ -60,7 +60,7 @@ a {
 /*********** MENU PAGE ***********/
 
 /* Menu category carousel  */
-.cat-list {
+/* .cat-list {
   display: flex;
   gap: 1rem;
   align-items: flex-end;
@@ -76,7 +76,7 @@ a {
 .cat-list-item img {
    width: 100px;
    height: auto;
-}
+} */
 
 .swiper-container {
   width: 100%;
