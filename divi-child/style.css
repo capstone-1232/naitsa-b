@@ -62,11 +62,18 @@ a {
 /* Menu category carousel  */
 .cat-list {
   display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.cat-list li {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .cat-list-item img {
-  width: 100px;
-  height: 100px; 
+   
 }
 
 .swiper-container {
