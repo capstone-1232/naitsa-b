@@ -64,6 +64,7 @@ a {
   display: flex;
   gap: 1rem;
   align-items: flex-end;
+  justify-content: center;
 }
 
 .cat-list li {
@@ -73,7 +74,8 @@ a {
 }
 
 .cat-list-item img {
-   
+   width: 100px;
+   height: auto;
 }
 
 .swiper-container {
