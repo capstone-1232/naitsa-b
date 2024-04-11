@@ -87,7 +87,7 @@ function display_menu_items()
   </div>
 </section> -->
 
-<section class="splide" aria-label="Splide Basic HTML Example">
+<!-- <section class="splide" aria-label="Splide Basic HTML Example">
   <div class="splide__track">
 		<ul class="splide__list">
 			<li class="splide__slide">Slide 01</li>
@@ -95,7 +95,7 @@ function display_menu_items()
 			<li class="splide__slide">Slide 03</li>
 		</ul>
   </div>
-</section>
+</section> -->
 
 <section class="splide" aria-label="Splide Basic HTML Example">
     <div class="category-links splide__track">
@@ -109,7 +109,7 @@ function display_menu_items()
                     $category_image = get_field('category_image', $menu_category);
                     ?>
 
-                    <li class="splide__splide">
+                    <li class="splide__slide">
                         <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
                             <?php if ($category_image) : ?>
                                 <img src="<?php echo $category_image; ?>" alt="<?php echo $menu_category->name; ?>">
@@ -132,14 +132,10 @@ function display_menu_items()
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         new Splide('.splide', {
-            type: 'slide', // Set the slider type to "slide"
-            perPage: 3, // Number of visible slides per view
-            breakpoints: {
-                768: {
-                    perPage: 1, // Adjust the number of slides per view for smaller screens
-                }
-            }
-        }).mount();
+  type   : 'loop',
+  perPage: 3,
+  focus  : 'center',
+} ).mount();
     });
 </script>
 

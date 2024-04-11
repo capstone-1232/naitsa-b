@@ -65,18 +65,19 @@ a {
   gap: 1rem;
   align-items: flex-end;
   justify-content: center;
-}
+} */
 
 .cat-list li {
   text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 }
 
 .cat-list-item img {
    width: 100px;
    height: auto;
-} */
+} 
 
 .swiper-container {
   width: 100%;
