@@ -63,7 +63,7 @@ a {
 .cat-list {
   display: flex;
   gap: 1rem;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .cat-list li {
