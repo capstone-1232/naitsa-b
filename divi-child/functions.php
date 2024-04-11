@@ -101,26 +101,20 @@ function display_menu_items()
 
 <div class="category-links">
     <ul class="cat-list">
-        <li class="item-active"><a class="cat-list-item" href="#" data-slug=""><i class="fas fa-list"></i></a></li>
+        <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
         <?php foreach ($menu_categories as $menu_category) : ?>
         <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
+
+        <?php
+        $category_image = get_field('category_image', $menu_category);
+        ?>
+
         <li>
             <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
-            <?php echo $menu_category->name; ?>
-                <?php
-                    // Get custom icon URL for the current category
-                    $category_icon_url = get_stylesheet_directory_uri() . '/img/' . $menu_category->slug . '-icon.png';
-
-                    // Check if the icon file exists
-                    if (file_exists(get_stylesheet_directory() . '/img/' . $menu_category->slug . '-icon.png')) {
-                        // Output custom icon
-                        echo '<img src="' . esc_url($category_icon_url) . '" alt="' . $menu_category->name . '" class="category-icon">';
-                    } else {
-                        // Output default icon or font icon
-                        echo '<i class="fas fa-star"></i>';
-                    }
-                    ?>
+                <?php if ($category_image) : ?>
+                <img src="<?php echo $category_image; ?>" alt="<?php echo $menu_category->name; ?>">
+                <?php endif; ?>
             </a>
         </li>
         <?php endif; ?>
