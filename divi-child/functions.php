@@ -195,7 +195,6 @@ function display_menu_items()
 
                 <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p> <!-- description -->
             </div>
-            <div class="menu-photo-container">
                 <?php if ($menu_item_photo) : ?>
                 <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
                     class="menu-item-photo" width="200" height="auto">
@@ -204,7 +203,6 @@ function display_menu_items()
                 <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo"
                     width="200" height="auto">
                 <?php endif; ?>
-            </div>
         </div>
         <?php
                             }
@@ -252,7 +250,7 @@ function display_menu_items()
     <div class="menu-item-container">
         <div class="menu-text-container">
             <div class="menu-flex-container">
-                <div class="flex-row">
+                <div>
                     <h3 class="dish-name">
                         <?php echo get_the_title(); ?>
                     </h3> <!-- title -->
@@ -306,7 +304,6 @@ function display_menu_items()
             <p class="dish-description"><?php echo $menu_item_description = get_field('menu_item_description'); ?></p>
             <!-- description -->
         </div>
-        <div class="menu-photo-container">
             <?php if ($menu_item_photo) : ?>
             <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>"
                 class="menu-item-photo" width="200" height="auto">
@@ -317,7 +314,6 @@ function display_menu_items()
             <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="200"
                 height="auto">
             <?php endif; ?>
-        </div>
     </div> <!-- menu item container closed -->
     <?php
                     }

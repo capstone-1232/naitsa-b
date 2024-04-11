@@ -73,7 +73,6 @@ a {
   /* flex: 50%; */
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
   background-image: linear-gradient(to right, #152447, #484848);
   margin-bottom: 1rem;
   border-radius: 15px;
@@ -83,14 +82,14 @@ a {
   padding: 1.25rem 1.25rem 1.25rem 0;
   display: flex;
   flex-direction: column;
-  /* flex-grow: 1; */
+  flex-grow: 1;
 
 }
 
 .menu-flex-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 1rem;
   gap: 1rem;
 }
@@ -139,7 +138,7 @@ a {
   content: "  ——  ";
 }
 
-.menu-photo-container {
+.menu-item-photo {
     order: -1;
     padding: 0;
     width: 100%; 
@@ -147,15 +146,14 @@ a {
     height: auto;
     margin-right: 2rem;
     flex-shrink: 0;
-    flex-basis: 300px; 
     overflow: hidden;
   }
   
-  .menu-photo-container img {
-    margin: 0;
+  .menu-item-photo {
     border-radius: 15px 0 0 15px;
     height: auto; 
     width: 100%; 
+    object-fit: cover;
   }
 /* flex */
 
@@ -177,7 +175,7 @@ a {
 }
 
 .dietary-icon {
-  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 /* lists */
@@ -318,17 +316,13 @@ ul {
       flex-direction: column;
   
     }
-    .menu-photo-container {
+    .menu-item-photo {
       flex-grow: 1;
       max-width: unset;
       flex-basis: unset;
       margin-right: unset;
-  
-    }
-  
-    .menu-photo-container img {
-  
       border-radius: 15px 15px 0 0;
+
   
     }
   
