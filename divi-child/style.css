@@ -62,12 +62,6 @@ a {
 /* Menu category carousel  */
 .cat-list {
   display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.cat-list li {
-  text-align: center;
 }
 
 .swiper-container {
@@ -391,13 +385,13 @@ svg.cliipy {
   color: var(--lt-grey);
   font-size: 1.25rem;
   text-align: center;
-
 }
 
 .event-date-time > img , 
 .event-location > img{
  fill: white;
 width: 1.75rem;
+padding: 0.25rem;
 }
 
 /* Tablet and Desktop Styles */
