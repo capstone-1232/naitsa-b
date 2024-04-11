@@ -235,6 +235,17 @@ ul {
   padding: 1rem;
 }
 
+/* event select  */
+#month-filter{
+  webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right .7em top 50%;
+  background-size: 1.5em;
+  color: white;
+}
 /* Search Field */
 .search-field {
   color: grey;
