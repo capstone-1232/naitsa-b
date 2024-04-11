@@ -70,6 +70,12 @@ a {
   text-align: center;
 }
 
+.cat-list-item img {
+  width: 100px;
+  height: 100px; 
+  object-fit: cover; 
+}
+
 .swiper-container {
   width: 100%;
   padding-top: 50px;
