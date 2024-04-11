@@ -192,7 +192,6 @@ a {
 .menu-item-photo {
   order: -1;
   padding: 0;
-  flex-grow: 1;
   max-width: unset;
   flex-basis: unset;
   margin-right: unset;
