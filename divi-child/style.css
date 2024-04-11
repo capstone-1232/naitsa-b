@@ -399,7 +399,19 @@ svg.clippy {
   color: var(--lt-grey);
   font-size: 1.25rem;
   text-align: center;
+}
 
+.event-date-time > img , 
+.event-location > img{
+ fill: white;
+width: 1.75rem;
+padding: 0.25rem;
+}
+
+.event-date-time,
+.event-location{
+  display: flex;
+  align-items: center;
 }
 
 /* Tablet and Desktop Styles */
