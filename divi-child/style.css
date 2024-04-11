@@ -60,6 +60,9 @@ a {
 /*********** MENU PAGE ***********/
 
 /* Menu category carousel  */
+.cat-list {
+  display: flex;
+}
 
 .swiper-container {
   width: 100%;
@@ -188,7 +191,6 @@ a {
 .menu-item-photo {
   order: -1;
   padding: 0;
-  flex-grow: 1;
   max-width: unset;
   flex-basis: unset;
   margin-right: unset;
@@ -201,36 +203,6 @@ a {
   padding: 1.25rem;
 }
 
-@media screen and (min-width: 650px) {
-  .menu-two-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 2%;
-  }
-
-  .menu-item-container {
-    flex: 49%; 
-  }
-}
-
-@media screen and (min-width: 920px) {
-  .menu-item-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-
-  .menu-item-photo {
-    width: 30%; 
-    max-width: 300px; 
-    /* margin-right: 2rem; */
-    flex-shrink: 0;
-    overflow: hidden;
-    border-radius: 15px 0 0 15px;
-    object-fit: cover;
-  }
-}
 
 /* flex */
 
@@ -422,7 +394,7 @@ ul {
     flex: 1 0 100%;
   }
 
-  .menu-two-row {
+   .menu-two-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -436,6 +408,60 @@ ul {
     background-image: linear-gradient(to right, #152447, #484848);
     margin-bottom: 1rem;
     border-radius: 15px;
+  } 
+
+   .menu-item-container {
+    flex-direction: column;
+  } 
+  
+  .menu-item-photo {
+    max-width: unset;
+    flex-basis: unset;
+    margin-right: unset;
+    border-radius: 15px 15px 0 0;
   }
 
+  .menu-text-container {
+    padding: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .event-card {
+    flex: 1 0 calc(100% - 1rem);
+    margin-right: 0;
+  }
+
+}
+
+
+@media screen and (min-width: 650px) {
+  .menu-two-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2%;
+  }
+
+  .menu-item-container {
+    flex: 49%; 
+  }
+}
+
+@media screen and (min-width: 920px) {
+  .menu-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .menu-item-photo {
+    width: 30%; 
+    max-width: 300px; 
+    /* margin-right: 2rem; */
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 15px 0 0 15px;
+    object-fit: cover;
+  }
 }
