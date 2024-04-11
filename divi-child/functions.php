@@ -88,8 +88,18 @@ function display_menu_items()
 </section> -->
 
 <section class="splide" aria-label="Splide Basic HTML Example">
-    <div class="category-links splide_track">
-        <ul class="cat-list splide_list">
+  <div class="splide__track">
+		<ul class="splide__list">
+			<li class="splide__slide">Slide 01</li>
+			<li class="splide__slide">Slide 02</li>
+			<li class="splide__slide">Slide 03</li>
+		</ul>
+  </div>
+</section>
+
+<section class="splide" aria-label="Splide Basic HTML Example">
+    <div class="category-links splide__track">
+        <ul class="cat-list splide__list">
             <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
             <?php foreach ($menu_categories as $menu_category) : ?>
@@ -99,7 +109,7 @@ function display_menu_items()
                     $category_image = get_field('category_image', $menu_category);
                     ?>
 
-                    <li class="splide_splide">
+                    <li class="splide__splide">
                         <a class="cat-list-item" href="#" data-slug="<?php echo $menu_category->slug; ?>">
                             <?php if ($category_image) : ?>
                                 <img src="<?php echo $category_image; ?>" alt="<?php echo $menu_category->name; ?>">
@@ -118,6 +128,21 @@ function display_menu_items()
         </ul>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        new Splide('.splide', {
+            type: 'slide', // Set the slider type to "slide"
+            perPage: 3, // Number of visible slides per view
+            breakpoints: {
+                768: {
+                    perPage: 1, // Adjust the number of slides per view for smaller screens
+                }
+            }
+        }).mount();
+    });
+</script>
+
     <?php
 
     // Loop through top-level categories
