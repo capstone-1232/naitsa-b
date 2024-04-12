@@ -43,20 +43,6 @@ function remove_parent_theme_function()
 
 // function to add image to menu-categories taxonomy
 
-// function for menu slider
-function enqueue_swiper_scripts()
-{
-    // Enqueue Swiper CSS
-    wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css');
-
-    // Enqueue Swiper JS
-    wp_enqueue_script('swiper-js', 'https://unpkg.com/swiper/swiper-bundle.min.js', array(), false, true);
-
-    // Enqueue your custom script that initializes Swiper
-    wp_enqueue_script('custom-swiper-init', get_stylesheet_directory_uri() . '/js/swiper-init.js', array('swiper-js'), false, true);
-}
-add_action('wp_enqueue_scripts', 'enqueue_swiper_scripts');
-
 
 // function to display menu items
 
@@ -76,7 +62,7 @@ function display_menu_items()
 <section class="splide" aria-label="Splide Basic HTML Example">
     <div class="category-links splide__track">
         <ul class="cat-list splide__list">
-            <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
+            <li class="splide__slide"><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
             <?php foreach ($menu_categories as $menu_category) : ?>
                 <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
@@ -111,11 +97,11 @@ function display_menu_items()
              drag: 'free',
              snap: 'true',
              omitEnd: true,
-            perPage: 4,
+            perPage: 5,
+            arrows: false,
              slideFocus: true,
              flickPower: 500,
              width: 600,
-             padding: {right: 50 },
              breakpoints: {
                  600: {
                      perPage: 4, 
