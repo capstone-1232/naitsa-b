@@ -25,4 +25,12 @@ $(function () {
       $(".menu-category-" + slug).show();
     }
   });
+
+  $('.splide__slide').on('click', function() {
+    // Remove the 'selected' class from all splide__slides
+    $('.splide__slide').removeClass('selected');
+    
+    // Add the 'selected' class to the clicked splide__slide
+    $(this).addClass('selected');
+});
 });

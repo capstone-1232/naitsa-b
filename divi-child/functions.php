@@ -111,24 +111,23 @@ function display_menu_items()
             drag: 'free',
             snap: true,
             omitEnd: true,
-            perPage: 3,
+            perPage: 5,
             slideFocus: true,
-            flickPower: 500
+            flickPower: 500,
+            width: 600,
+            gap: 1rem,
+            breakpoints: {
+                600: {
+                    perPage: 4, 
+                },
+                450: {
+                    perPage: 3, 
+                }
+                
+            }
         }).mount();
 
-        function updatePerPage() {
-            var viewportWidth = window.innerWidth;
-            var itemsToFit = Math.floor(viewportWidth / 100);
-
-            itemsToFit = Math.max(itemsToFit, 1);
-
-            splide.options.perPage = itemsToFit;
-            splide.refresh();
-        }
-
-        updatePerPage();
-        window.addEventListener('resize', updatePerPage);
-    });
+     });
 </script>
 
     <?php
