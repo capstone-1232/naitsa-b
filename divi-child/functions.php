@@ -102,7 +102,6 @@ function display_menu_items()
             slideFocus: true,
             flickPower: 500,
             width: 900,
-            gap: 1,
             breakpoints: {
                 1000: {
                     drag: 'free'

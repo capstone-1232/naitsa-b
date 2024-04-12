@@ -102,8 +102,12 @@ a {
    height: auto;
 } 
 
+.splide__slide:hover {
+  box-shadow: 0 0 10px #00ff00;
+
+}
+
 .splide__slide:focus,
-.splide__slide:hover,
 .splide__slide:active,
 .selected {
   background-image: linear-gradient(to right, #152447, #484848);
