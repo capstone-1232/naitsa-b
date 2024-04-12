@@ -107,15 +107,27 @@ function display_menu_items()
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        new Splide('.splide', {
+        var splide = new Splide('.splide', {
             drag: 'free',
             snap: true,
             omitEnd: true,
             perPage: 3,
             slideFocus: true,
-            flickPower: 600
+            flickPower: 500
+        }).mount();
 
-} ).mount();
+        function updatePerPage() {
+            var viewportWidth = window.innerWidth;
+            var itemsToFit = Math.floor(viewportWidth / 100);
+
+            itemsToFit = Math.max(itemsToFit, 1);
+
+            splide.options.perPage = itemsToFit;
+            splide.refresh();
+        }
+
+        updatePerPage();
+        window.addEventListener('resize', updatePerPage);
     });
 </script>
 
