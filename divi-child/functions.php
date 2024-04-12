@@ -101,7 +101,7 @@ function display_menu_items()
              perPage: 10,
              slideFocus: true,
              flickPower: 500,
-             width: 1000,
+             width: 900,
              breakpoints: {
                 900: {
                     perPage: 7,
