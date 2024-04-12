@@ -270,7 +270,9 @@ ul {
   padding: 0;
 }
 
-.promotion-card .promotion-description {
+.promotion-card .promotion-description, 
+.event-card-homepage .event-details,
+.weekly-specials ul {
   width: 50%;
 }
 
