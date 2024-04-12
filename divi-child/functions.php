@@ -185,6 +185,7 @@ function display_menu_items()
                                 <h3>
                                     <?php echo $subcategory->name; ?>
                                 </h3>
+                                <div class="menu-two-row">
                                 <?php
                                 // loop
                                 while ($query->have_posts()) {
@@ -257,13 +258,14 @@ function display_menu_items()
                                         <?php if ($menu_item_photo) : ?>
                                             <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="200" height="auto">
                                         <?php else : ?>
-                                            <?php $img_placeholder = wp_get_attachment_url(819); ?>
+                                            <?php $img_placeholder = wp_get_attachment_url(983); ?>
                                             <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="200" height="auto">
                                         <?php endif; ?>
                                     </div>
                                 <?php
                                 }
                                 ?>
+                            </div>
                             </div>
                         <?php
                             // Restore original post data
