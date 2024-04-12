@@ -94,18 +94,19 @@ function display_menu_items()
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var splide = new Splide('.splide', {
-             drag: 'free',
-             snap: 'true',
-             omitEnd: true,
-             arrows: false,
-             perPage: 10,
-             slideFocus: true,
-             flickPower: 500,
-             width: 900,
-             breakpoints: {
+            drag: false,
+            snap: true,
+            omitEnd: true,
+            arrows: false,
+            perPage: 10,
+            slideFocus: true,
+            flickPower: 500,
+            width: 900,
+            gap: 1,
+            breakpoints: {
                 1000: {
-                    perMove: 0
-                }
+                    drag: 'free'
+                },
                 900: {
                     perPage: 7,
                     width: 900
@@ -118,45 +119,15 @@ function display_menu_items()
                     perPage: 5,
                     width: 700
                 },
-                 600: {
-                     perPage: 4, 
-                 },
-                 450: {
-                     perPage: 3, 
-                 }
-                
-             }
+                600: {
+                    perPage: 4
+                },
+                450: {
+                    perPage: 3
+                }
+            }
         }).mount();
-
-        function disableSlideInteraction() {
-        splide.options.drag = false;
-        splide.options.touchMove = false;
-        splide.options.click = true;
-    }
-
-    function enableSlideInteraction() {
-        splide.options.drag = true;
-        splide.options.touchMove = true;
-        splide.options.click = 'slide';
-    }
-
-    // Check viewport width on resize
-    window.addEventListener('resize', function () {
-        if (window.innerWidth >= 1000) {
-            disableSlideInteraction();
-        } else {
-            enableSlideInteraction();
-        }
     });
-
-    // Check viewport width on page load
-    if (window.innerWidth >= 1000) {
-        disableSlideInteraction();
-    } else {
-        enableSlideInteraction();
-    }
-
-     });
 </script>
 
     <?php
