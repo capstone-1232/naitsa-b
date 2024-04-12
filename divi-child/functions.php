@@ -114,8 +114,7 @@ function display_menu_items()
             perPage: 5,
             slideFocus: true,
             flickPower: 500,
-            width: 600,
-            gap: 1rem,
+            width: 700,
             breakpoints: {
                 600: {
                     perPage: 4, 
