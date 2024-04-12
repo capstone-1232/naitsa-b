@@ -104,8 +104,10 @@ function display_menu_items()
              width: 600,
              destroy: true,
              breakpoints: {
+                1000: {
+                    perPage: 8
+                }
                  600: {
-                    destroy: false,
                      perPage: 4, 
                  },
                  450: {
