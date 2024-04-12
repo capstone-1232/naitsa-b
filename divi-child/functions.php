@@ -132,9 +132,9 @@ function display_menu_items()
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         new Splide('.splide', {
-  type   : 'loop',
-  perPage: 3,
-  focus  : 'center',
+            omitEnd: true,
+            perPage: 3,
+            focus: 0,
 } ).mount();
     });
 </script>
