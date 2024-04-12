@@ -102,11 +102,10 @@ function display_menu_items()
              slideFocus: true,
              flickPower: 500,
              width: 600,
+             destroy: true,
              breakpoints: {
-                '(min-width: 1000px)': {
-                    destroy: true,
-                },
                  600: {
+                    destroy: false,
                      perPage: 4, 
                  },
                  450: {
