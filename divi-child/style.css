@@ -71,13 +71,16 @@ a {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
 }
 
 .cat-list-item img {
    width: 50px;
    height: auto;
 } 
+
+.splide__list {
+ align-items: baseline;
+}
 
 .swiper-container {
   width: 100%;
