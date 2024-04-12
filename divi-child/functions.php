@@ -102,11 +102,13 @@ function display_menu_items()
              slideFocus: true,
              flickPower: 500,
              width: 600,
-             destroy: true,
              breakpoints: {
                 1000: {
                     perPage: 8
-                }
+                },
+                700: {
+                    perPage: 5
+                },
                  600: {
                      perPage: 4, 
                  },
