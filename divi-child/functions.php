@@ -43,20 +43,6 @@ function remove_parent_theme_function()
 
 // function to add image to menu-categories taxonomy
 
-// function for menu slider
-function enqueue_swiper_scripts()
-{
-    // Enqueue Swiper CSS
-    wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css');
-
-    // Enqueue Swiper JS
-    wp_enqueue_script('swiper-js', 'https://unpkg.com/swiper/swiper-bundle.min.js', array(), false, true);
-
-    // Enqueue your custom script that initializes Swiper
-    wp_enqueue_script('custom-swiper-init', get_stylesheet_directory_uri() . '/js/swiper-init.js', array('swiper-js'), false, true);
-}
-add_action('wp_enqueue_scripts', 'enqueue_swiper_scripts');
-
 
 // function to display menu items
 
@@ -73,34 +59,10 @@ function display_menu_items()
     );
 ?>
 
-
-
-
-
-    <!-- <section class="splide" aria-label="Splide Basic HTML Example">
-  <div class="splide__track">
-		<ul class="splide__list">
-			<li class="splide__slide">Slide 01</li>
-			<li class="splide__slide">Slide 02</li>
-			<li class="splide__slide">Slide 03</li>
-		</ul>
-  </div>
-</section> -->
-
-<!-- <section class="splide" aria-label="Splide Basic HTML Example">
-  <div class="splide__track">
-		<ul class="splide__list">
-			<li class="splide__slide">Slide 01</li>
-			<li class="splide__slide">Slide 02</li>
-			<li class="splide__slide">Slide 03</li>
-		</ul>
-  </div>
-</section> -->
-
 <section class="splide" aria-label="Splide Basic HTML Example">
     <div class="category-links splide__track">
         <ul class="cat-list splide__list">
-            <li><a class="cat-list-item" href="#" data-slug="">All</a></li>
+            <li class="splide__slide"><a class="cat-list-item" href="#" data-slug="">All</a></li>
 
             <?php foreach ($menu_categories as $menu_category) : ?>
                 <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
@@ -131,12 +93,30 @@ function display_menu_items()
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        new Splide('.splide', {
-            omitEnd: true,
-            perPage: 3,
-            focus: 0,
-} ).mount();
-    });
+        var splide = new Splide('.splide', {
+             drag: 'free',
+             snap: 'true',
+             omitEnd: true,
+            perPage: 5,
+            arrows: false,
+             slideFocus: true,
+             flickPower: 500,
+             width: 600,
+             breakpoints: {
+                '(min-width: 1000px)': {
+                    destroy: true,
+                },
+                 600: {
+                     perPage: 4, 
+                 },
+                 450: {
+                     perPage: 3, 
+                 }
+                
+             }
+        }).mount();
+
+     });
 </script>
 
     <?php
@@ -185,6 +165,7 @@ function display_menu_items()
                                 <h3>
                                     <?php echo $subcategory->name; ?>
                                 </h3>
+                                <div class="menu-two-row">
                                 <?php
                                 // loop
                                 while ($query->have_posts()) {
@@ -251,19 +232,20 @@ function display_menu_items()
                                             ?>
 
 
-                                            <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p>
+                                            <p class="dish-description" ><?php echo $menu_item_description = get_field('menu_item_description'); ?></p>
                                             <!-- description -->
                                         </div>
                                         <?php if ($menu_item_photo) : ?>
                                             <img src="<?php echo $menu_item_photo['url']; ?>" alt="<?php echo $menu_item_photo['alt']; ?>" class="menu-item-photo" width="200" height="auto">
                                         <?php else : ?>
-                                            <?php $img_placeholder = wp_get_attachment_url(819); ?>
+                                            <?php $img_placeholder = wp_get_attachment_url(983); ?>
                                             <img src="<?php echo esc_url($img_placeholder); ?>" alt="Placeholder" class="menu-item-photo" width="200" height="auto">
                                         <?php endif; ?>
                                     </div>
                                 <?php
                                 }
                                 ?>
+                            </div>
                             </div>
                         <?php
                             // Restore original post data
@@ -506,13 +488,6 @@ function display_weekly_specials()
     // if ($weekly_specials_query->have_posts()) { // UNCOMMENT THIS IF YOU DON'T WANT CARD TO SHOW ON SAT/SUN
 
     ?>
-    <svg class="clippy">
-        <defs>
-            <clippath id="clip-squiggle" clipPathUnits="objectBoundingBox">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.564699 0.25306C0.520873 0.24275 0.451477 0.236619 0.401979 0.278493C0.354393 0.318749 0.355974 0.379902 0.358071 0.405085C0.360335 0.432273 0.366334 0.468951 0.379897 0.508683C0.382791 0.517162 0.386449 0.527034 0.391095 0.537931C0.365324 0.546431 0.340101 0.558181 0.31693 0.574473C0.269553 0.607785 0.232194 0.656686 0.216832 0.721198C0.193319 0.819941 0.234866 0.988207 0.409316 1.10517C0.504306 1.16886 0.591 1.17676 0.643405 1.17442C0.693835 1.17217 0.737074 1.15921 0.759849 1.15239C0.760473 1.1522 0.761083 1.15202 0.761676 1.15184C0.774636 1.14797 0.787153 1.14357 0.799243 1.13873C0.819247 1.14686 0.841116 1.1532 0.864507 1.15631C0.933962 1.16553 0.97498 1.1402 0.992686 1.12668C1.01061 1.11298 1.02293 1.09672 1.02736 1.09088C1.0276 1.09056 1.02782 1.09028 1.02801 1.09002C1.06292 1.04425 1.07759 0.989747 1.0785 0.932724C1.11061 0.920236 1.14021 0.900628 1.16408 0.870851C1.18216 0.848306 1.20357 0.810121 1.20955 0.761837C1.21486 0.718879 1.21159 0.607077 1.08778 0.507815C1.0824 0.503502 1.07682 0.499217 1.07105 0.494997C1.06758 0.479695 1.06353 0.464741 1.05901 0.450343C1.04876 0.417622 1.02812 0.367334 0.993148 0.31702C0.96218 0.27247 0.878962 0.172176 0.750693 0.150051C0.615942 0.126809 0.576121 0.216459 0.566128 0.248283C0.56563 0.24987 0.565154 0.251463 0.564699 0.25306ZM0.494947 0.835202C0.494947 0.835201 0.495024 0.835201 0.495176 0.835209C0.495022 0.835208 0.494946 0.835204 0.494947 0.835202Z" fill="black" />
-            </clippath>
-        </defs>
-    </svg>
     <div class="weekly-specials">
         <div class="specials-container">
             <div class="specials-content">
@@ -697,7 +672,7 @@ function events_shortcode($atts)
                 <span class="screen-reader-text">
                     <?php _e('Search for:', 'textdomain'); ?>
                 </span>
-                <input type="search" class="search-field" id="events-search-input" placeholder="<?php _e('Search events', 'textdomain'); ?>" value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search" title="<?php _e('Search for:', 'textdomain'); ?>" />
+                <input type="search" class="search-field" id="events-search-input" placeholder="<?php _e('Search Events', 'textdomain'); ?>" value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search" title="<?php _e('Search for:', 'textdomain'); ?>" />
             </label>
             <label for="month-filter">
                 <span class="screen-reader-text">
@@ -705,7 +680,7 @@ function events_shortcode($atts)
                 </span>
             </label>
             <select name="month" id="month-filter">
-                <option value="">Search by Months</option>
+                <option value="">Filter by Months</option>
                 <?php
 
                 for ($i = 1; $i <= 12; $i++) {
@@ -804,15 +779,15 @@ function display_most_recent_event()
                 <div class="event-details">
 
                     <div class="event-date-time">
-                        <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?>
+                        <p>On <?php echo date('F j, Y', strtotime(get_field('event_date_time'))); ?></p>
                     </div>
                     <div class="event_location">
-                        <?php the_field('event_location'); ?>
+                        <p>At <?php echo the_field('event_location'); ?></p>
                     </div>
 
-                    <div class="event-link">
-                        <a href="<?php the_field('event_link'); ?>" target="_blank">Event Link</a>
-                    </div>
+                    <!-- <div class="event-link">
+                        <a href="<?php // the_field('event_link'); ?>" target="_blank">Event Link</a>
+                    </div> -->
                 </div>
 
             </div>
@@ -882,7 +857,7 @@ function display_seasonal_promotions()
                     <?php endif; ?>
                 </div>
                 <div class="promotion-description">
-                    <?php the_field('promotion_description'); ?>
+                    <p><?php echo the_field('promotion_description'); ?></p>
                 </div>
             </div>
 <?php

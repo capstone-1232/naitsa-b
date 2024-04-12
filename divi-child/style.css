@@ -80,17 +80,20 @@ a {
 /*********** MENU PAGE ***********/
 
 /* Menu category carousel  */
-/* .cat-list {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-end;
-  justify-content: center;
-} */
+
 
 .cat-list li {
   text-align: center;
   display: flex;
   flex-direction: column;
+  padding: 0.5rem;
+}
+
+
+.cat-list-item {
+  display: block;
+  width: 100%;  /* Optional: Set width to 100% for full clickable area */
+  height: 100%;
 }
 
 .cat-list-item img {
@@ -98,16 +101,24 @@ a {
    height: auto;
 } 
 
-.splide__list {
- align-items: baseline;
+.splide__slide:focus,
+.splide__slide:hover,
+.splide__slide:active,
+.selected {
+  background-image: linear-gradient(to right, #152447, #484848);
+  border-radius: 15px;
 }
 
 .splide__pagination {
-  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  top: 150px; /* Adjust the distance from the bottom as needed */
 }
 
 .menu-category {
   margin: 5rem 0;
+}
+
+.splide {
+  margin: 0 auto;
 }
 
 .menu-category h2 {
@@ -154,6 +165,7 @@ a {
 .dish-name {
   max-width: max-content;
   margin-bottom: 6px;
+
 }
 
 .dish-price, .addon-price {
@@ -165,7 +177,7 @@ a {
   font-size: 1.25rem;
 }
 
-.menu-text-container .dish-description {
+.dish-description {
   margin-bottom: 1rem;
 }
 
@@ -237,6 +249,10 @@ ul {
   background-image: linear-gradient(to right, #152447, #484848);
   border-radius: 15px;
   padding: 1rem;
+  height: 200px;
+  position: relative; 
+  overflow: hidden; 
+  width: 100%;  
 }
 
 .specials-content > h2,
@@ -246,29 +262,46 @@ ul {
   font-size: 28px;
 }
 
-.special-thumbnail {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+.weekly-specials ul {
+  padding: 0;
+}
+
+.event-card-homepage .event-details {
+  padding: 0;
+}
+
+.promotion-card .promotion-description {
+  width: 50%;
+}
+
+.weekly-specials .special-thumbnail img,
+.event-card-homepage .event-image img,
+.promotion-card .promotion-image img {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
 }
 
 .special-thumbnail img,
-.event-card-homepage img,
+.event-card-homepage .event-image img,
 .promotion-image img {
-  /* width: 100%;
-  height: auto; */
-  max-width: 100%;
-  vertical-align: bottom;
-  clip-path: url(#clip-squiggle);
-  overflow: hidden;
+  -webkit-mask:
+    linear-gradient(#000 0 0),
+    linear-gradient(135deg,#000 50%,#0000 0) content-box 
+     35% 50%/200% 200% no-repeat;
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  transition: .5s;
+  cursor: pointer;
 }
 
-svg.clippy {
-  position: absolute;
-  top: -999px;
-  left: -999px;
-  width: 0;
-  height: 0;
+.special-thumbnail img:hover,
+.event-card-homepage .event-image img:hover,
+.promotion-image img:hover {
+  -webkit-mask-position: 100% 100%;
 }
 
 /************ Events Page ************/
@@ -295,12 +328,12 @@ svg.clippy {
   background-repeat: no-repeat;
   background-position: right .7em top 50%;
   background-size: 1.5em;
-  color: white;
+  color: #efefef;
 }
 /* Search Field */
 .search-field {
   color: grey;
-  border: 1px solid #ccc;
+  border: 1px solid #efefef;
   border-radius: 1rem;
   width: 255px;
   padding: 0.75rem;
@@ -315,7 +348,7 @@ svg.clippy {
   width: 255px;
   padding: 0.75rem;
   margin: 1rem 0;
-  border: 1px solid #ccc;
+  border: 1px solid #efefef;
   border-radius: 1rem;
   background-color: #252530;
   font-size: 16px;
@@ -327,13 +360,19 @@ svg.clippy {
 .search-submit {
   display: block;
   background-color: #44444D;
-  color: white;
+  color: #efefef;
   border: none;
-  padding: 0.75rem 5.5rem;
+  padding: 0.75rem 6.5rem;
   border-radius: 1rem;
   cursor: pointer;
   font-size: 16px;
-  margin: 1rem;
+  margin: 1rem 0 4rem 0;
+}
+
+.search-submit:hover,
+.search-submit:focus {
+  background-color: #efefef;
+  color: #44444D;
 }
 
 /* event card */
@@ -375,7 +414,7 @@ svg.clippy {
   color: var(--lt-grey);
   display: block;
   text-align: left;
-  padding: 10px;
+  padding: 10px 20px;
   border-top: 0.5px solid var(--grey);
   font-weight: 500;
 }
@@ -397,6 +436,7 @@ padding: 0.25rem;
 .event-location{
   display: flex;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 /* Tablet and Desktop Styles */
@@ -468,10 +508,11 @@ padding: 0.25rem;
 
   .menu-item-container {
     flex: 49%; 
+    flex-grow: 0;
   }
 }
 
-@media screen and (min-width: 920px) {
+@media screen and (min-width: 1000px) {
   .menu-item-container {
     display: flex;
     flex-direction: row;
