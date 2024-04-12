@@ -536,7 +536,5 @@ padding: 0.25rem;
     justify-content: center;
   }
   
-  .splide__track {
-    pointer-events: none;
-  }
+  
 }

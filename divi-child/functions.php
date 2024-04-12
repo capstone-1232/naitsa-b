@@ -128,6 +128,34 @@ function display_menu_items()
              }
         }).mount();
 
+        function disableSlideInteraction() {
+        splide.options.drag = false;
+        splide.options.touchMove = false;
+        splide.options.click = true;
+    }
+
+    function enableSlideInteraction() {
+        splide.options.drag = true;
+        splide.options.touchMove = true;
+        splide.options.click = 'slide';
+    }
+
+    // Check viewport width on resize
+    window.addEventListener('resize', function () {
+        if (window.innerWidth >= 1000) {
+            disableSlideInteraction();
+        } else {
+            enableSlideInteraction();
+        }
+    });
+
+    // Check viewport width on page load
+    if (window.innerWidth >= 1000) {
+        disableSlideInteraction();
+    } else {
+        enableSlideInteraction();
+    }
+
      });
 </script>
 
