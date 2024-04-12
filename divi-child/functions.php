@@ -108,11 +108,13 @@ function display_menu_items()
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         new Splide('.splide', {
-            drag: free,
+            drag: 'free',
             snap: true,
             omitEnd: true,
             perPage: 3,
-            focus: 0,
+            slideFocus: true,
+            flickPower: 600
+
 } ).mount();
     });
 </script>
