@@ -62,7 +62,13 @@ function display_menu_items()
 <section class="splide" aria-label="Splide Basic HTML Example">
     <div class="category-links splide__track">
         <ul class="cat-list splide__list">
-            <li class="splide__slide"><a class="cat-list-item" href="#" data-slug="">All</a></li>
+            <?php 
+             $all_attachment_id = 1270;
+             $all_icon_url = wp_get_attachment_url($all_attachment_id); ?>
+            <li class="splide__slide"><a class="cat-list-item" href="#" data-slug="">All
+            <img src="<?php esc_url($spicy_icon_url) ?>" alt="All Image">
+            </a>
+        </li>
 
             <?php foreach ($menu_categories as $menu_category) : ?>
                 <?php if (empty(!get_term_children($menu_category->term_id, 'menu-categories')) || $menu_category->parent === 0) : ?>
@@ -101,7 +107,7 @@ function display_menu_items()
             perPage: 10,
             slideFocus: true,
             flickPower: 500,
-            width: 900,
+            width: 900, 
             breakpoints: {
                 1000: {
                     drag: 'free'

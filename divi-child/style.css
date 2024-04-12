@@ -103,7 +103,8 @@ a {
 } 
 
 .splide__slide:hover {
-  box-shadow: 0 0 10px #00ff00;
+  background-image: linear-gradient(to right, #152447, #484848);
+  border-radius: 15px;
 
 }
 
