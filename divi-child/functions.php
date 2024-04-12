@@ -108,22 +108,23 @@ function display_menu_items()
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var splide = new Splide('.splide', {
-            drag: 'free',
-            snap: true,
-            omitEnd: true,
-            perPage: 5,
-            slideFocus: true,
-            flickPower: 500,
-            width: 700,
-            breakpoints: {
-                600: {
-                    perPage: 4, 
-                },
-                450: {
-                    perPage: 3, 
-                }
+             drag: 'free',
+             snap: 'true',
+             omitEnd: true,
+            perPage: 4,
+             slideFocus: true,
+             flickPower: 500,
+             width: 600,
+             padding: {right: 50 },
+             breakpoints: {
+                 600: {
+                     perPage: 4, 
+                 },
+                 450: {
+                     perPage: 3, 
+                 }
                 
-            }
+             }
         }).mount();
 
      });

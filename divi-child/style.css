@@ -80,12 +80,7 @@ a {
 /*********** MENU PAGE ***********/
 
 /* Menu category carousel  */
-/* .cat-list {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-end;
-  justify-content: center;
-} */
+
 
 .cat-list li {
   text-align: center;
@@ -94,18 +89,17 @@ a {
   padding: 0.5rem;
 }
 
-/* .cat-list li > * {
-  flex: 1;
-} */
+
+.cat-list-item {
+  display: block;
+  width: 100%;  /* Optional: Set width to 100% for full clickable area */
+  height: 100%;
+}
 
 .cat-list-item img {
    width: 50px;
    height: auto;
 } 
-
-/* .splide__list {
- align-items: baseline;
-} */
 
 .splide__slide:focus,
 .splide__slide:hover,
@@ -116,7 +110,7 @@ a {
 }
 
 .splide__pagination {
-  top: 100px; /* Adjust the distance from the bottom as needed */
+  top: 150px; /* Adjust the distance from the bottom as needed */
 }
 
 .menu-category {
