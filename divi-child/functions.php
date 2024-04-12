@@ -103,6 +103,9 @@ function display_menu_items()
              flickPower: 500,
              width: 900,
              breakpoints: {
+                1000: {
+                    perMove: 0
+                }
                 900: {
                     perPage: 7,
                     width: 900

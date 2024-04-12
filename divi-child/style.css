@@ -531,4 +531,8 @@ padding: 0.25rem;
     border-radius: 15px 0 0 15px;
     object-fit: cover;
   }
+
+  .splide__list {
+    justify-content: center;
+  }
 }
