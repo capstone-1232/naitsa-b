@@ -229,7 +229,7 @@ function display_menu_items()
                                             ?>
 
 
-                                            <p><?php echo $menu_item_description = get_field('menu_item_description'); ?></p>
+                                            <p class="dish-description" ><?php echo $menu_item_description = get_field('menu_item_description'); ?></p>
                                             <!-- description -->
                                         </div>
                                         <?php if ($menu_item_photo) : ?>
@@ -669,7 +669,7 @@ function events_shortcode($atts)
                 <span class="screen-reader-text">
                     <?php _e('Search for:', 'textdomain'); ?>
                 </span>
-                <input type="search" class="search-field" id="events-search-input" placeholder="<?php _e('Search events', 'textdomain'); ?>" value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search" title="<?php _e('Search for:', 'textdomain'); ?>" />
+                <input type="search" class="search-field" id="events-search-input" placeholder="<?php _e('Search Events', 'textdomain'); ?>" value="<?php echo isset($_GET['search']) ? esc_attr($_GET['search']) : ''; ?>" name="search" title="<?php _e('Search for:', 'textdomain'); ?>" />
             </label>
             <label for="month-filter">
                 <span class="screen-reader-text">
@@ -677,7 +677,7 @@ function events_shortcode($atts)
                 </span>
             </label>
             <select name="month" id="month-filter">
-                <option value="">Search by Months</option>
+                <option value="">Filter by Months</option>
                 <?php
 
                 for ($i = 1; $i <= 12; $i++) {
