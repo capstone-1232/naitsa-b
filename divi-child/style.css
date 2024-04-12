@@ -39,6 +39,10 @@ body {
   background-color: #252530;
 }
 
+.et_pb_row {
+  width: 90%;
+}
+
 h1,
 h2,
 h3,
@@ -46,6 +50,22 @@ p,
 a {
   /* font-family: "Museo Sans Rounded", sans-serif; */
   color: #efefef;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 1.9773rem + 1.3636vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 1.5682rem + 0.9091vw, 2.25rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 1.0682rem + 0.9091vw, 1.75rem);
+}
+
+h4 {
+
 }
 
 p,
@@ -233,12 +253,14 @@ ul {
 }
 
 .special-thumbnail img,
-.event-card-homepage img {
+.event-card-homepage img,
+.promotion-image img {
   /* width: 100%;
   height: auto; */
   max-width: 100%;
   vertical-align: bottom;
   clip-path: url(#clip-squiggle);
+  overflow: hidden;
 }
 
 svg.clippy {
