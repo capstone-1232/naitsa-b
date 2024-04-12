@@ -97,17 +97,23 @@ function display_menu_items()
              drag: 'free',
              snap: 'true',
              omitEnd: true,
-            perPage: 5,
-            arrows: false,
+             arrows: false,
+             perPage: 10,
              slideFocus: true,
              flickPower: 500,
-             width: 600,
+             width: 1000,
              breakpoints: {
-                1000: {
-                    perPage: 8
+                900: {
+                    perPage: 7,
+                    width: 900
+                },
+                800: {
+                    perPage: 6,
+                    width: 800
                 },
                 700: {
-                    perPage: 5
+                    perPage: 5,
+                    width: 700
                 },
                  600: {
                      perPage: 4, 
