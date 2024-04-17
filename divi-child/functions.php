@@ -65,8 +65,11 @@ function display_menu_items()
             <?php 
              $all_attachment_id = 1270;
              $all_icon_url = wp_get_attachment_url($all_attachment_id); ?>
-            <li class="splide__slide"><a class="cat-list-item" href="#" data-slug="">All
-            <img src="<?php esc_url($spicy_icon_url) ?>" alt="All Image">
+            <li class="splide__slide"><a class="cat-list-item" href="#" data-slug="">
+            <img src="<?php echo esc_url($all_icon_url) ?>" alt="All Image">
+            </a>
+                
+            <a class="cat-list-item" href="#" data-slug="">All
             </a>
         </li>
 
@@ -105,7 +108,7 @@ function display_menu_items()
             omitEnd: true,
             arrows: false,
             perPage: 10,
-            slideFocus: true,
+            slideFocus: false,
             flickPower: 500,
             width: 900, 
             breakpoints: {
